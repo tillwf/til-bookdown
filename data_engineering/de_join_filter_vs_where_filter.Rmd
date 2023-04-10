@@ -1,1 +1,130 @@
 ## Filter in JOIN vs filter in WHERE
+
+#### Init tables {-}
+
+```{r}
+library(DBI)
+db = dbConnect(RSQLite::SQLite(), dbname = "db.sqlite")
+```
+
+```{sql, connection=db}
+CREATE TABLE users AS
+  SELECT 1 AS user_id, DATETIME("2023-01-01") AS created_at
+  UNION ALL
+  SELECT 2 AS user_id, DATETIME("2023-01-02") AS created_at
+  UNION ALL
+  SELECT 3 AS user_id, DATETIME("2023-01-03") AS created_at;
+```
+
+```{sql, connection=db}
+CREATE TABLE trackers AS
+  SELECT 1 AS user_id, 1 AS trackable_id, DATETIME("2023-01-04") AS created_at
+  UNION ALL
+  SELECT 2 AS user_id, 1 AS trackable_id, DATETIME("2023-01-02") AS created_at
+  UNION ALL
+  SELECT 2 AS user_id, 1 AS trackable_id, DATETIME("2023-01-02") AS created_at;
+
+```
+
+```{sql, connection=db}
+SELECT * FROM users;
+
+```{sql, connection=db}
+SELECT * FROM trackers;
+```
+
+#### Simple JOIN {-}
+
+```{sql, connection=db}
+SELECT
+  *
+FROM users u
+LEFT JOIN trackers t
+ON u.user_id = t.user_id
+```
+
+#### Filter in the WHERE clause {-}
+
+```{sql, connection=db}
+SELECT
+  *
+FROM users u
+LEFT JOIN trackers t
+ON u.user_id = t.user_id
+WHERE
+  DATE(t.created_at) >= DATE("2023-01-05", "-10 DAY")
+```
+
+You lose the `user_id=3`
+
+#### Filter in the JOIN clause {-}
+
+```{sql, connection=db}
+SELECT
+  *
+FROM users u
+LEFT JOIN trackers t
+ON u.user_id = t.user_id
+AND
+  DATE(t.created_at) >= DATE("2023-01-05", "-10 DAY")
+```
+
+#### Adding more filters in the JOIN clause {-}
+
+```{sql, connection=db}
+SELECT
+  *
+FROM users u
+LEFT JOIN trackers t
+ON u.user_id = t.user_id
+AND DATE(t.created_at) >= DATE("2023-01-05", "-10 DAY")
+AND t.created_at BETWEEN DATETIME(u.created_at, "+ 24 HOUR")
+                     AND DATETIME(u.created_at, "+ 48 HOUR")
+```
+
+Then you can make an accurate count
+
+```{sql, connection=db}
+SELECT
+  u.user_id,
+  CAST(COUNT(DISTINCT t.trackable_id) > 0 AS INT) AS has_action
+FROM users u
+LEFT JOIN trackers t
+ON u.user_id = t.user_id
+AND DATE(t.created_at) >= DATE("2023-01-05", "-10 DAY")
+AND t.created_at BETWEEN DATETIME(u.created_at, "+ 24 HOUR")
+                     AND DATETIME(u.created_at, "+ 48 HOUR")
+GROUP BY u.user_id
+```
+
+#### If we filter on the users in the JOIN clause {-}
+
+```{sql, connection=db}
+SELECT
+  u.user_id,
+  CAST(COUNT(DISTINCT t.trackable_id) > 0 AS INT) AS has_action
+FROM users u
+LEFT JOIN trackers t
+ON u.user_id = t.user_id
+AND DATE(t.created_at) >= DATE("2023-01-05", "-10 DAY")
+AND t.created_at BETWEEN DATETIME(u.created_at, "+ 24 HOUR")
+                     AND DATETIME(u.created_at, "+ 48 HOUR")
+AND u.user_id = 3
+GROUP BY u.user_id
+```
+
+#### If we filter on the users in the WHERE clause {-}
+
+```{sql, connection=db}
+SELECT
+  u.user_id,
+  CAST(COUNT(DISTINCT t.trackable_id) > 0 AS INT) AS has_action
+FROM users u
+LEFT JOIN trackers t
+ON u.user_id = t.user_id
+AND DATE(t.created_at) >= DATE("2023-01-05", "-10 DAY")
+AND t.created_at BETWEEN DATETIME(u.created_at, "+ 24 HOUR")
+                     AND DATETIME(u.created_at, "+ 48 HOUR")
+WHERE u.created_at >= "2023-01-03"
+GROUP BY u.user_id
+```
