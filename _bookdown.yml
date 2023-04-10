@@ -1,0 +1,11 @@
+book_filename: "til-bookdown"
+repo: https://github.com/tillwf/til-bookdown
+output_dir: public
+config_file: _output.yml
+delete_merged_file: true
+rmd_subdir: true
+
+build:
+  after:
+    - echo "Installing pandas..."
+    - Rscript -e "library(reticulate); py_install('pandas')"

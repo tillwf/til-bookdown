@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+.Rbuildignore
+_publish.R
+*_files
+*.rds
+*.sqlite
+_book
+_main.*
+packages.bib
+venv
+libs
+public
