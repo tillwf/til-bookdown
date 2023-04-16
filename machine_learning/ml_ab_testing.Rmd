@@ -1,1 +1,151 @@
 ## A/B Testing
+
+### How to setup an A/B Test
+
+#### Business Goal
+
+- Know your business journey -> product sense (customer exposure)
+- Define a success metric (only one is preferable):
+  - Mesurable
+  - Attributable: link feature to effect
+  - Sensitive: not too much variability. ex. retention is too incensitive
+  - Timely: measure effect within 2 weeks
+- Define guardrail metrics
+  - Latency
+
+Take the effect on the first exposure. ex. CTR of the first session only.
+
+#### Hypothesis Testing
+
+- Define null hypotheis
+    - One tail example: There is no increment on the CTR
+    - Two tail example: There is no effect on the CTR
+- The 4 parameters. Only one can be derived by the others
+    - Confidence/Significant level $\alpha\ (Type I error)(False Positive Rate)
+    - Statistical power $(1-\beta)$ (1 - Type II errir)(False Negative Rate)
+    - Minimal detectable effect / Effect size / Practical Significance
+
+For example, you can compute the minimum sample size like so:
+
+\begin{equation}
+  n = \frac{2\sigma^2(z_{\alpha/2}+z_{\beta})}{\theta^2}
+  (\#eq:minium-sample-size)
+\end{equation}
+
+#### Define Experimentation
+
+- Randomizatin unit: how to assign variation, network effect
+- Target Population: visitor/searcher/browser
+- Sample size: imply duration (using \@ref(eq:minimum-sample-size)) (no less than 2 weeks)
+
+#### Run experimentation
+
+ - Collect the data
+ - Follow dashboards
+
+#### Validity check
+
+ - Instrumentation effect: check guardrail metrics
+ - External factor: holiday, competition, covid
+ - Selection bias: A/A testing
+ - Sample ratio mismatch: $\chi^2$
+ - Novelty/Primacy effect
+
+#### Interpretation
+
+ - Choose statistical test: z-test/t-test/ANOVA etc.
+
+```{r, echo=FALSE}
+    library(DiagrammeR)
+    mermaid("
+    graph TD
+        SS1[\"np > 10, n(1-p) > 10\"]
+        ZT1[z-test]
+        BT[Binomial Test]
+        SS2[Sample Size]
+        ZT2[z-test]
+        PD[Population Distribution]
+        Metric ==> |Bernouilli| SS1
+        SS1 ==> |Yes| ZT1
+        SS1 --> |No| BT
+        Metric ==> |proportion/mean| SS2
+        SS2 ==> |n => 30| Variance
+        SS2 --> |n < 30| PD
+        PD --> |Normal| Variance
+        Variance ==> |Variance available| ZT2
+        Variance --> |Variance not available| t-test
+    ")
+```
+
+Get sources and real justification for this sentence:
+
+> In real life, you don't know the variance, but thanks to the big numbers law the t-test formula becomes z-test
+
+### Statistical Tests
+
+#### Assumptions
+
+- Data must be independant
+- Data in each group must be randomly picked
+- Data in each group must be normaly distributed
+- Values are continuous
+- Variance in both groups must be equal
+
+#### T-Test
+
+1. Mean diff:
+
+\begin{equation}
+\bar{x_A} - \bar{x_B}
+\end{equation}
+
+2. Pooled std dev:
+
+\begin{equation}
+s_p^2\frac{(n_A - 1)\sigma_A^2 + (n_B - 1)\sigma_B^2}{n_A + n_B - 2}
+\end{equation}
+
+3. Compute `t`:
+
+\begin{equation}
+$t = \frac{\text{diff of groups avg}}{\text{standard error of difference}} = \frac{\bar{x_A} - \bar{x_B}}{\sqrt{s_p^2}\sqrt{\frac{1}{n_A}\frac{1}{n_B}}}
+\end{equation}
+
+4. Find t-value for related \alpha (usually 0.05) and the degree of freedom ($n_A + n_B - 2$)
+
+```python
+scipy.stats.t.ppf(1 - alpha/2, df)
+```
+5. Compare the compute `t` with the t-value. If `t > t-value`, we reject $H_0$
+
+#### Z-Test
+
+- Mean
+\begin{equation}
+\frac{\bar{x_T} - \bar{x_C}}{\sqrt{\frac{\sigma_T^2}{n_T} + \frac{\sigma_C^2}{n_C}}}
+\end{equation}
+
+- Proportion
+\begin{equation}
+\frac{p_T - p_C}{\sqrt{\frac{\hat{p}(1-\hat{p})}{N}}}
+\end{equation}
+with
+\begin{equation}
+\hat{p} = \frac{y_C + y_T}{N_C + N_T}
+\end{equation}
+
+#### Margin
+
+
+### Question
+
+#### How to conduct A/A test ?
+
+#### Can we be statistically not significant ?
+
+#### How to handle A/B test sample size with ramp-up or imbalanced variations ?
+
+#### How to handle A/B test parameters with more than 1 variation ?
+
+#### How to compute variance on historical data ?
+
