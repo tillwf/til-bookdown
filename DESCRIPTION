@@ -4,6 +4,7 @@ Version: 0.0.1
 Imports:
 	bookdown,
 	DBI,
+	DiagrammeR,
 	ggplot2,
     reticulate,
     RSQLite,
