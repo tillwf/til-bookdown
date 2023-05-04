@@ -1,0 +1,35 @@
+## How to deploy an HuggingFace model API on Google Cloud Function
+
+Create a file `main.py` like that:
+
+```python
+from transformers import TFBertForSequenceClassification
+from transformers import AutoTokenizer
+import tensorflow as tf
+
+model = None
+tokenizer = None
+
+def predict(request):
+  global model
+  global tokenizer
+  if model is None:
+    model = TFBertForSequenceClassification.from_pretrained("jonaskoenig/xtremedistil-l6-h256-uncased-question-vs-statement-classifier", cache_dir="/tmp")
+    tokenizer = AutoTokenizer.from_pretrained("jonaskoenig/xtremedistil-l6-h256-uncased-question-vs-statement-classifier", cache_dir="/tmp")
+
+  params = request.get_json()
+  sentence = params["description"]
+  predictions = model(**tokenizer(sentence, return_tensors="tf"))
+  probabilities = tf.nn.softmax(predictions.logits[0], axis=0).numpy()
+  return {
+    "no_question": float(probabilities[0]),
+    "question": float(probabilities[1])
+  }
+```
+
+and a file `requirements.txt` like that:
+
+```python
+tensorflow==2.12.0
+transformers==4.27.4
+```
