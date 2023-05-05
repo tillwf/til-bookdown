@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2 Machine Learning | til-bookdown.knit</title>
+  <title>1.1 How to deploy an HuggingFace model API on Google Cloud Function | til-bookdown.knit</title>
   <meta name="description" content="Today I Learned" />
   <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2 Machine Learning | til-bookdown.knit" />
+  <meta property="og:title" content="1.1 How to deploy an HuggingFace model API on Google Cloud Function | til-bookdown.knit" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Today I Learned" />
   <meta name="github-repo" content="tillwf/til-bookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2 Machine Learning | til-bookdown.knit" />
+  <meta name="twitter:title" content="1.1 How to deploy an HuggingFace model API on Google Cloud Function | til-bookdown.knit" />
   
   <meta name="twitter:description" content="Today I Learned" />
   
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="filter-in-join-vs-filter-in-where.html"/>
-<link rel="next" href="ab-testing.html"/>
+<link rel="prev" href="data-engineering.html"/>
+<link rel="next" href="filter-in-join-vs-filter-in-where.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -162,17 +162,43 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="machine-learning" class="section level1 hasAnchor" number="2">
-<h1><span class="header-section-number">2</span> Machine Learning<a href="machine-learning.html#machine-learning" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<!--chapter:end:machine_learning/ml_00_index.Rmd-->
+<div id="how-to-deploy-an-huggingface-model-api-on-google-cloud-function" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> How to deploy an HuggingFace model API on Google Cloud Function<a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#how-to-deploy-an-huggingface-model-api-on-google-cloud-function" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Create a file <code>main.py</code> like that:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-1" aria-hidden="true"></a><span class="im">from</span> transformers <span class="im">import</span> TFBertForSequenceClassification</span>
+<span id="cb1-2"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-2" aria-hidden="true"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
+<span id="cb1-3"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-3" aria-hidden="true"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
+<span id="cb1-4"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-4" aria-hidden="true"></a></span>
+<span id="cb1-5"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-5" aria-hidden="true"></a>model <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-6"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-6" aria-hidden="true"></a>tokenizer <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-7"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-7" aria-hidden="true"></a></span>
+<span id="cb1-8"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-8" aria-hidden="true"></a><span class="kw">def</span> predict(request):</span>
+<span id="cb1-9"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-9" aria-hidden="true"></a>  <span class="kw">global</span> model</span>
+<span id="cb1-10"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-10" aria-hidden="true"></a>  <span class="kw">global</span> tokenizer</span>
+<span id="cb1-11"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-11" aria-hidden="true"></a>  <span class="cf">if</span> model <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb1-12"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-12" aria-hidden="true"></a>    model <span class="op">=</span> TFBertForSequenceClassification.from_pretrained(<span class="st">&quot;jonaskoenig/xtremedistil-l6-h256-uncased-question-vs-statement-classifier&quot;</span>, cache_dir<span class="op">=</span><span class="st">&quot;/tmp&quot;</span>)</span>
+<span id="cb1-13"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-13" aria-hidden="true"></a>    tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(<span class="st">&quot;jonaskoenig/xtremedistil-l6-h256-uncased-question-vs-statement-classifier&quot;</span>, cache_dir<span class="op">=</span><span class="st">&quot;/tmp&quot;</span>)</span>
+<span id="cb1-14"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-14" aria-hidden="true"></a></span>
+<span id="cb1-15"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-15" aria-hidden="true"></a>  params <span class="op">=</span> request.get_json()</span>
+<span id="cb1-16"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-16" aria-hidden="true"></a>  sentence <span class="op">=</span> params[<span class="st">&quot;description&quot;</span>]</span>
+<span id="cb1-17"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-17" aria-hidden="true"></a>  predictions <span class="op">=</span> model(<span class="op">**</span>tokenizer(sentence, return_tensors<span class="op">=</span><span class="st">&quot;tf&quot;</span>))</span>
+<span id="cb1-18"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-18" aria-hidden="true"></a>  probabilities <span class="op">=</span> tf.nn.softmax(predictions.logits[<span class="dv">0</span>], axis<span class="op">=</span><span class="dv">0</span>).numpy()</span>
+<span id="cb1-19"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-19" aria-hidden="true"></a>  <span class="cf">return</span> {</span>
+<span id="cb1-20"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-20" aria-hidden="true"></a>    <span class="st">&quot;no_question&quot;</span>: <span class="bu">float</span>(probabilities[<span class="dv">0</span>]),</span>
+<span id="cb1-21"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-21" aria-hidden="true"></a>    <span class="st">&quot;question&quot;</span>: <span class="bu">float</span>(probabilities[<span class="dv">1</span>])</span>
+<span id="cb1-22"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-22" aria-hidden="true"></a>  }</span></code></pre></div>
+<p>and a file <code>requirements.txt</code> like that:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb2-1" aria-hidden="true"></a>tensorflow<span class="op">==</span><span class="fl">2.12.0</span></span>
+<span id="cb2-2"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb2-2" aria-hidden="true"></a>transformers<span class="op">==</span><span class="fl">4.27.4</span></span></code></pre></div>
+
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="filter-in-join-vs-filter-in-where.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="ab-testing.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="data-engineering.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="filter-in-join-vs-filter-in-where.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
