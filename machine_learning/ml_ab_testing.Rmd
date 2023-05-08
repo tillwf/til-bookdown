@@ -32,6 +32,21 @@ For example, you can compute the minimum sample size like so:
   (\#eq:minium-sample-size)
 \end{equation}
 
+![Hypothesis-Testing-Error-Types](https://blog.analytics-toolkit.com/wp-content/uploads/2022/02/2022-02-24-Hypothesis-Testing-Error-Types.png)
+
+Determining a test plan includes *balancing the probability of a false positive with that of a false negative*. Decreasing the probability of one error increases the probability of another, everything else being equal. The only way to reduce both is to increase the test’s sample size
+
+
+```bibtex
+@Manual{ABTesting,
+  title = {A/B Testing Statistics – A Concise Guide for Non-Statisticians},
+  author = {{Georgi Georgiev}},
+  url = {https://blog.analytics-toolkit.com/2022/a-b-testing-statistics-a-concise-guide/},
+}
+```
+
+citep{ABTesting}
+
 #### Define Experimentation
 
 - Randomizatin unit: how to assign variation, network effect
