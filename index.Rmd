@@ -11,3 +11,4 @@ output: bookdown::gitbook
 
 - [Data Engineering](./data-engineering.html)
 - [Machine Learning](./machine-learning.html)
+- [Miscellaneous](./miscellaneous.html)
