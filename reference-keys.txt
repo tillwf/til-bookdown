@@ -13,3 +13,7 @@ filter-in-join-vs-filter-in-where
 machine-learning
 ab-testing
 xgboost
+miscellaneous
+movie-clips-blind-test
+solution-1
+solution-2-to-be-enhanced
