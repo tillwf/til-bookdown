@@ -1,0 +1,63 @@
+## Install server with self-hosted services
+
+### Setup SSH
+
+[Source](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-22-04)
+
+```bash
+# To adapt
+export USERNAME=username
+export SSHPORT=1234
+
+# Add user and give him sudo rights
+sudo adduser $USERNAME
+sudo usermod -aG sudo $USERNAME
+
+# Allow connection only on a specific port
+sudo ufw allow $SSHPORT/tcp
+sudo ufw enable
+```
+
+Edit the file `/etc/ssh/sshd_config` (replace the variable manually):
+
+```
+Port $SSHPORT
+PasswordAuthentication yes
+PermitEmptyPasswords no
+PermitRootLogin no
+AllowUsers $USERNAME
+```
+
+Restart the service `ssh`:
+
+```bash
+service ssh restart
+```
+
+### Delete `ubuntu` user
+
+```bash
+sudo userdel -f username
+```
+
+### Install Docker
+
+[Source](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04)
+
+```bash
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install docker-ce docker-compose
+```
+
+Give the user the rights to run docker:
+
+```bash
+sudo usermod -aG docker $USERNAME
+sudo - $USERNAME
+```
+
+### Install Portainer
