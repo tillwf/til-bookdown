@@ -158,9 +158,11 @@ with
 
 #### Can we be statistically not significant ?
 
+A statistically non-significant outcome due to a high p-value is not to be used as evidence that there is no effect or that there is a negative effect.
+
 #### How to handle A/B test sample size with ramp-up or imbalanced variations ?
 
-#### How to handle A/B test parameters with more than 1 variation ?
+#### How to handle A/B test parameters with more than 2 variations ?
 
 #### How to compute variance on historical data ?
 
