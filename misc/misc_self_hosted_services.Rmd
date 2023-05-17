@@ -1,8 +1,8 @@
-## Install server with self-hosted services
+## Setup server with self-hosted services using Docker
+
+This tutorial worked for an Ubuntu 22.04 LTS Server version on an OVH Eco server.
 
 ### Setup SSH
-
-[Source](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-22-04)
 
 ```bash
 # To adapt
@@ -40,9 +40,21 @@ service ssh restart
 sudo userdel -f username
 ```
 
-### Install Docker
+### Setup dotfiles
 
-[Source](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04)
+```bash
+git clone https://github.com/tillwf/dotfiles
+cp dotfiles/home/* .
+reset
+```
+
+### Clone docker compose files
+
+```bash
+git clone https://github.com/tillwf/self-hosted_docker_setups
+```
+
+### Install Docker
 
 ```bash
 sudo apt update
@@ -61,3 +73,123 @@ sudo - $USERNAME
 ```
 
 ### Install Portainer
+
+#### Run the container {-}
+
+```bash
+docker-compose up -d
+```
+
+Then go to this page [https://<ip-adress>:9443/#!/init/admin](https://<ip-adress>:9443/#!/init/admin) and setup the password.
+
+#### Add the service to systemd {-}
+
+As we want this service to be started whenever the server is restarted, we will
+add portainer as a service.
+
+#### Add Stack
+
+![](./misc/misc_self_hosted_services_images/portainer_new_stack.png)
+
+### Install Ngnix Proxy Manager
+
+Create a new stack with the proper docker-compose.yml and the environment variables.
+
+Then setup your account by going to [http://<ip-adress>:81](http://<ip-adress>:81) and change your credential.
+The default values are:
+
+```bash
+admin@example.com
+changeme
+```
+
+#### Setup Let's Encrypt
+
+### Setup Nextcloud
+
+#### Setup Cron for the news app {-}
+For the news app, to enable the cron update add this line to your local crontab:
+
+```bash
+/usr/bin/docker exec -u www-data nextcloud-nc-1 php -f /var/www/html/cron.php
+```
+
+#### Install dependencies for extensions {-}
+
+Adding local external storage requires `smbclient` and to use grauphel you need the
+`oauth` package of `php`. To install those requirements during the deployement of
+the container you need to add a Dockerfile in the folder of your docker compose
+which will be like this:
+
+```bash
+FROM nextcloud:apache
+
+RUN apt-get update; \
+    apt-get install -y procps smbclient libsmbclient-dev; \
+    pecl install smbclient; \
+    docker-php-ext-enable smbclient; \
+    apt install -y libpcre3-dev; \
+    pecl install oauth; \
+    docker-php-ext-enable oauth; \
+    rm -rf /var/lib/apt/lists/*
+```
+
+As this file specify the image used (`nexcloud:apache`) you have to remove the
+image line in your `docker-compose.yml` otherwise it will use the version of
+the docker compose and will not apply the Dockerfile.
+
+Use the Repository method to deploy your stack:
+
+![](./misc/misc_self_hosted_services_images/nextcloud_from_git.png)
+
+### FAQ
+
+#### How to completetely clear one of your container {-}
+
+Print current docker images:
+
+```bash
+docker images
+```
+
+Remove the wanted images
+
+```bash
+docker rmi <image_name>
+```
+
+List the docker volumes
+
+```bash
+docker volume ls
+```
+
+Remove the wanted volume
+
+```bash
+docker volume rm <volume_name>
+```
+
+Kill everything:
+
+```bash
+removecontainers() {
+    docker stop $(docker ps -aq)
+    docker rm $(docker ps -aq)
+}
+
+armageddon() {
+    removecontainers
+    docker network prune -f
+    docker rmi -f $(docker images --filter dangling=true -qa)
+    docker volume rm $(docker volume ls --filter dangling=true -q)
+    docker rmi -f $(docker images -qa)
+}
+```
+### Ressources
+
+
+- [Initial server setup with Ubuntu 22.04](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-22-04)
+- [How to install and use Docker on Ubuntu 22.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04)
+- [Setup Nextcloud with Portainer and nginx proxy manager](https://github.com/Rodrigolmti/self_hosted_stack/tree/main)
+- [Install Grauphel](https://github.com/grosjo/nextcloud-grauphel/issues/55)
