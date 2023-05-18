@@ -1,6 +1,6 @@
 ## Setup server with self-hosted services using Docker
 
-This tutorial worked for an Ubuntu 22.04 LTS Server version on an OVH Eco server.
+This tutorial works for an Ubuntu 22.04 LTS Server version on an OVH Eco server.
 
 ### Setup SSH
 
@@ -15,6 +15,13 @@ sudo usermod -aG sudo $USERNAME
 
 # Allow connection only on a specific port
 sudo ufw allow $SSHPORT/tcp
+
+# Allow ports for Nextcloud/Portainer/NPM
+sudo ufw allow 8080
+sudo ufw allow 9443
+sudo ufw allow 81
+sudo ufw allow https
+
 sudo ufw enable
 ```
 
@@ -37,7 +44,7 @@ service ssh restart
 ### Delete `ubuntu` user
 
 ```bash
-sudo userdel -f username
+sudo userdel -f ubuntu
 ```
 
 ### Setup dotfiles
@@ -48,11 +55,7 @@ cp dotfiles/home/* .
 reset
 ```
 
-### Clone docker compose files
 
-```bash
-git clone https://github.com/tillwf/self-hosted_docker_setups
-```
 
 ### Install Docker
 
@@ -74,20 +77,67 @@ sudo - $USERNAME
 
 ### Install Portainer
 
+#### Clone docker compose files
+
+```bash
+git clone https://github.com/tillwf/self-hosted_docker_setups
+```
+
+and go to the folder `portainer`.
+
 #### Run the container {-}
 
 ```bash
 docker-compose up -d
 ```
 
-Then go to this page [https://<ip-adress>:9443/#!/init/admin](https://<ip-adress>:9443/#!/init/admin) and setup the password.
+Then go to this page [https://ip-adress:9443/#!/init/admin](https://ip-adress:9443/#!/init/admin) and setup the password.
 
 #### Add the service to systemd {-}
 
 As we want this service to be started whenever the server is restarted, we will
-add portainer as a service.
+add portainer as a service. Edit the file:
 
-#### Add Stack
+```bash
+sudo vim /etc/systemd/system/portainer.service
+```
+
+like that:
+
+```
+[Unit]
+Description=Portainer
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+User=<username>
+Group=docker
+WorkingDirectory=<path to portainer docker compose>
+
+# Shutdown container (if running) when unit is stopped
+ExecStartPre=/usr/bin/docker-compose -f docker-compose.yml down
+
+# Start container when unit is started
+ExecStart=/usr/bin/docker-compose -f docker-compose.yml up
+
+# Stop container when unit is stopped
+ExecStop=/usr/bin/docker-compose -f docker-compose.yml down
+
+[Install]
+WantedBy=multi-user.target
+```
+
+and then run:
+
+```bash
+sudo systemctl enable portainer.service
+sudo systemctl start portainer.service
+```
+
+
+#### Where to add a Stack
 
 ![](./misc/misc_self_hosted_services_images/portainer_new_stack.png)
 
@@ -95,7 +145,7 @@ add portainer as a service.
 
 Create a new stack with the proper docker-compose.yml and the environment variables.
 
-Then setup your account by going to [http://<ip-adress>:81](http://<ip-adress>:81) and change your credential.
+Then setup your account by going to [http://ip-adress:81](http://ip-adress:81) and change your credential.
 The default values are:
 
 ```bash
@@ -103,11 +153,75 @@ admin@example.com
 changeme
 ```
 
-#### Setup Let's Encrypt
+#### Setup you subdomain
+
+As an example, for nextcloud, first you will need to create a `A` entry in to your DNS Zone
+
+```
+nextcloud IN A <ip adress>
+```
+
+Then in NPM Go to `Hosts` → `Proxy hosts` and create a new one:
+
+- Tab `Detail`: Check `Cache assets`, `block common exploits` and `web sockets support`;
+- Tab `SSL`: `Force SSL`, `HTTP/2` and `HSTS` enabled;
+
+![](./misc/misc_self_hosted_services_images/nginx_proxy_host.png)
+
+For Nextcloud, add the following lines to advanced tab, custom nginx configuration:
+
+```
+proxy_set_header Host $host;
+proxy_set_header X-Forwarded-Proto $scheme;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_max_temp_file_size 16384m;
+client_max_body_size 0;
+
+location = /.well-known/carddav {
+  return 301 $scheme://$host:$server_port/remote.php/dav;
+}
+
+location = /.well-known/caldav {
+  return 301 $scheme://$host:$server_port/remote.php/dav;
+}
+```
 
 ### Setup Nextcloud
 
+#### Change `config.php`
+
+```php
+'redis' =>
+   array (
+     'host' => 'redis',
+     'port' => 6379,
+     'password' => '{redis_password}',
+  ),
+  'filelocking.enabled' => true,
+  'memcache.locking' => '\OC\Memcache\Redis',
+  'trashbin_retention_obligation' => '30, 60',
+  'overwriteprotocol' => 'https',  # Only when https is enabled
+  'log_type' => 'file',
+  'logfile' => 'nextcloud.log',
+```
+
+and add you subdomain in the `truted_domains` list.
+
+#### Setup the data folder
+
+If you want to have access to your data folder in your HOME do:
+
+```bash
+cd $HOME
+mkdir nextcloud_data
+touch nextcloud_data/.ocdata
+sudo chown -R www-data:www-data nextcloud_data
+sudo chmod -R 0770 nextcloud_data
+```
+
 #### Setup Cron for the news app {-}
+
 For the news app, to enable the cron update add this line to your local crontab:
 
 ```bash
@@ -187,7 +301,6 @@ armageddon() {
 }
 ```
 ### Ressources
-
 
 - [Initial server setup with Ubuntu 22.04](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-22-04)
 - [How to install and use Docker on Ubuntu 22.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04)
