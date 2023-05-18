@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3.2 Setup server with self-hosted services using Docker | til-bookdown.knit</title>
+  <meta name="description" content="Today I Learned" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3.2 Setup server with self-hosted services using Docker | til-bookdown.knit" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Today I Learned" />
+  <meta name="github-repo" content="tillwf/til-bookdown" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3.2 Setup server with self-hosted services using Docker | til-bookdown.knit" />
+  
+  <meta name="twitter:description" content="Today I Learned" />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="movie-clips-blind-test.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Today I Learned</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Table of contents</a></li>
+<li class="chapter" data-level="1" data-path="data-engineering.html"><a href="data-engineering.html"><i class="fa fa-check"></i><b>1</b> Data Engineering</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html"><i class="fa fa-check"></i><b>1.1</b> How to deploy an HuggingFace model API on Google Cloud Function</a></li>
+<li class="chapter" data-level="1.2" data-path="filter-in-join-vs-filter-in-where.html"><a href="filter-in-join-vs-filter-in-where.html"><i class="fa fa-check"></i><b>1.2</b> Filter in JOIN vs filter in WHERE</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="machine-learning.html"><a href="machine-learning.html"><i class="fa fa-check"></i><b>2</b> Machine Learning</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="ab-testing.html"><a href="ab-testing.html"><i class="fa fa-check"></i><b>2.1</b> A/B Testing</a></li>
+<li class="chapter" data-level="2.2" data-path="xgboost.html"><a href="xgboost.html"><i class="fa fa-check"></i><b>2.2</b> XGBoost</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="miscellaneous.html"><a href="miscellaneous.html"><i class="fa fa-check"></i><b>3</b> Miscellaneous</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="movie-clips-blind-test.html"><a href="movie-clips-blind-test.html"><i class="fa fa-check"></i><b>3.1</b> Movie Clips Blind Test</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="movie-clips-blind-test.html"><a href="movie-clips-blind-test.html#solution-1"><i class="fa fa-check"></i><b>3.1.1</b> Solution 1</a></li>
+<li class="chapter" data-level="3.1.2" data-path="movie-clips-blind-test.html"><a href="movie-clips-blind-test.html#solution-2-to-be-enhanced"><i class="fa fa-check"></i><b>3.1.2</b> Solution 2 (to be enhanced)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="setup-server-with-self-hosted-services-using-docker.html"><a href="setup-server-with-self-hosted-services-using-docker.html"><i class="fa fa-check"></i><b>3.2</b> Setup server with self-hosted services using Docker</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="setup-server-with-self-hosted-services-using-docker.html"><a href="setup-server-with-self-hosted-services-using-docker.html#setup-ssh"><i class="fa fa-check"></i><b>3.2.1</b> Setup SSH</a></li>
+<li class="chapter" data-level="3.2.2" data-path="setup-server-with-self-hosted-services-using-docker.html"><a href="setup-server-with-self-hosted-services-using-docker.html#delete-ubuntu-user"><i class="fa fa-check"></i><b>3.2.2</b> Delete <code>ubuntu</code> user</a></li>
+<li class="chapter" data-level="3.2.3" data-path="setup-server-with-self-hosted-services-using-docker.html"><a href="setup-server-with-self-hosted-services-using-docker.html#setup-dotfiles"><i class="fa fa-check"></i><b>3.2.3</b> Setup dotfiles</a></li>
+<li class="chapter" data-level="3.2.4" data-path="setup-server-with-self-hosted-services-using-docker.html"><a href="setup-server-with-self-hosted-services-using-docker.html#install-docker"><i class="fa fa-check"></i><b>3.2.4</b> Install Docker</a></li>
+<li class="chapter" data-level="3.2.5" data-path="setup-server-with-self-hosted-services-using-docker.html"><a href="setup-server-with-self-hosted-services-using-docker.html#install-portainer"><i class="fa fa-check"></i><b>3.2.5</b> Install Portainer</a></li>
+<li class="chapter" data-level="3.2.6" data-path="setup-server-with-self-hosted-services-using-docker.html"><a href="setup-server-with-self-hosted-services-using-docker.html#install-ngnix-proxy-manager"><i class="fa fa-check"></i><b>3.2.6</b> Install Ngnix Proxy Manager</a></li>
+<li class="chapter" data-level="3.2.7" data-path="setup-server-with-self-hosted-services-using-docker.html"><a href="setup-server-with-self-hosted-services-using-docker.html#setup-nextcloud"><i class="fa fa-check"></i><b>3.2.7</b> Setup Nextcloud</a></li>
+<li class="chapter" data-level="3.2.8" data-path="setup-server-with-self-hosted-services-using-docker.html"><a href="setup-server-with-self-hosted-services-using-docker.html#faq"><i class="fa fa-check"></i><b>3.2.8</b> FAQ</a></li>
+<li class="chapter" data-level="3.2.9" data-path="setup-server-with-self-hosted-services-using-docker.html"><a href="setup-server-with-self-hosted-services-using-docker.html#ressources"><i class="fa fa-check"></i><b>3.2.9</b> Ressources</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/tillwf/til-bookdown" target="blank">Github Repository</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="setup-server-with-self-hosted-services-using-docker" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Setup server with self-hosted services using Docker<a href="setup-server-with-self-hosted-services-using-docker.html#setup-server-with-self-hosted-services-using-docker" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This tutorial works for an Ubuntu 22.04 LTS Server version on an OVH Eco server.</p>
+<div id="setup-ssh" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Setup SSH<a href="setup-server-with-self-hosted-services-using-docker.html#setup-ssh" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-1" aria-hidden="true"></a><span class="co"># To adapt</span></span>
+<span id="cb23-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-2" aria-hidden="true"></a><span class="bu">export</span> <span class="va">USERNAME=</span>username</span>
+<span id="cb23-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-3" aria-hidden="true"></a><span class="bu">export</span> <span class="va">SSHPORT=</span>1234</span>
+<span id="cb23-4"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-4" aria-hidden="true"></a></span>
+<span id="cb23-5"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-5" aria-hidden="true"></a><span class="co"># Add user and give him sudo rights</span></span>
+<span id="cb23-6"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-6" aria-hidden="true"></a><span class="fu">sudo</span> adduser <span class="va">$USERNAME</span></span>
+<span id="cb23-7"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-7" aria-hidden="true"></a><span class="fu">sudo</span> usermod -aG sudo <span class="va">$USERNAME</span></span>
+<span id="cb23-8"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-8" aria-hidden="true"></a></span>
+<span id="cb23-9"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-9" aria-hidden="true"></a><span class="co"># Allow connection only on a specific port</span></span>
+<span id="cb23-10"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-10" aria-hidden="true"></a><span class="fu">sudo</span> ufw allow <span class="va">$SSHPORT</span>/tcp</span>
+<span id="cb23-11"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-11" aria-hidden="true"></a></span>
+<span id="cb23-12"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-12" aria-hidden="true"></a><span class="co"># Allow ports for Nextcloud/Portainer/NPM</span></span>
+<span id="cb23-13"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-13" aria-hidden="true"></a><span class="fu">sudo</span> ufw allow 8080</span>
+<span id="cb23-14"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-14" aria-hidden="true"></a><span class="fu">sudo</span> ufw allow 9443</span>
+<span id="cb23-15"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-15" aria-hidden="true"></a><span class="fu">sudo</span> ufw allow 81</span>
+<span id="cb23-16"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-16" aria-hidden="true"></a><span class="fu">sudo</span> ufw allow https</span>
+<span id="cb23-17"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-17" aria-hidden="true"></a></span>
+<span id="cb23-18"><a href="setup-server-with-self-hosted-services-using-docker.html#cb23-18" aria-hidden="true"></a><span class="fu">sudo</span> ufw enable</span></code></pre></div>
+<p>Edit the file <code>/etc/ssh/sshd_config</code> (replace the variable manually):</p>
+<pre><code>Port $SSHPORT
+PasswordAuthentication yes
+PermitEmptyPasswords no
+PermitRootLogin no
+AllowUsers $USERNAME</code></pre>
+<p>Restart the service <code>ssh</code>:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb25-1" aria-hidden="true"></a><span class="ex">service</span> ssh restart</span></code></pre></div>
+</div>
+<div id="delete-ubuntu-user" class="section level3 hasAnchor" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Delete <code>ubuntu</code> user<a href="setup-server-with-self-hosted-services-using-docker.html#delete-ubuntu-user" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb26-1" aria-hidden="true"></a><span class="fu">sudo</span> userdel -f ubuntu</span></code></pre></div>
+</div>
+<div id="setup-dotfiles" class="section level3 hasAnchor" number="3.2.3">
+<h3><span class="header-section-number">3.2.3</span> Setup dotfiles<a href="setup-server-with-self-hosted-services-using-docker.html#setup-dotfiles" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb27-1" aria-hidden="true"></a><span class="fu">git</span> clone https://github.com/tillwf/dotfiles</span>
+<span id="cb27-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb27-2" aria-hidden="true"></a><span class="fu">cp</span> dotfiles/home/* .</span>
+<span id="cb27-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb27-3" aria-hidden="true"></a><span class="ex">reset</span></span></code></pre></div>
+</div>
+<div id="install-docker" class="section level3 hasAnchor" number="3.2.4">
+<h3><span class="header-section-number">3.2.4</span> Install Docker<a href="setup-server-with-self-hosted-services-using-docker.html#install-docker" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb28-1" aria-hidden="true"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb28-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb28-2" aria-hidden="true"></a><span class="fu">sudo</span> apt install apt-transport-https ca-certificates curl software-properties-common</span>
+<span id="cb28-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb28-3" aria-hidden="true"></a><span class="ex">curl</span> -fsSL https://download.docker.com/linux/ubuntu/gpg <span class="kw">|</span> <span class="fu">sudo</span> gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg</span>
+<span id="cb28-4"><a href="setup-server-with-self-hosted-services-using-docker.html#cb28-4" aria-hidden="true"></a><span class="bu">echo</span> <span class="st">&quot;deb [arch=</span><span class="va">$(</span><span class="ex">dpkg</span> --print-architecture<span class="va">)</span><span class="st"> signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu </span><span class="va">$(</span><span class="ex">lsb_release</span> -cs<span class="va">)</span><span class="st"> stable&quot;</span> <span class="kw">|</span> <span class="fu">sudo</span> tee /etc/apt/sources.list.d/docker.list <span class="op">&gt;</span> /dev/null</span>
+<span id="cb28-5"><a href="setup-server-with-self-hosted-services-using-docker.html#cb28-5" aria-hidden="true"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb28-6"><a href="setup-server-with-self-hosted-services-using-docker.html#cb28-6" aria-hidden="true"></a><span class="fu">sudo</span> apt install docker-ce docker-compose</span></code></pre></div>
+<p>Give the user the rights to run docker:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb29-1" aria-hidden="true"></a><span class="fu">sudo</span> usermod -aG docker <span class="va">$USERNAME</span></span>
+<span id="cb29-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb29-2" aria-hidden="true"></a><span class="fu">sudo</span> - <span class="va">$USERNAME</span></span></code></pre></div>
+</div>
+<div id="install-portainer" class="section level3 hasAnchor" number="3.2.5">
+<h3><span class="header-section-number">3.2.5</span> Install Portainer<a href="setup-server-with-self-hosted-services-using-docker.html#install-portainer" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="clone-docker-compose-files" class="section level4 hasAnchor" number="3.2.5.1">
+<h4><span class="header-section-number">3.2.5.1</span> Clone docker compose files<a href="setup-server-with-self-hosted-services-using-docker.html#clone-docker-compose-files" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb30-1" aria-hidden="true"></a><span class="fu">git</span> clone https://github.com/tillwf/self-hosted_docker_setups</span></code></pre></div>
+<p>and go to the folder <code>portainer</code>.</p>
+</div>
+<div id="run-the-container" class="section level4 unnumbered hasAnchor" number="">
+<h4>Run the container<a href="setup-server-with-self-hosted-services-using-docker.html#run-the-container" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb31-1" aria-hidden="true"></a><span class="ex">docker-compose</span> up -d</span></code></pre></div>
+<p>Then go to this page <a href="https://ip-adress:9443/#!/init/admin">https://ip-adress:9443/#!/init/admin</a> and setup the password.</p>
+</div>
+<div id="add-the-service-to-systemd" class="section level4 unnumbered hasAnchor" number="">
+<h4>Add the service to systemd<a href="setup-server-with-self-hosted-services-using-docker.html#add-the-service-to-systemd" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>As we want this service to be started whenever the server is restarted, we will
+add portainer as a service. Edit the file:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb32-1" aria-hidden="true"></a><span class="fu">sudo</span> vim /etc/systemd/system/portainer.service</span></code></pre></div>
+<p>like that:</p>
+<pre><code>[Unit]
+Description=Portainer
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+User=&lt;username&gt;
+Group=docker
+WorkingDirectory=&lt;path to portainer docker compose&gt;
+
+# Shutdown container (if running) when unit is stopped
+ExecStartPre=/usr/bin/docker-compose -f docker-compose.yml down
+
+# Start container when unit is started
+ExecStart=/usr/bin/docker-compose -f docker-compose.yml up
+
+# Stop container when unit is stopped
+ExecStop=/usr/bin/docker-compose -f docker-compose.yml down
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+<p>and then run:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb34-1" aria-hidden="true"></a><span class="fu">sudo</span> systemctl enable portainer.service</span>
+<span id="cb34-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb34-2" aria-hidden="true"></a><span class="fu">sudo</span> systemctl start portainer.service</span></code></pre></div>
+</div>
+<div id="where-to-add-a-stack" class="section level4 hasAnchor" number="3.2.5.2">
+<h4><span class="header-section-number">3.2.5.2</span> Where to add a Stack<a href="setup-server-with-self-hosted-services-using-docker.html#where-to-add-a-stack" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><img src="misc/misc_self_hosted_services_images/portainer_new_stack.png" /></p>
+</div>
+</div>
+<div id="install-ngnix-proxy-manager" class="section level3 hasAnchor" number="3.2.6">
+<h3><span class="header-section-number">3.2.6</span> Install Ngnix Proxy Manager<a href="setup-server-with-self-hosted-services-using-docker.html#install-ngnix-proxy-manager" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Create a new stack with the proper docker-compose.yml and the environment variables.</p>
+<p>Then setup your account by going to <a href="http://ip-adress:81">http://ip-adress:81</a> and change your credential.
+The default values are:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb35-1" aria-hidden="true"></a><span class="ex">admin@example.com</span></span>
+<span id="cb35-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb35-2" aria-hidden="true"></a><span class="ex">changeme</span></span></code></pre></div>
+<div id="setup-you-subdomain" class="section level4 hasAnchor" number="3.2.6.1">
+<h4><span class="header-section-number">3.2.6.1</span> Setup you subdomain<a href="setup-server-with-self-hosted-services-using-docker.html#setup-you-subdomain" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>As an example, for nextcloud, first you will need to create a <code>A</code> entry in to your DNS Zone</p>
+<pre><code>nextcloud IN A &lt;ip adress&gt;</code></pre>
+<p>Then in NPM Go to <code>Hosts</code> → <code>Proxy hosts</code> and create a new one:</p>
+<ul>
+<li>Tab <code>Detail</code>: Check <code>Cache assets</code>, <code>block common exploits</code> and <code>web sockets support</code>;</li>
+<li>Tab <code>SSL</code>: <code>Force SSL</code>, <code>HTTP/2</code> and <code>HSTS</code> enabled;</li>
+</ul>
+<p><img src="misc/misc_self_hosted_services_images/nginx_proxy_host.png" /></p>
+<p>For Nextcloud, add the following lines to advanced tab, custom nginx configuration:</p>
+<pre><code>proxy_set_header Host $host;
+proxy_set_header X-Forwarded-Proto $scheme;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_max_temp_file_size 16384m;
+client_max_body_size 0;
+
+location = /.well-known/carddav {
+  return 301 $scheme://$host:$server_port/remote.php/dav;
+}
+
+location = /.well-known/caldav {
+  return 301 $scheme://$host:$server_port/remote.php/dav;
+}</code></pre>
+</div>
+</div>
+<div id="setup-nextcloud" class="section level3 hasAnchor" number="3.2.7">
+<h3><span class="header-section-number">3.2.7</span> Setup Nextcloud<a href="setup-server-with-self-hosted-services-using-docker.html#setup-nextcloud" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="change-config.php" class="section level4 hasAnchor" number="3.2.7.1">
+<h4><span class="header-section-number">3.2.7.1</span> Change <code>config.php</code><a href="setup-server-with-self-hosted-services-using-docker.html#change-config.php" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb38"><pre class="sourceCode php"><code class="sourceCode php"><span id="cb38-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb38-1" aria-hidden="true"></a><span class="st">&#39;redis&#39;</span> =&gt;</span>
+<span id="cb38-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb38-2" aria-hidden="true"></a>   <span class="kw">array</span> <span class="ot">(</span></span>
+<span id="cb38-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb38-3" aria-hidden="true"></a>     <span class="st">&#39;host&#39;</span> =&gt; <span class="st">&#39;redis&#39;</span><span class="ot">,</span></span>
+<span id="cb38-4"><a href="setup-server-with-self-hosted-services-using-docker.html#cb38-4" aria-hidden="true"></a>     <span class="st">&#39;port&#39;</span> =&gt; <span class="dv">6379</span><span class="ot">,</span></span>
+<span id="cb38-5"><a href="setup-server-with-self-hosted-services-using-docker.html#cb38-5" aria-hidden="true"></a>     <span class="st">&#39;password&#39;</span> =&gt; <span class="st">&#39;{redis_password}&#39;</span><span class="ot">,</span></span>
+<span id="cb38-6"><a href="setup-server-with-self-hosted-services-using-docker.html#cb38-6" aria-hidden="true"></a>  <span class="ot">),</span></span>
+<span id="cb38-7"><a href="setup-server-with-self-hosted-services-using-docker.html#cb38-7" aria-hidden="true"></a>  <span class="st">&#39;filelocking.enabled&#39;</span> =&gt; <span class="kw">true</span><span class="ot">,</span></span>
+<span id="cb38-8"><a href="setup-server-with-self-hosted-services-using-docker.html#cb38-8" aria-hidden="true"></a>  <span class="st">&#39;memcache.locking&#39;</span> =&gt; <span class="st">&#39;\OC\Memcache\Redis&#39;</span><span class="ot">,</span></span>
+<span id="cb38-9"><a href="setup-server-with-self-hosted-services-using-docker.html#cb38-9" aria-hidden="true"></a>  <span class="st">&#39;trashbin_retention_obligation&#39;</span> =&gt; <span class="st">&#39;30, 60&#39;</span><span class="ot">,</span></span>
+<span id="cb38-10"><a href="setup-server-with-self-hosted-services-using-docker.html#cb38-10" aria-hidden="true"></a>  <span class="st">&#39;overwriteprotocol&#39;</span> =&gt; <span class="st">&#39;https&#39;</span><span class="ot">,</span>  <span class="co"># Only when https is enabled</span></span>
+<span id="cb38-11"><a href="setup-server-with-self-hosted-services-using-docker.html#cb38-11" aria-hidden="true"></a>  <span class="st">&#39;log_type&#39;</span> =&gt; <span class="st">&#39;file&#39;</span><span class="ot">,</span></span>
+<span id="cb38-12"><a href="setup-server-with-self-hosted-services-using-docker.html#cb38-12" aria-hidden="true"></a>  <span class="st">&#39;logfile&#39;</span> =&gt; <span class="st">&#39;nextcloud.log&#39;</span><span class="ot">,</span></span></code></pre></div>
+<p>and add you subdomain in the <code>truted_domains</code> list.</p>
+</div>
+<div id="setup-the-data-folder" class="section level4 hasAnchor" number="3.2.7.2">
+<h4><span class="header-section-number">3.2.7.2</span> Setup the data folder<a href="setup-server-with-self-hosted-services-using-docker.html#setup-the-data-folder" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>If you want to have access to your data folder in your HOME do:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb39-1" aria-hidden="true"></a><span class="bu">cd</span> <span class="va">$HOME</span></span>
+<span id="cb39-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb39-2" aria-hidden="true"></a><span class="fu">mkdir</span> nextcloud_data</span>
+<span id="cb39-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb39-3" aria-hidden="true"></a><span class="fu">touch</span> nextcloud_data/.ocdata</span>
+<span id="cb39-4"><a href="setup-server-with-self-hosted-services-using-docker.html#cb39-4" aria-hidden="true"></a><span class="fu">sudo</span> chown -R www-data:www-data nextcloud_data</span>
+<span id="cb39-5"><a href="setup-server-with-self-hosted-services-using-docker.html#cb39-5" aria-hidden="true"></a><span class="fu">sudo</span> chmod -R 0770 nextcloud_data</span></code></pre></div>
+</div>
+<div id="setup-cron-for-the-news-app" class="section level4 unnumbered hasAnchor" number="">
+<h4>Setup Cron for the news app<a href="setup-server-with-self-hosted-services-using-docker.html#setup-cron-for-the-news-app" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>For the news app, to enable the cron update add this line to your local crontab:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb40-1" aria-hidden="true"></a><span class="ex">/usr/bin/docker</span> exec -u www-data nextcloud-nc-1 php -f /var/www/html/cron.php</span></code></pre></div>
+</div>
+<div id="install-dependencies-for-extensions" class="section level4 unnumbered hasAnchor" number="">
+<h4>Install dependencies for extensions<a href="setup-server-with-self-hosted-services-using-docker.html#install-dependencies-for-extensions" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Adding local external storage requires <code>smbclient</code> and to use grauphel you need the
+<code>oauth</code> package of <code>php</code>. To install those requirements during the deployement of
+the container you need to add a Dockerfile in the folder of your docker compose
+which will be like this:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb41-1" aria-hidden="true"></a><span class="ex">FROM</span> nextcloud:apache</span>
+<span id="cb41-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb41-2" aria-hidden="true"></a></span>
+<span id="cb41-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb41-3" aria-hidden="true"></a><span class="ex">RUN</span> apt-get update<span class="kw">;</span> <span class="kw">\</span></span>
+<span id="cb41-4"><a href="setup-server-with-self-hosted-services-using-docker.html#cb41-4" aria-hidden="true"></a>    <span class="ex">apt-get</span> install -y procps smbclient libsmbclient-dev<span class="kw">;</span> <span class="kw">\</span></span>
+<span id="cb41-5"><a href="setup-server-with-self-hosted-services-using-docker.html#cb41-5" aria-hidden="true"></a>    <span class="ex">pecl</span> install smbclient<span class="kw">;</span> <span class="kw">\</span></span>
+<span id="cb41-6"><a href="setup-server-with-self-hosted-services-using-docker.html#cb41-6" aria-hidden="true"></a>    <span class="ex">docker-php-ext-enable</span> smbclient<span class="kw">;</span> <span class="kw">\</span></span>
+<span id="cb41-7"><a href="setup-server-with-self-hosted-services-using-docker.html#cb41-7" aria-hidden="true"></a>    <span class="ex">apt</span> install -y libpcre3-dev<span class="kw">;</span> <span class="kw">\</span></span>
+<span id="cb41-8"><a href="setup-server-with-self-hosted-services-using-docker.html#cb41-8" aria-hidden="true"></a>    <span class="ex">pecl</span> install oauth<span class="kw">;</span> <span class="kw">\</span></span>
+<span id="cb41-9"><a href="setup-server-with-self-hosted-services-using-docker.html#cb41-9" aria-hidden="true"></a>    <span class="ex">docker-php-ext-enable</span> oauth<span class="kw">;</span> <span class="kw">\</span></span>
+<span id="cb41-10"><a href="setup-server-with-self-hosted-services-using-docker.html#cb41-10" aria-hidden="true"></a>    <span class="fu">rm</span> -rf /var/lib/apt/lists/*</span></code></pre></div>
+<p>As this file specify the image used (<code>nexcloud:apache</code>) you have to remove the
+image line in your <code>docker-compose.yml</code> otherwise it will use the version of
+the docker compose and will not apply the Dockerfile.</p>
+<p>Use the Repository method to deploy your stack:</p>
+<p><img src="misc/misc_self_hosted_services_images/nextcloud_from_git.png" /></p>
+</div>
+</div>
+<div id="faq" class="section level3 hasAnchor" number="3.2.8">
+<h3><span class="header-section-number">3.2.8</span> FAQ<a href="setup-server-with-self-hosted-services-using-docker.html#faq" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="how-to-completetely-clear-one-of-your-container" class="section level4 unnumbered hasAnchor" number="">
+<h4>How to completetely clear one of your container<a href="setup-server-with-self-hosted-services-using-docker.html#how-to-completetely-clear-one-of-your-container" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Print current docker images:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb42-1" aria-hidden="true"></a><span class="ex">docker</span> images</span></code></pre></div>
+<p>Remove the wanted images</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb43-1" aria-hidden="true"></a><span class="ex">docker</span> rmi <span class="op">&lt;</span>image_name<span class="op">&gt;</span></span></code></pre></div>
+<p>List the docker volumes</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb44-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb44-1" aria-hidden="true"></a><span class="ex">docker</span> volume ls</span></code></pre></div>
+<p>Remove the wanted volume</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb45-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb45-1" aria-hidden="true"></a><span class="ex">docker</span> volume rm <span class="op">&lt;</span>volume_name<span class="op">&gt;</span></span></code></pre></div>
+<p>Kill everything:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb46-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb46-1" aria-hidden="true"></a><span class="fu">removecontainers()</span> <span class="kw">{</span></span>
+<span id="cb46-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb46-2" aria-hidden="true"></a>    <span class="ex">docker</span> stop <span class="va">$(</span><span class="ex">docker</span> ps -aq<span class="va">)</span></span>
+<span id="cb46-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb46-3" aria-hidden="true"></a>    <span class="ex">docker</span> rm <span class="va">$(</span><span class="ex">docker</span> ps -aq<span class="va">)</span></span>
+<span id="cb46-4"><a href="setup-server-with-self-hosted-services-using-docker.html#cb46-4" aria-hidden="true"></a><span class="kw">}</span></span>
+<span id="cb46-5"><a href="setup-server-with-self-hosted-services-using-docker.html#cb46-5" aria-hidden="true"></a></span>
+<span id="cb46-6"><a href="setup-server-with-self-hosted-services-using-docker.html#cb46-6" aria-hidden="true"></a><span class="fu">armageddon()</span> <span class="kw">{</span></span>
+<span id="cb46-7"><a href="setup-server-with-self-hosted-services-using-docker.html#cb46-7" aria-hidden="true"></a>    <span class="ex">removecontainers</span></span>
+<span id="cb46-8"><a href="setup-server-with-self-hosted-services-using-docker.html#cb46-8" aria-hidden="true"></a>    <span class="ex">docker</span> network prune -f</span>
+<span id="cb46-9"><a href="setup-server-with-self-hosted-services-using-docker.html#cb46-9" aria-hidden="true"></a>    <span class="ex">docker</span> rmi -f <span class="va">$(</span><span class="ex">docker</span> images --filter dangling=true -qa<span class="va">)</span></span>
+<span id="cb46-10"><a href="setup-server-with-self-hosted-services-using-docker.html#cb46-10" aria-hidden="true"></a>    <span class="ex">docker</span> volume rm <span class="va">$(</span><span class="ex">docker</span> volume ls --filter dangling=true -q<span class="va">)</span></span>
+<span id="cb46-11"><a href="setup-server-with-self-hosted-services-using-docker.html#cb46-11" aria-hidden="true"></a>    <span class="ex">docker</span> rmi -f <span class="va">$(</span><span class="ex">docker</span> images -qa<span class="va">)</span></span>
+<span id="cb46-12"><a href="setup-server-with-self-hosted-services-using-docker.html#cb46-12" aria-hidden="true"></a><span class="kw">}</span></span></code></pre></div>
+</div>
+</div>
+<div id="ressources" class="section level3 hasAnchor" number="3.2.9">
+<h3><span class="header-section-number">3.2.9</span> Ressources<a href="setup-server-with-self-hosted-services-using-docker.html#ressources" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><a href="https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-22-04">Initial server setup with Ubuntu 22.04</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04">How to install and use Docker on Ubuntu 22.04</a></li>
+<li><a href="https://github.com/Rodrigolmti/self_hosted_stack/tree/main">Setup Nextcloud with Portainer and nginx proxy manager</a></li>
+<li><a href="https://github.com/grosjo/nextcloud-grauphel/issues/55">Install Grauphel</a></li>
+</ul>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="movie-clips-blind-test.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "Sepia",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
