@@ -1,0 +1,88 @@
+## Setup Mail and Mail Command Line
+
+#### Requirements
+
+```bash
+sudo apt install msmtp msmtp-mta
+```
+
+#### Setup (example with Fastmail)
+
+Run
+
+```bash
+msmtp --configure
+```
+
+and add the line
+
+```
+password       XXXXXXXXXX
+```
+
+to the file `~/.msmtprc`.
+
+Example for a self-hosted domain used with fastmail:
+
+```
+account default
+host smtp.fastmail.com
+port 465
+tls on
+tls_starttls off
+auth on
+user <fastmail login mail>
+from server@yourdomain.com
+password <pass>
+```
+
+
+Change its rights:
+
+```bash
+chmod 600 .msmtprc
+```
+
+and check the symlink of `sendmail`:
+
+```bash
+ls -la /usr/sbin/sendmail
+```
+
+it should return:
+
+```
+lrwxrwxrwx 1 root root 12 nov.  28  2016 /usr/sbin/sendmail -> ../bin/msmtp
+```
+
+Finally, make a test:
+
+```bash
+echo -e "Subject:Test\n\nIt Works" | msmtp --from test@yourdomain.com <destination_mail_address>
+```
+
+You need the `-e` to interpret the backslash
+
+You can also send html pages (this is `sample.html`):
+
+```html
+From: sender@mail.com
+To: recipient@mail.com
+Subject: This is the Subject
+Mime-Version: 1.0
+Content-Type: text/html
+
+<html>
+  <head>This is Email Head</head>
+  <body>
+    <h2>This is the Main Title</h2>
+    <p>This is the body text</p>
+  </body>
+</html>
+```
+
+then do
+
+```bash
+$ cat sample.html | msmtp recipient@mail.com
+```
