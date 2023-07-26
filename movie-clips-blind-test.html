@@ -196,19 +196,19 @@ to guess the movie list.</p>
 of this folder randomly using any video player.</p>
 <div id="script-to-split-every-movie-into-equal-clips" class="section level4 unnumbered hasAnchor" number="">
 <h4>Script to split every movie into equal clips<a href="movie-clips-blind-test.html#script-to-split-every-movie-into-equal-clips" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="movie-clips-blind-test.html#cb15-1" aria-hidden="true"></a><span class="va">j=</span>0</span>
-<span id="cb15-2"><a href="movie-clips-blind-test.html#cb15-2" aria-hidden="true"></a><span class="kw">for</span> <span class="ex">i</span> in *.mp4</span>
-<span id="cb15-3"><a href="movie-clips-blind-test.html#cb15-3" aria-hidden="true"></a><span class="kw">do</span></span>
-<span id="cb15-4"><a href="movie-clips-blind-test.html#cb15-4" aria-hidden="true"></a>    <span class="ex">ffmpeg</span> -i <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="kw">\</span></span>
-<span id="cb15-5"><a href="movie-clips-blind-test.html#cb15-5" aria-hidden="true"></a>           <span class="ex">-ss</span> 600 <span class="kw">\</span></span>
-<span id="cb15-6"><a href="movie-clips-blind-test.html#cb15-6" aria-hidden="true"></a>           <span class="ex">-t</span> 3600 <span class="kw">\</span></span>
-<span id="cb15-7"><a href="movie-clips-blind-test.html#cb15-7" aria-hidden="true"></a>           <span class="ex">-c</span> copy <span class="kw">\</span></span>
-<span id="cb15-8"><a href="movie-clips-blind-test.html#cb15-8" aria-hidden="true"></a>           <span class="ex">-map</span> 0 <span class="kw">\</span></span>
-<span id="cb15-9"><a href="movie-clips-blind-test.html#cb15-9" aria-hidden="true"></a>           <span class="ex">-segment_time</span> 00:00:10 <span class="kw">\</span></span>
-<span id="cb15-10"><a href="movie-clips-blind-test.html#cb15-10" aria-hidden="true"></a>           <span class="ex">-f</span> segment <span class="kw">\</span></span>
-<span id="cb15-11"><a href="movie-clips-blind-test.html#cb15-11" aria-hidden="true"></a>           <span class="ex">-reset_timestamps</span> 1 res/<span class="va">${j}</span>_%06d.mp4</span>
-<span id="cb15-12"><a href="movie-clips-blind-test.html#cb15-12" aria-hidden="true"></a>    <span class="kw">((</span>j=j+1<span class="kw">))</span></span>
-<span id="cb15-13"><a href="movie-clips-blind-test.html#cb15-13" aria-hidden="true"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="movie-clips-blind-test.html#cb18-1" aria-hidden="true"></a><span class="va">j=</span>0</span>
+<span id="cb18-2"><a href="movie-clips-blind-test.html#cb18-2" aria-hidden="true"></a><span class="kw">for</span> <span class="ex">i</span> in *.mp4</span>
+<span id="cb18-3"><a href="movie-clips-blind-test.html#cb18-3" aria-hidden="true"></a><span class="kw">do</span></span>
+<span id="cb18-4"><a href="movie-clips-blind-test.html#cb18-4" aria-hidden="true"></a>    <span class="ex">ffmpeg</span> -i <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="kw">\</span></span>
+<span id="cb18-5"><a href="movie-clips-blind-test.html#cb18-5" aria-hidden="true"></a>           <span class="ex">-ss</span> 600 <span class="kw">\</span></span>
+<span id="cb18-6"><a href="movie-clips-blind-test.html#cb18-6" aria-hidden="true"></a>           <span class="ex">-t</span> 3600 <span class="kw">\</span></span>
+<span id="cb18-7"><a href="movie-clips-blind-test.html#cb18-7" aria-hidden="true"></a>           <span class="ex">-c</span> copy <span class="kw">\</span></span>
+<span id="cb18-8"><a href="movie-clips-blind-test.html#cb18-8" aria-hidden="true"></a>           <span class="ex">-map</span> 0 <span class="kw">\</span></span>
+<span id="cb18-9"><a href="movie-clips-blind-test.html#cb18-9" aria-hidden="true"></a>           <span class="ex">-segment_time</span> 00:00:10 <span class="kw">\</span></span>
+<span id="cb18-10"><a href="movie-clips-blind-test.html#cb18-10" aria-hidden="true"></a>           <span class="ex">-f</span> segment <span class="kw">\</span></span>
+<span id="cb18-11"><a href="movie-clips-blind-test.html#cb18-11" aria-hidden="true"></a>           <span class="ex">-reset_timestamps</span> 1 res/<span class="va">${j}</span>_%06d.mp4</span>
+<span id="cb18-12"><a href="movie-clips-blind-test.html#cb18-12" aria-hidden="true"></a>    <span class="kw">((</span>j=j+1<span class="kw">))</span></span>
+<span id="cb18-13"><a href="movie-clips-blind-test.html#cb18-13" aria-hidden="true"></a><span class="kw">done</span></span></code></pre></div>
 <p>Explanation:</p>
 <pre><code>j=0</code></pre>
 <p>This line initializes a variable <code>j</code> to 0. This variable will be used to keep track of the segment number.</p>
@@ -250,48 +250,48 @@ we see the desktop. Instead we will use <code>mpv</code>:</p>
 <h3><span class="header-section-number">3.1.2</span> Solution 2 (to be enhanced)<a href="movie-clips-blind-test.html#solution-2-to-be-enhanced" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We want to avoid recreating data so we will randomly play part of each movie
 programmatically using a python (<code>3.10.6</code>) script:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="movie-clips-blind-test.html#cb21-1" aria-hidden="true"></a><span class="im">import</span> os</span>
-<span id="cb21-2"><a href="movie-clips-blind-test.html#cb21-2" aria-hidden="true"></a><span class="im">import</span> random</span>
-<span id="cb21-3"><a href="movie-clips-blind-test.html#cb21-3" aria-hidden="true"></a><span class="im">from</span> moviepy.video.io.VideoFileClip <span class="im">import</span> VideoFileClip</span>
-<span id="cb21-4"><a href="movie-clips-blind-test.html#cb21-4" aria-hidden="true"></a><span class="co"># Needs to be imported to be able to call the method `preview`</span></span>
-<span id="cb21-5"><a href="movie-clips-blind-test.html#cb21-5" aria-hidden="true"></a><span class="im">from</span> moviepy.editor <span class="im">import</span> <span class="op">*</span></span>
-<span id="cb21-6"><a href="movie-clips-blind-test.html#cb21-6" aria-hidden="true"></a></span>
-<span id="cb21-7"><a href="movie-clips-blind-test.html#cb21-7" aria-hidden="true"></a><span class="co"># Set the path to the folder containing the movies</span></span>
-<span id="cb21-8"><a href="movie-clips-blind-test.html#cb21-8" aria-hidden="true"></a>path <span class="op">=</span> <span class="st">&quot;.&quot;</span></span>
-<span id="cb21-9"><a href="movie-clips-blind-test.html#cb21-9" aria-hidden="true"></a></span>
-<span id="cb21-10"><a href="movie-clips-blind-test.html#cb21-10" aria-hidden="true"></a><span class="co"># Get a list of all the mp4 files in the folder</span></span>
-<span id="cb21-11"><a href="movie-clips-blind-test.html#cb21-11" aria-hidden="true"></a>files <span class="op">=</span> [os.path.join(path, f) <span class="cf">for</span> f <span class="kw">in</span> os.listdir(path) <span class="cf">if</span> f.endswith(<span class="st">&quot;.mp4&quot;</span>)]</span>
-<span id="cb21-12"><a href="movie-clips-blind-test.html#cb21-12" aria-hidden="true"></a></span>
-<span id="cb21-13"><a href="movie-clips-blind-test.html#cb21-13" aria-hidden="true"></a><span class="co"># Preload movie and its duration:</span></span>
-<span id="cb21-14"><a href="movie-clips-blind-test.html#cb21-14" aria-hidden="true"></a>data <span class="op">=</span> {}</span>
-<span id="cb21-15"><a href="movie-clips-blind-test.html#cb21-15" aria-hidden="true"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> files:</span>
-<span id="cb21-16"><a href="movie-clips-blind-test.html#cb21-16" aria-hidden="true"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Loading </span><span class="sc">{</span><span class="bu">file</span><span class="sc">}</span><span class="ss">&quot;</span>)</span>
-<span id="cb21-17"><a href="movie-clips-blind-test.html#cb21-17" aria-hidden="true"></a>    clip <span class="op">=</span> VideoFileClip(<span class="bu">file</span>)</span>
-<span id="cb21-18"><a href="movie-clips-blind-test.html#cb21-18" aria-hidden="true"></a>    duration <span class="op">=</span> clip.duration</span>
-<span id="cb21-19"><a href="movie-clips-blind-test.html#cb21-19" aria-hidden="true"></a>    data[<span class="bu">file</span>] <span class="op">=</span> (clip, duration)</span>
-<span id="cb21-20"><a href="movie-clips-blind-test.html#cb21-20" aria-hidden="true"></a></span>
-<span id="cb21-21"><a href="movie-clips-blind-test.html#cb21-21" aria-hidden="true"></a><span class="co"># Loop through each movie file and play a random 10-second clip</span></span>
-<span id="cb21-22"><a href="movie-clips-blind-test.html#cb21-22" aria-hidden="true"></a><span class="cf">while</span> <span class="va">True</span>:</span>
-<span id="cb21-23"><a href="movie-clips-blind-test.html#cb21-23" aria-hidden="true"></a>    <span class="co"># Choose a file randomly</span></span>
-<span id="cb21-24"><a href="movie-clips-blind-test.html#cb21-24" aria-hidden="true"></a>    <span class="bu">file</span> <span class="op">=</span> random.choice(files)</span>
-<span id="cb21-25"><a href="movie-clips-blind-test.html#cb21-25" aria-hidden="true"></a></span>
-<span id="cb21-26"><a href="movie-clips-blind-test.html#cb21-26" aria-hidden="true"></a>    <span class="co"># Load the video file clip</span></span>
-<span id="cb21-27"><a href="movie-clips-blind-test.html#cb21-27" aria-hidden="true"></a>    clip, duration <span class="op">=</span> data[<span class="bu">file</span>]</span>
-<span id="cb21-28"><a href="movie-clips-blind-test.html#cb21-28" aria-hidden="true"></a></span>
-<span id="cb21-29"><a href="movie-clips-blind-test.html#cb21-29" aria-hidden="true"></a>    <span class="co"># Set the start time of the clip to a random value between 0 and (duration - 10)</span></span>
-<span id="cb21-30"><a href="movie-clips-blind-test.html#cb21-30" aria-hidden="true"></a>    start_time <span class="op">=</span> random.uniform(<span class="dv">0</span>, duration <span class="op">-</span> <span class="dv">10</span>)</span>
-<span id="cb21-31"><a href="movie-clips-blind-test.html#cb21-31" aria-hidden="true"></a></span>
-<span id="cb21-32"><a href="movie-clips-blind-test.html#cb21-32" aria-hidden="true"></a>    <span class="co"># Set the end time of the clip to 10 seconds after the start time</span></span>
-<span id="cb21-33"><a href="movie-clips-blind-test.html#cb21-33" aria-hidden="true"></a>    end_time <span class="op">=</span> start_time <span class="op">+</span> <span class="dv">10</span></span>
-<span id="cb21-34"><a href="movie-clips-blind-test.html#cb21-34" aria-hidden="true"></a></span>
-<span id="cb21-35"><a href="movie-clips-blind-test.html#cb21-35" aria-hidden="true"></a>    <span class="co"># Extract the 10-second clip</span></span>
-<span id="cb21-36"><a href="movie-clips-blind-test.html#cb21-36" aria-hidden="true"></a>    subclip <span class="op">=</span> clip.subclip(start_time, end_time)</span>
-<span id="cb21-37"><a href="movie-clips-blind-test.html#cb21-37" aria-hidden="true"></a></span>
-<span id="cb21-38"><a href="movie-clips-blind-test.html#cb21-38" aria-hidden="true"></a>    <span class="co"># Display the clip</span></span>
-<span id="cb21-39"><a href="movie-clips-blind-test.html#cb21-39" aria-hidden="true"></a>    subclip.preview(fullscreen<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="movie-clips-blind-test.html#cb24-1" aria-hidden="true"></a><span class="im">import</span> os</span>
+<span id="cb24-2"><a href="movie-clips-blind-test.html#cb24-2" aria-hidden="true"></a><span class="im">import</span> random</span>
+<span id="cb24-3"><a href="movie-clips-blind-test.html#cb24-3" aria-hidden="true"></a><span class="im">from</span> moviepy.video.io.VideoFileClip <span class="im">import</span> VideoFileClip</span>
+<span id="cb24-4"><a href="movie-clips-blind-test.html#cb24-4" aria-hidden="true"></a><span class="co"># Needs to be imported to be able to call the method `preview`</span></span>
+<span id="cb24-5"><a href="movie-clips-blind-test.html#cb24-5" aria-hidden="true"></a><span class="im">from</span> moviepy.editor <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb24-6"><a href="movie-clips-blind-test.html#cb24-6" aria-hidden="true"></a></span>
+<span id="cb24-7"><a href="movie-clips-blind-test.html#cb24-7" aria-hidden="true"></a><span class="co"># Set the path to the folder containing the movies</span></span>
+<span id="cb24-8"><a href="movie-clips-blind-test.html#cb24-8" aria-hidden="true"></a>path <span class="op">=</span> <span class="st">&quot;.&quot;</span></span>
+<span id="cb24-9"><a href="movie-clips-blind-test.html#cb24-9" aria-hidden="true"></a></span>
+<span id="cb24-10"><a href="movie-clips-blind-test.html#cb24-10" aria-hidden="true"></a><span class="co"># Get a list of all the mp4 files in the folder</span></span>
+<span id="cb24-11"><a href="movie-clips-blind-test.html#cb24-11" aria-hidden="true"></a>files <span class="op">=</span> [os.path.join(path, f) <span class="cf">for</span> f <span class="kw">in</span> os.listdir(path) <span class="cf">if</span> f.endswith(<span class="st">&quot;.mp4&quot;</span>)]</span>
+<span id="cb24-12"><a href="movie-clips-blind-test.html#cb24-12" aria-hidden="true"></a></span>
+<span id="cb24-13"><a href="movie-clips-blind-test.html#cb24-13" aria-hidden="true"></a><span class="co"># Preload movie and its duration:</span></span>
+<span id="cb24-14"><a href="movie-clips-blind-test.html#cb24-14" aria-hidden="true"></a>data <span class="op">=</span> {}</span>
+<span id="cb24-15"><a href="movie-clips-blind-test.html#cb24-15" aria-hidden="true"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> files:</span>
+<span id="cb24-16"><a href="movie-clips-blind-test.html#cb24-16" aria-hidden="true"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Loading </span><span class="sc">{</span><span class="bu">file</span><span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb24-17"><a href="movie-clips-blind-test.html#cb24-17" aria-hidden="true"></a>    clip <span class="op">=</span> VideoFileClip(<span class="bu">file</span>)</span>
+<span id="cb24-18"><a href="movie-clips-blind-test.html#cb24-18" aria-hidden="true"></a>    duration <span class="op">=</span> clip.duration</span>
+<span id="cb24-19"><a href="movie-clips-blind-test.html#cb24-19" aria-hidden="true"></a>    data[<span class="bu">file</span>] <span class="op">=</span> (clip, duration)</span>
+<span id="cb24-20"><a href="movie-clips-blind-test.html#cb24-20" aria-hidden="true"></a></span>
+<span id="cb24-21"><a href="movie-clips-blind-test.html#cb24-21" aria-hidden="true"></a><span class="co"># Loop through each movie file and play a random 10-second clip</span></span>
+<span id="cb24-22"><a href="movie-clips-blind-test.html#cb24-22" aria-hidden="true"></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb24-23"><a href="movie-clips-blind-test.html#cb24-23" aria-hidden="true"></a>    <span class="co"># Choose a file randomly</span></span>
+<span id="cb24-24"><a href="movie-clips-blind-test.html#cb24-24" aria-hidden="true"></a>    <span class="bu">file</span> <span class="op">=</span> random.choice(files)</span>
+<span id="cb24-25"><a href="movie-clips-blind-test.html#cb24-25" aria-hidden="true"></a></span>
+<span id="cb24-26"><a href="movie-clips-blind-test.html#cb24-26" aria-hidden="true"></a>    <span class="co"># Load the video file clip</span></span>
+<span id="cb24-27"><a href="movie-clips-blind-test.html#cb24-27" aria-hidden="true"></a>    clip, duration <span class="op">=</span> data[<span class="bu">file</span>]</span>
+<span id="cb24-28"><a href="movie-clips-blind-test.html#cb24-28" aria-hidden="true"></a></span>
+<span id="cb24-29"><a href="movie-clips-blind-test.html#cb24-29" aria-hidden="true"></a>    <span class="co"># Set the start time of the clip to a random value between 0 and (duration - 10)</span></span>
+<span id="cb24-30"><a href="movie-clips-blind-test.html#cb24-30" aria-hidden="true"></a>    start_time <span class="op">=</span> random.uniform(<span class="dv">0</span>, duration <span class="op">-</span> <span class="dv">10</span>)</span>
+<span id="cb24-31"><a href="movie-clips-blind-test.html#cb24-31" aria-hidden="true"></a></span>
+<span id="cb24-32"><a href="movie-clips-blind-test.html#cb24-32" aria-hidden="true"></a>    <span class="co"># Set the end time of the clip to 10 seconds after the start time</span></span>
+<span id="cb24-33"><a href="movie-clips-blind-test.html#cb24-33" aria-hidden="true"></a>    end_time <span class="op">=</span> start_time <span class="op">+</span> <span class="dv">10</span></span>
+<span id="cb24-34"><a href="movie-clips-blind-test.html#cb24-34" aria-hidden="true"></a></span>
+<span id="cb24-35"><a href="movie-clips-blind-test.html#cb24-35" aria-hidden="true"></a>    <span class="co"># Extract the 10-second clip</span></span>
+<span id="cb24-36"><a href="movie-clips-blind-test.html#cb24-36" aria-hidden="true"></a>    subclip <span class="op">=</span> clip.subclip(start_time, end_time)</span>
+<span id="cb24-37"><a href="movie-clips-blind-test.html#cb24-37" aria-hidden="true"></a></span>
+<span id="cb24-38"><a href="movie-clips-blind-test.html#cb24-38" aria-hidden="true"></a>    <span class="co"># Display the clip</span></span>
+<span id="cb24-39"><a href="movie-clips-blind-test.html#cb24-39" aria-hidden="true"></a>    subclip.preview(fullscreen<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
 <p>The requirements are:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="movie-clips-blind-test.html#cb22-1" aria-hidden="true"></a>moviepy<span class="op">==</span><span class="fl">1.0.3</span></span>
-<span id="cb22-2"><a href="movie-clips-blind-test.html#cb22-2" aria-hidden="true"></a>pygame<span class="op">==</span><span class="fl">2.4.0</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="movie-clips-blind-test.html#cb25-1" aria-hidden="true"></a>moviepy<span class="op">==</span><span class="fl">1.0.3</span></span>
+<span id="cb25-2"><a href="movie-clips-blind-test.html#cb25-2" aria-hidden="true"></a>pygame<span class="op">==</span><span class="fl">2.4.0</span></span></code></pre></div>
 
 </div>
 </div>

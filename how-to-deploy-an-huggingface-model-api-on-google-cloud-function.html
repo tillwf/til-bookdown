@@ -211,9 +211,34 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-20"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-20" aria-hidden="true"></a>    <span class="st">&quot;no_question&quot;</span>: <span class="bu">float</span>(probabilities[<span class="dv">0</span>]),</span>
 <span id="cb1-21"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-21" aria-hidden="true"></a>    <span class="st">&quot;question&quot;</span>: <span class="bu">float</span>(probabilities[<span class="dv">1</span>])</span>
 <span id="cb1-22"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-22" aria-hidden="true"></a>  }</span></code></pre></div>
-<p>and a file <code>requirements.txt</code> like that:</p>
+<p>a file <code>requirements.txt</code> like that:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb2-1" aria-hidden="true"></a>tensorflow<span class="op">==</span><span class="fl">2.12.0</span></span>
 <span id="cb2-2"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb2-2" aria-hidden="true"></a>transformers<span class="op">==</span><span class="fl">4.27.4</span></span></code></pre></div>
+<p>a <code>Dockerfile</code> like that:</p>
+<pre><code>FROM python:3.10.6
+
+ENV PYTHONUNBUFFERED 1
+
+EXPOSE 8000
+WORKDIR /app
+
+COPY requirements.txt ./
+RUN pip install --upgrade pip &amp;&amp; \
+    pip install -r requirements.txt
+
+COPY . ./
+
+ENV PYTHONPATH huggingfastapi
+
+CMD [&quot;uvicorn&quot;, &quot;main:app&quot;, &quot;--host&quot;, &quot;0.0.0.0&quot;, &quot;--port&quot;, &quot;8000&quot;]</code></pre>
+<p>You can now build your image and push it to your registry:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb4-1" aria-hidden="true"></a><span class="ex">docker</span> build  -t <span class="op">&lt;</span>image_url<span class="op">&gt;</span> -f Dockerfile .</span>
+<span id="cb4-2"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb4-2" aria-hidden="true"></a><span class="ex">docker</span> push <span class="op">&lt;</span>image_url<span class="op">&gt;</span></span></code></pre></div>
+<p>and deploy it on Google Cloud Run:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb5-1" aria-hidden="true"></a><span class="ex">gcloud</span> run deploy <span class="op">&lt;</span>image_name<span class="op">&gt;</span> --image <span class="op">&lt;</span>image_url<span class="op">&gt;</span>:latest</span>
+<span id="cb5-2"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb5-2" aria-hidden="true"></a>                           <span class="ex">--region</span> europe-west1</span>
+<span id="cb5-3"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb5-3" aria-hidden="true"></a>                           <span class="ex">--port</span> 8000</span>
+<span id="cb5-4"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb5-4" aria-hidden="true"></a>                           <span class="ex">--memory</span> 4Gi</span></code></pre></div>
 
 </div>
             </section>
