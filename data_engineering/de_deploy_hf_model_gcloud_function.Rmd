@@ -27,9 +27,46 @@ def predict(request):
   }
 ```
 
-and a file `requirements.txt` like that:
+a file `requirements.txt` like that:
 
 ```python
 tensorflow==2.12.0
 transformers==4.27.4
+```
+
+a `Dockerfile` like that:
+
+```
+FROM python:3.10.6
+
+ENV PYTHONUNBUFFERED 1
+
+EXPOSE 8000
+WORKDIR /app
+
+COPY requirements.txt ./
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+COPY . ./
+
+ENV PYTHONPATH huggingfastapi
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+You can now build your image and push it to your registry:
+
+```bash
+docker build  -t <image_url> -f Dockerfile .
+docker push <image_url>
+```
+
+and deploy it on Google Cloud Run:
+
+```bash
+gcloud run deploy <image_name> --image <image_url>:latest
+                           --region europe-west1
+                           --port 8000
+                           --memory 4Gi
 ```
