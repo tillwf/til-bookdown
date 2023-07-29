@@ -1,0 +1,58 @@
+## Convert CBZ files to PDF
+
+### Convertion
+
+Install `mutool` command line:
+
+```bash
+sudo apt install mupdf-tools
+```
+
+Then to convert every `cbz` file of a folder do:
+
+```bash
+for i in *.cbz
+do
+    echo "$i"
+    mutool convert -O compress -o "`basename "$i" .cbz`".pdf "$i"
+done
+```
+
+The `-0 compress` is there to reduce the `pdf` final size.
+
+If you want to find every `cbz` file recursively and convert them do:
+
+```bash
+find . -name *.cbz -exec mutool convert -O compress -o "`basename "{}" .cbz`".pdf "{}" \;
+```
+
+### Convert the `pdf` to grayscale to reduce its size
+
+```bash
+gs \
+ -sOutputFile=output.pdf \
+ -sDEVICE=pdfwrite \
+ -sColorConversionStrategy=Gray \
+ -dProcessColorModel=/DeviceGray \
+ -dCompatibilityLevel=1.4 \
+ -dAutoRotatePages=/None \
+ -dNOPAUSE \
+ -dBATCH \
+ input.pdf
+ ```
+
+### Split the `pdf` in smaller size to upload them on a ReMarkable
+
+Here we split the file in two:
+- The first one is composed of the first 120 pages
+- The second one will be the rest of the pages
+
+```bash
+for i in *.pdf
+do
+    OUTPUT_NAME=$(basename "$i" .pdf)
+    echo $OUTPUT_NAME
+    pdftk "$i" cat 1-120 output res/${OUTPUT_NAME}_1.pdf
+    pdftk "$i" cat 121-end output res/${OUTPUT_NAME}_2.pdf
+done
+```
