@@ -1,0 +1,71 @@
+## Spotify Job Watcher
+
+### Find the job URL
+
+Go to [https://www.lifeatspotify.com/jobs](https://www.lifeatspotify.com/jobs) and make your search with the Inspector open.
+
+![spotify_job_search](https://github.com/tillwf/til-bookdown/assets/7115035/0c4100a7-99da-4710-a325-5662bbe2e6b0)
+
+Copy the search URL and put it in the script below.
+
+### Setup mail in command line
+
+[Setup Mail and Mail Command Line]
+
+### Script to check job changes
+
+You can now fill the `<search_url>` and the `<destination_mail>` in the script below and put the script in a cron for example.
+
+```bash
+#!/bin/bash
+
+# Define file paths
+jobs_file="$USER/jobs.txt"
+new_jobs_file="$USER/new_jobs.txt"
+diff_file="$USER/diff_job.txt"
+header_file="$USER/header.html"
+footer_file="$USER/footer.html"
+
+# API URL
+URL=<search_url>
+
+# Function to fetch and process API data
+get_and_process_data() {
+  curl -sSL -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0' \
+    -H 'Accept-Language: en-US,en;q=0.5' \
+    -H 'Accept: application/json, text/plain, */*' \
+    -H 'Origin: https://lifeatspotify.com' \
+    -H 'Connection: keep-alive' \
+    -H 'Referer: https://lifeatspotify.com/' \
+    -H 'Sec-Fetch-Dest: empty' \
+    -H 'Sec-Fetch-Mode: cors' \
+    -H 'Sec-Fetch-Site: cross-site' "$URL" \
+    | jq -r '.result[].text' \
+    | sort > "$new_jobs_file"
+}
+
+# Function to create diff file
+create_diff_file() {
+  diff "$jobs_file" "$new_jobs_file" | awk '/>/ { sub(/^>/, ""); print }' > "$diff_file"
+}
+
+# Function to send email if diff file is not empty
+send_email() {
+  if [ -s "$diff_file" ]; then
+    ( echo "<ul>"; sed 's/^/<li> /; s/$/ <\/li>/' "$diff_file"; echo "</ul>" ) > "$diff_file.tmp"
+    mv "$diff_file.tmp" "$diff_file"
+    cat "$header_file" "$diff_file" "$footer_file" | msmtp <destination_mail>
+  fi
+}
+
+# Main script execution
+touch "$jobs_file"
+
+get_and_process_data
+
+if ! diff -q "$jobs_file" "$new_jobs_file" >/dev/null; then
+  create_diff_file
+  send_email
+  cp "$new_jobs_file" "$jobs_file"
+fi
+```
