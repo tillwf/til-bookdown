@@ -18,6 +18,9 @@ convert-cbz-files-to-pdf
 convertion
 convert-the-pdf-to-grayscale-to-reduce-its-size
 split-the-pdf-in-smaller-size-to-upload-them-on-a-remarkable
+setup-mail-and-mail-command-line
+requirements
+setup-example-with-fastmail
 movie-clips-blind-test
 solution-1
 solution-2-to-be-enhanced
