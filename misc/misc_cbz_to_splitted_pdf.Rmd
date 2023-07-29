@@ -23,7 +23,13 @@ The `-0 compress` is there to reduce the `pdf` final size.
 If you want to find every `cbz` file recursively and convert them do:
 
 ```bash
-find . -name *.cbz -exec mutool convert -O compress -o "`basename "{}" .cbz`".pdf "{}" \;
+find . -name "*.cbz" -exec mutool convert -O compress -o {}.pdf {} \;
+```
+
+or if you want to remove the `.cbz`:
+
+```bash
+find . -name "*.cbz" -exec sh -c 'mutool convert -O compress -o "$(basename "{}" .cbz)".pdf "{}"' \
 ```
 
 ### Convert the `pdf` to grayscale to reduce its size
