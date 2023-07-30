@@ -4,7 +4,7 @@
 
 Go to [https://www.lifeatspotify.com/jobs](https://www.lifeatspotify.com/jobs) and make your search with the Inspector open.
 
-![spotify_job_search](https://github.com/tillwf/til-bookdown/assets/7115035/0c4100a7-99da-4710-a325-5662bbe2e6b0)
+![](https://github.com/tillwf/til-bookdown/assets/7115035/0c4100a7-99da-4710-a325-5662bbe2e6b0)
 
 Copy the search URL and put it in the script below.
 
