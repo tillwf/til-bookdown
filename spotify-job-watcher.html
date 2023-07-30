@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2.2 XGBoost | til-bookdown.knit</title>
+  <title>3.5 Spotify Job Watcher | til-bookdown.knit</title>
   <meta name="description" content="Today I Learned" />
   <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2.2 XGBoost | til-bookdown.knit" />
+  <meta property="og:title" content="3.5 Spotify Job Watcher | til-bookdown.knit" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Today I Learned" />
   <meta name="github-repo" content="tillwf/til-bookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.2 XGBoost | til-bookdown.knit" />
+  <meta name="twitter:title" content="3.5 Spotify Job Watcher | til-bookdown.knit" />
   
   <meta name="twitter:description" content="Today I Learned" />
   
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="ab-testing.html"/>
-<link rel="next" href="miscellaneous.html"/>
+<link rel="prev" href="setup-server-with-self-hosted-services-using-docker.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -199,9 +199,77 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="xgboost" class="section level2 hasAnchor" number="2.2">
-<h2><span class="header-section-number">2.2</span> XGBoost<a href="xgboost.html#xgboost" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="spotify-job-watcher" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Spotify Job Watcher<a href="spotify-job-watcher.html#spotify-job-watcher" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="find-the-job-url" class="section level3 hasAnchor" number="3.5.1">
+<h3><span class="header-section-number">3.5.1</span> Find the job URL<a href="spotify-job-watcher.html#find-the-job-url" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Go to <a href="https://www.lifeatspotify.com/jobs">https://www.lifeatspotify.com/jobs</a> and make your search with the Inspector open.</p>
+<div class="figure">
+<img src="https://github.com/tillwf/til-bookdown/assets/7115035/0c4100a7-99da-4710-a325-5662bbe2e6b0" alt="" />
+<p class="caption">spotify_job_search</p>
+</div>
+<p>Copy the search URL and put it in the script below.</p>
+</div>
+<div id="setup-mail-in-command-line" class="section level3 hasAnchor" number="3.5.2">
+<h3><span class="header-section-number">3.5.2</span> Setup mail in command line<a href="spotify-job-watcher.html#setup-mail-in-command-line" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><a href="setup-mail-and-mail-command-line.html#setup-mail-and-mail-command-line">Setup Mail and Mail Command Line</a></p>
+</div>
+<div id="script-to-check-job-changes" class="section level3 hasAnchor" number="3.5.3">
+<h3><span class="header-section-number">3.5.3</span> Script to check job changes<a href="spotify-job-watcher.html#script-to-check-job-changes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>You can now fill the <code>&lt;search_url&gt;</code> and the <code>&lt;destination_mail&gt;</code> in the script below and put the script in a cron for example.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb66-1"><a href="spotify-job-watcher.html#cb66-1" aria-hidden="true"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb66-2"><a href="spotify-job-watcher.html#cb66-2" aria-hidden="true"></a></span>
+<span id="cb66-3"><a href="spotify-job-watcher.html#cb66-3" aria-hidden="true"></a><span class="co"># Define file paths</span></span>
+<span id="cb66-4"><a href="spotify-job-watcher.html#cb66-4" aria-hidden="true"></a><span class="va">jobs_file=</span><span class="st">&quot;</span><span class="va">$USER</span><span class="st">/jobs.txt&quot;</span></span>
+<span id="cb66-5"><a href="spotify-job-watcher.html#cb66-5" aria-hidden="true"></a><span class="va">new_jobs_file=</span><span class="st">&quot;</span><span class="va">$USER</span><span class="st">/new_jobs.txt&quot;</span></span>
+<span id="cb66-6"><a href="spotify-job-watcher.html#cb66-6" aria-hidden="true"></a><span class="va">diff_file=</span><span class="st">&quot;</span><span class="va">$USER</span><span class="st">/diff_job.txt&quot;</span></span>
+<span id="cb66-7"><a href="spotify-job-watcher.html#cb66-7" aria-hidden="true"></a><span class="va">header_file=</span><span class="st">&quot;</span><span class="va">$USER</span><span class="st">/header.html&quot;</span></span>
+<span id="cb66-8"><a href="spotify-job-watcher.html#cb66-8" aria-hidden="true"></a><span class="va">footer_file=</span><span class="st">&quot;</span><span class="va">$USER</span><span class="st">/footer.html&quot;</span></span>
+<span id="cb66-9"><a href="spotify-job-watcher.html#cb66-9" aria-hidden="true"></a></span>
+<span id="cb66-10"><a href="spotify-job-watcher.html#cb66-10" aria-hidden="true"></a><span class="co"># API URL</span></span>
+<span id="cb66-11"><a href="spotify-job-watcher.html#cb66-11" aria-hidden="true"></a><span class="va">URL=</span><span class="op">&lt;</span><span class="ex">search_url</span><span class="op">&gt;</span></span>
+<span id="cb66-12"><a href="spotify-job-watcher.html#cb66-12" aria-hidden="true"></a></span>
+<span id="cb66-13"><a href="spotify-job-watcher.html#cb66-13" aria-hidden="true"></a><span class="co"># Function to fetch and process API data</span></span>
+<span id="cb66-14"><a href="spotify-job-watcher.html#cb66-14" aria-hidden="true"></a><span class="fu">get_and_process_data()</span> <span class="kw">{</span></span>
+<span id="cb66-15"><a href="spotify-job-watcher.html#cb66-15" aria-hidden="true"></a>  <span class="ex">curl</span> -sSL -H <span class="st">&#39;User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0&#39;</span> <span class="kw">\</span></span>
+<span id="cb66-16"><a href="spotify-job-watcher.html#cb66-16" aria-hidden="true"></a>    <span class="ex">-H</span> <span class="st">&#39;Accept-Language: en-US,en;q=0.5&#39;</span> <span class="kw">\</span></span>
+<span id="cb66-17"><a href="spotify-job-watcher.html#cb66-17" aria-hidden="true"></a>    <span class="ex">-H</span> <span class="st">&#39;Accept: application/json, text/plain, */*&#39;</span> <span class="kw">\</span></span>
+<span id="cb66-18"><a href="spotify-job-watcher.html#cb66-18" aria-hidden="true"></a>    <span class="ex">-H</span> <span class="st">&#39;Origin: https://lifeatspotify.com&#39;</span> <span class="kw">\</span></span>
+<span id="cb66-19"><a href="spotify-job-watcher.html#cb66-19" aria-hidden="true"></a>    <span class="ex">-H</span> <span class="st">&#39;Connection: keep-alive&#39;</span> <span class="kw">\</span></span>
+<span id="cb66-20"><a href="spotify-job-watcher.html#cb66-20" aria-hidden="true"></a>    <span class="ex">-H</span> <span class="st">&#39;Referer: https://lifeatspotify.com/&#39;</span> <span class="kw">\</span></span>
+<span id="cb66-21"><a href="spotify-job-watcher.html#cb66-21" aria-hidden="true"></a>    <span class="ex">-H</span> <span class="st">&#39;Sec-Fetch-Dest: empty&#39;</span> <span class="kw">\</span></span>
+<span id="cb66-22"><a href="spotify-job-watcher.html#cb66-22" aria-hidden="true"></a>    <span class="ex">-H</span> <span class="st">&#39;Sec-Fetch-Mode: cors&#39;</span> <span class="kw">\</span></span>
+<span id="cb66-23"><a href="spotify-job-watcher.html#cb66-23" aria-hidden="true"></a>    <span class="ex">-H</span> <span class="st">&#39;Sec-Fetch-Site: cross-site&#39;</span> <span class="st">&quot;</span><span class="va">$URL</span><span class="st">&quot;</span> <span class="kw">\</span></span>
+<span id="cb66-24"><a href="spotify-job-watcher.html#cb66-24" aria-hidden="true"></a>    <span class="kw">|</span> <span class="ex">jq</span> -r <span class="st">&#39;.result[].text&#39;</span> <span class="kw">\</span></span>
+<span id="cb66-25"><a href="spotify-job-watcher.html#cb66-25" aria-hidden="true"></a>    <span class="kw">|</span> <span class="fu">sort</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$new_jobs_file</span><span class="st">&quot;</span></span>
+<span id="cb66-26"><a href="spotify-job-watcher.html#cb66-26" aria-hidden="true"></a><span class="kw">}</span></span>
+<span id="cb66-27"><a href="spotify-job-watcher.html#cb66-27" aria-hidden="true"></a></span>
+<span id="cb66-28"><a href="spotify-job-watcher.html#cb66-28" aria-hidden="true"></a><span class="co"># Function to create diff file</span></span>
+<span id="cb66-29"><a href="spotify-job-watcher.html#cb66-29" aria-hidden="true"></a><span class="fu">create_diff_file()</span> <span class="kw">{</span></span>
+<span id="cb66-30"><a href="spotify-job-watcher.html#cb66-30" aria-hidden="true"></a>  <span class="fu">diff</span> <span class="st">&quot;</span><span class="va">$jobs_file</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$new_jobs_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/&gt;/ { sub(/^&gt;/, &quot;&quot;); print }&#39;</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$diff_file</span><span class="st">&quot;</span></span>
+<span id="cb66-31"><a href="spotify-job-watcher.html#cb66-31" aria-hidden="true"></a><span class="kw">}</span></span>
+<span id="cb66-32"><a href="spotify-job-watcher.html#cb66-32" aria-hidden="true"></a></span>
+<span id="cb66-33"><a href="spotify-job-watcher.html#cb66-33" aria-hidden="true"></a><span class="co"># Function to send email if diff file is not empty</span></span>
+<span id="cb66-34"><a href="spotify-job-watcher.html#cb66-34" aria-hidden="true"></a><span class="fu">send_email()</span> <span class="kw">{</span></span>
+<span id="cb66-35"><a href="spotify-job-watcher.html#cb66-35" aria-hidden="true"></a>  <span class="kw">if</span><span class="bu"> [</span> <span class="ot">-s</span> <span class="st">&quot;</span><span class="va">$diff_file</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></span>
+<span id="cb66-36"><a href="spotify-job-watcher.html#cb66-36" aria-hidden="true"></a>    <span class="kw">(</span> <span class="bu">echo</span> <span class="st">&quot;&lt;ul&gt;&quot;</span><span class="kw">;</span> <span class="fu">sed</span> <span class="st">&#39;s/^/&lt;li&gt; /; s/$/ &lt;\/li&gt;/&#39;</span> <span class="st">&quot;</span><span class="va">$diff_file</span><span class="st">&quot;</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;&lt;/ul&gt;&quot;</span> <span class="kw">)</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$diff_file</span><span class="st">.tmp&quot;</span></span>
+<span id="cb66-37"><a href="spotify-job-watcher.html#cb66-37" aria-hidden="true"></a>    <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$diff_file</span><span class="st">.tmp&quot;</span> <span class="st">&quot;</span><span class="va">$diff_file</span><span class="st">&quot;</span></span>
+<span id="cb66-38"><a href="spotify-job-watcher.html#cb66-38" aria-hidden="true"></a>    <span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$header_file</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$diff_file</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$footer_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="ex">msmtp</span> <span class="op">&lt;</span>destination_mail<span class="op">&gt;</span></span>
+<span id="cb66-39"><a href="spotify-job-watcher.html#cb66-39" aria-hidden="true"></a>  <span class="kw">fi</span></span>
+<span id="cb66-40"><a href="spotify-job-watcher.html#cb66-40" aria-hidden="true"></a><span class="kw">}</span></span>
+<span id="cb66-41"><a href="spotify-job-watcher.html#cb66-41" aria-hidden="true"></a></span>
+<span id="cb66-42"><a href="spotify-job-watcher.html#cb66-42" aria-hidden="true"></a><span class="co"># Main script execution</span></span>
+<span id="cb66-43"><a href="spotify-job-watcher.html#cb66-43" aria-hidden="true"></a><span class="fu">touch</span> <span class="st">&quot;</span><span class="va">$jobs_file</span><span class="st">&quot;</span></span>
+<span id="cb66-44"><a href="spotify-job-watcher.html#cb66-44" aria-hidden="true"></a></span>
+<span id="cb66-45"><a href="spotify-job-watcher.html#cb66-45" aria-hidden="true"></a><span class="ex">get_and_process_data</span></span>
+<span id="cb66-46"><a href="spotify-job-watcher.html#cb66-46" aria-hidden="true"></a></span>
+<span id="cb66-47"><a href="spotify-job-watcher.html#cb66-47" aria-hidden="true"></a><span class="kw">if</span> ! <span class="fu">diff</span> -q <span class="st">&quot;</span><span class="va">$jobs_file</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$new_jobs_file</span><span class="st">&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
+<span id="cb66-48"><a href="spotify-job-watcher.html#cb66-48" aria-hidden="true"></a>  <span class="ex">create_diff_file</span></span>
+<span id="cb66-49"><a href="spotify-job-watcher.html#cb66-49" aria-hidden="true"></a>  <span class="ex">send_email</span></span>
+<span id="cb66-50"><a href="spotify-job-watcher.html#cb66-50" aria-hidden="true"></a>  <span class="fu">cp</span> <span class="st">&quot;</span><span class="va">$new_jobs_file</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$jobs_file</span><span class="st">&quot;</span></span>
+<span id="cb66-51"><a href="spotify-job-watcher.html#cb66-51" aria-hidden="true"></a><span class="kw">fi</span></span></code></pre></div>
 
+</div>
 </div>
 <!-- </div> -->
             </section>
@@ -209,8 +277,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="ab-testing.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="miscellaneous.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="setup-server-with-self-hosted-services-using-docker.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

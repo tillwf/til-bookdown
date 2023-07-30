@@ -39,3 +39,7 @@ change-config.php
 setup-the-data-folder
 faq
 ressources
+spotify-job-watcher
+find-the-job-url
+setup-mail-in-command-line
+script-to-check-job-changes
