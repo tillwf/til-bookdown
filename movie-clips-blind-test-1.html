@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3.2 Setup Mail and Mail Command Line | til-bookdown.knit</title>
+  <title>3.4 Movie Clips Blind Test | til-bookdown.knit</title>
   <meta name="description" content="Today I Learned" />
   <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3.2 Setup Mail and Mail Command Line | til-bookdown.knit" />
+  <meta property="og:title" content="3.4 Movie Clips Blind Test | til-bookdown.knit" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Today I Learned" />
   <meta name="github-repo" content="tillwf/til-bookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3.2 Setup Mail and Mail Command Line | til-bookdown.knit" />
+  <meta name="twitter:title" content="3.4 Movie Clips Blind Test | til-bookdown.knit" />
   
   <meta name="twitter:description" content="Today I Learned" />
   
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="convert-cbz-files-to-pdf.html"/>
-<link rel="next" href="movie-clips-blind-test.html"/>
+<link rel="prev" href="movie-clips-blind-test.html"/>
+<link rel="next" href="setup-server-with-self-hosted-services-using-docker.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -200,64 +200,42 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="setup-mail-and-mail-command-line" class="section level2 hasAnchor" number="3.2">
-<h2><span class="header-section-number">3.2</span> Setup Mail and Mail Command Line<a href="setup-mail-and-mail-command-line.html#setup-mail-and-mail-command-line" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="requirements" class="section level4 hasAnchor" number="3.2.0.1">
-<h4><span class="header-section-number">3.2.0.1</span> Requirements<a href="setup-mail-and-mail-command-line.html#requirements" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="setup-mail-and-mail-command-line.html#cb24-1" aria-hidden="true"></a><span class="fu">sudo</span> apt install msmtp msmtp-mta</span></code></pre></div>
-</div>
-<div id="setup-example-with-fastmail" class="section level4 hasAnchor" number="3.2.0.2">
-<h4><span class="header-section-number">3.2.0.2</span> Setup (example with Fastmail)<a href="setup-mail-and-mail-command-line.html#setup-example-with-fastmail" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>Run</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="setup-mail-and-mail-command-line.html#cb25-1" aria-hidden="true"></a><span class="ex">msmtp</span> --configure</span></code></pre></div>
-<p>and add the line</p>
-<pre><code>password       XXXXXXXXXX</code></pre>
-<p>to the file <code>~/.msmtprc</code>.</p>
-<p>Example for a self-hosted domain used with fastmail:</p>
-<pre><code>account default
-host smtp.fastmail.com
-port 465
-tls on
-tls_starttls off
-auth on
-user &lt;fastmail login mail&gt;
-from server@yourdomain.com
-password &lt;pass&gt;</code></pre>
-<p>Change its rights:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="setup-mail-and-mail-command-line.html#cb28-1" aria-hidden="true"></a><span class="fu">chmod</span> 600 .msmtprc</span></code></pre></div>
-<p>and check the symlink of <code>sendmail</code>:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="setup-mail-and-mail-command-line.html#cb29-1" aria-hidden="true"></a><span class="fu">ls</span> -la /usr/sbin/sendmail</span></code></pre></div>
-<p>it should return:</p>
-<pre><code>lrwxrwxrwx 1 root root 12 nov.  28  2016 /usr/sbin/sendmail -&gt; ../bin/msmtp</code></pre>
-<p>Finally, make a test:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="setup-mail-and-mail-command-line.html#cb31-1" aria-hidden="true"></a><span class="bu">echo</span> -e <span class="st">&quot;Subject:Test\n\nIt Works&quot;</span> <span class="kw">|</span> <span class="ex">msmtp</span> --from test@yourdomain.com <span class="op">&lt;</span>destination_mail_address<span class="op">&gt;</span></span></code></pre></div>
-<p>You need the <code>-e</code> to interpret the backslash</p>
-<p>You can also send html pages (this is <code>sample.html</code>):</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb32-1"><a href="setup-mail-and-mail-command-line.html#cb32-1" aria-hidden="true"></a>From: sender@mail.com</span>
-<span id="cb32-2"><a href="setup-mail-and-mail-command-line.html#cb32-2" aria-hidden="true"></a>To: recipient@mail.com</span>
-<span id="cb32-3"><a href="setup-mail-and-mail-command-line.html#cb32-3" aria-hidden="true"></a>Subject: This is the Subject</span>
-<span id="cb32-4"><a href="setup-mail-and-mail-command-line.html#cb32-4" aria-hidden="true"></a>Mime-Version: 1.0</span>
-<span id="cb32-5"><a href="setup-mail-and-mail-command-line.html#cb32-5" aria-hidden="true"></a>Content-Type: text/html</span>
-<span id="cb32-6"><a href="setup-mail-and-mail-command-line.html#cb32-6" aria-hidden="true"></a></span>
-<span id="cb32-7"><a href="setup-mail-and-mail-command-line.html#cb32-7" aria-hidden="true"></a><span class="kw">&lt;html&gt;</span></span>
-<span id="cb32-8"><a href="setup-mail-and-mail-command-line.html#cb32-8" aria-hidden="true"></a>  <span class="kw">&lt;head&gt;</span>This is Email Head<span class="kw">&lt;/head&gt;</span></span>
-<span id="cb32-9"><a href="setup-mail-and-mail-command-line.html#cb32-9" aria-hidden="true"></a>  <span class="kw">&lt;body&gt;</span></span>
-<span id="cb32-10"><a href="setup-mail-and-mail-command-line.html#cb32-10" aria-hidden="true"></a>    <span class="kw">&lt;h2&gt;</span>This is the Main Title<span class="kw">&lt;/h2&gt;</span></span>
-<span id="cb32-11"><a href="setup-mail-and-mail-command-line.html#cb32-11" aria-hidden="true"></a>    <span class="kw">&lt;p&gt;</span>This is the body text<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb32-12"><a href="setup-mail-and-mail-command-line.html#cb32-12" aria-hidden="true"></a>  <span class="kw">&lt;/body&gt;</span></span>
-<span id="cb32-13"><a href="setup-mail-and-mail-command-line.html#cb32-13" aria-hidden="true"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
-<p>then do</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="setup-mail-and-mail-command-line.html#cb33-1" aria-hidden="true"></a>$ <span class="fu">cat</span> sample.html <span class="kw">|</span> <span class="ex">msmtp</span> recipient@mail.com</span></code></pre></div>
+<div id="movie-clips-blind-test-1" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Movie Clips Blind Test<a href="movie-clips-blind-test-1.html#movie-clips-blind-test-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The goal is to add a shortcut to <code>mpv</code> in order to soft delete the file you are watching.</p>
+<p>Create and edit the file <code>~/.config/mpv/scripts/delete-file.lua</code> like this:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode lua"><code class="sourceCode lua"><span id="cb42-1"><a href="movie-clips-blind-test-1.html#cb42-1" aria-hidden="true"></a><span class="kw">local</span> msg <span class="op">=</span> <span class="fu">require</span> <span class="st">&#39;mp.msg&#39;</span></span>
+<span id="cb42-2"><a href="movie-clips-blind-test-1.html#cb42-2" aria-hidden="true"></a><span class="kw">local</span> utils <span class="op">=</span> <span class="fu">require</span> <span class="st">&#39;mp.utils&#39;</span></span>
+<span id="cb42-3"><a href="movie-clips-blind-test-1.html#cb42-3" aria-hidden="true"></a></span>
+<span id="cb42-4"><a href="movie-clips-blind-test-1.html#cb42-4" aria-hidden="true"></a><span class="kw">function</span> delete_current_file<span class="op">()</span></span>
+<span id="cb42-5"><a href="movie-clips-blind-test-1.html#cb42-5" aria-hidden="true"></a>    <span class="kw">local</span> path <span class="op">=</span> mp<span class="op">.</span>get_property<span class="op">(</span><span class="st">&quot;path&quot;</span><span class="op">)</span></span>
+<span id="cb42-6"><a href="movie-clips-blind-test-1.html#cb42-6" aria-hidden="true"></a>    <span class="cf">if</span> <span class="kw">not</span> path <span class="cf">then</span></span>
+<span id="cb42-7"><a href="movie-clips-blind-test-1.html#cb42-7" aria-hidden="true"></a>        mp<span class="op">.</span>osd_message<span class="op">(</span><span class="st">&quot;No file currently playing.&quot;</span><span class="op">)</span></span>
+<span id="cb42-8"><a href="movie-clips-blind-test-1.html#cb42-8" aria-hidden="true"></a>        <span class="cf">return</span></span>
+<span id="cb42-9"><a href="movie-clips-blind-test-1.html#cb42-9" aria-hidden="true"></a>    <span class="cf">end</span></span>
+<span id="cb42-10"><a href="movie-clips-blind-test-1.html#cb42-10" aria-hidden="true"></a></span>
+<span id="cb42-11"><a href="movie-clips-blind-test-1.html#cb42-11" aria-hidden="true"></a>    <span class="co">-- Move the file to the trash using gio trash</span></span>
+<span id="cb42-12"><a href="movie-clips-blind-test-1.html#cb42-12" aria-hidden="true"></a>    <span class="kw">local</span> res <span class="op">=</span> utils<span class="op">.</span>subprocess<span class="op">({</span>args<span class="op">={</span><span class="st">&quot;gio&quot;</span><span class="op">,</span> <span class="st">&quot;trash&quot;</span><span class="op">,</span> path<span class="op">}})</span></span>
+<span id="cb42-13"><a href="movie-clips-blind-test-1.html#cb42-13" aria-hidden="true"></a>    <span class="cf">if</span> res<span class="op">.</span>error <span class="kw">or</span> res<span class="op">.</span>status <span class="op">~=</span> <span class="dv">0</span> <span class="cf">then</span></span>
+<span id="cb42-14"><a href="movie-clips-blind-test-1.html#cb42-14" aria-hidden="true"></a>        mp<span class="op">.</span>osd_message<span class="op">(</span><span class="st">&quot;Failed to delete file: &quot;</span> <span class="op">..</span> <span class="op">(</span>res<span class="op">.</span>error <span class="kw">or</span> <span class="st">&quot;unknown error&quot;</span><span class="op">))</span></span>
+<span id="cb42-15"><a href="movie-clips-blind-test-1.html#cb42-15" aria-hidden="true"></a>        msg<span class="op">.</span>error<span class="op">(</span><span class="st">&quot;Failed to delete file: &quot;</span> <span class="op">..</span> <span class="op">(</span>res<span class="op">.</span>error <span class="kw">or</span> <span class="st">&quot;unknown error&quot;</span><span class="op">))</span></span>
+<span id="cb42-16"><a href="movie-clips-blind-test-1.html#cb42-16" aria-hidden="true"></a>    <span class="cf">else</span></span>
+<span id="cb42-17"><a href="movie-clips-blind-test-1.html#cb42-17" aria-hidden="true"></a>        mp<span class="op">.</span>osd_message<span class="op">(</span><span class="st">&quot;File moved to trash: &quot;</span> <span class="op">..</span> path<span class="op">)</span></span>
+<span id="cb42-18"><a href="movie-clips-blind-test-1.html#cb42-18" aria-hidden="true"></a>        msg<span class="op">.</span>info<span class="op">(</span><span class="st">&quot;File moved to trash: &quot;</span> <span class="op">..</span> path<span class="op">)</span></span>
+<span id="cb42-19"><a href="movie-clips-blind-test-1.html#cb42-19" aria-hidden="true"></a>        mp<span class="op">.</span>commandv<span class="op">(</span><span class="st">&quot;playlist-next&quot;</span><span class="op">,</span> <span class="st">&quot;weak&quot;</span><span class="op">)</span></span>
+<span id="cb42-20"><a href="movie-clips-blind-test-1.html#cb42-20" aria-hidden="true"></a>    <span class="cf">end</span></span>
+<span id="cb42-21"><a href="movie-clips-blind-test-1.html#cb42-21" aria-hidden="true"></a><span class="kw">end</span></span>
+<span id="cb42-22"><a href="movie-clips-blind-test-1.html#cb42-22" aria-hidden="true"></a></span>
+<span id="cb42-23"><a href="movie-clips-blind-test-1.html#cb42-23" aria-hidden="true"></a>mp<span class="op">.</span>add_key_binding<span class="op">(</span><span class="st">&quot;D&quot;</span><span class="op">,</span> <span class="st">&quot;delete-file&quot;</span><span class="op">,</span> delete_current_file<span class="op">)</span></span></code></pre></div>
 
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="convert-cbz-files-to-pdf.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="movie-clips-blind-test.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="movie-clips-blind-test.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="setup-server-with-self-hosted-services-using-docker.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

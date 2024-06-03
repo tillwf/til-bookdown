@@ -24,6 +24,7 @@ setup-example-with-fastmail
 movie-clips-blind-test
 solution-1
 solution-2-to-be-enhanced
+movie-clips-blind-test-1
 setup-server-with-self-hosted-services-using-docker
 setup-ssh
 delete-ubuntu-user
