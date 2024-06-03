@@ -1,0 +1,31 @@
+## Movie Clips Blind Test
+
+The goal is to add a shortcut to `mpv` in order to soft delete the file you are watching.
+
+Create and edit the file `~/.config/mpv/scripts/delete-file.lua` like this:
+
+```lua
+local msg = require 'mp.msg'
+local utils = require 'mp.utils'
+
+function delete_current_file()
+    local path = mp.get_property("path")
+    if not path then
+        mp.osd_message("No file currently playing.")
+        return
+    end
+
+    -- Move the file to the trash using gio trash
+    local res = utils.subprocess({args={"gio", "trash", path}})
+    if res.error or res.status ~= 0 then
+        mp.osd_message("Failed to delete file: " .. (res.error or "unknown error"))
+        msg.error("Failed to delete file: " .. (res.error or "unknown error"))
+    else
+        mp.osd_message("File moved to trash: " .. path)
+        msg.info("File moved to trash: " .. path)
+        mp.commandv("playlist-next", "weak")
+    end
+end
+
+mp.add_key_binding("D", "delete-file", delete_current_file)
+```
