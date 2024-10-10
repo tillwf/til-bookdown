@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3.2 Setup Mail and Mail Command Line | til-bookdown.knit</title>
   <meta name="description" content="Today I Learned" />
-  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3.2 Setup Mail and Mail Command Line | til-bookdown.knit" />
   <meta property="og:type" content="book" />
@@ -51,6 +51,15 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="libs/d3-3.3.8/d3.min.js"></script>
+<script src="libs/dagre-0.4.0/dagre-d3.min.js"></script>
+<link href="libs/mermaid-0.3.0/dist/mermaid.css" rel="stylesheet" />
+<script src="libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/chromatography-0.1/chromatography.js"></script>
+<script src="libs/DiagrammeR-binding-1.0.11/DiagrammeR.js"></script>
 
 
 <style type="text/css">
@@ -144,7 +153,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2" data-path="machine-learning.html"><a href="machine-learning.html"><i class="fa fa-check"></i><b>2</b> Machine Learning</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="ab-testing.html"><a href="ab-testing.html"><i class="fa fa-check"></i><b>2.1</b> A/B Testing</a></li>
+<li class="chapter" data-level="2.1" data-path="ab-testing.html"><a href="ab-testing.html"><i class="fa fa-check"></i><b>2.1</b> A/B Testing</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="ab-testing.html"><a href="ab-testing.html#how-to-setup-an-ab-test"><i class="fa fa-check"></i><b>2.1.1</b> How to setup an A/B Test</a></li>
+<li class="chapter" data-level="2.1.2" data-path="ab-testing.html"><a href="ab-testing.html#statistical-tests"><i class="fa fa-check"></i><b>2.1.2</b> Statistical Tests</a></li>
+<li class="chapter" data-level="2.1.3" data-path="ab-testing.html"><a href="ab-testing.html#question"><i class="fa fa-check"></i><b>2.1.3</b> Question</a></li>
+</ul></li>
 <li class="chapter" data-level="2.2" data-path="xgboost.html"><a href="xgboost.html"><i class="fa fa-check"></i><b>2.2</b> XGBoost</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="miscellaneous.html"><a href="miscellaneous.html"><i class="fa fa-check"></i><b>3</b> Miscellaneous</a>
@@ -204,12 +218,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">3.2</span> Setup Mail and Mail Command Line<a href="setup-mail-and-mail-command-line.html#setup-mail-and-mail-command-line" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="requirements" class="section level4 hasAnchor" number="3.2.0.1">
 <h4><span class="header-section-number">3.2.0.1</span> Requirements<a href="setup-mail-and-mail-command-line.html#requirements" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="setup-mail-and-mail-command-line.html#cb24-1" aria-hidden="true"></a><span class="fu">sudo</span> apt install msmtp msmtp-mta</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="setup-mail-and-mail-command-line.html#cb26-1" aria-hidden="true"></a><span class="fu">sudo</span> apt install msmtp msmtp-mta</span></code></pre></div>
 </div>
 <div id="setup-example-with-fastmail" class="section level4 hasAnchor" number="3.2.0.2">
 <h4><span class="header-section-number">3.2.0.2</span> Setup (example with Fastmail)<a href="setup-mail-and-mail-command-line.html#setup-example-with-fastmail" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Run</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="setup-mail-and-mail-command-line.html#cb25-1" aria-hidden="true"></a><span class="ex">msmtp</span> --configure</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="setup-mail-and-mail-command-line.html#cb27-1" aria-hidden="true"></a><span class="ex">msmtp</span> --configure</span></code></pre></div>
 <p>and add the line</p>
 <pre><code>password       XXXXXXXXXX</code></pre>
 <p>to the file <code>~/.msmtprc</code>.</p>
@@ -224,30 +238,30 @@ user &lt;fastmail login mail&gt;
 from server@yourdomain.com
 password &lt;pass&gt;</code></pre>
 <p>Change its rights:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="setup-mail-and-mail-command-line.html#cb28-1" aria-hidden="true"></a><span class="fu">chmod</span> 600 .msmtprc</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="setup-mail-and-mail-command-line.html#cb30-1" aria-hidden="true"></a><span class="fu">chmod</span> 600 .msmtprc</span></code></pre></div>
 <p>and check the symlink of <code>sendmail</code>:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="setup-mail-and-mail-command-line.html#cb29-1" aria-hidden="true"></a><span class="fu">ls</span> -la /usr/sbin/sendmail</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="setup-mail-and-mail-command-line.html#cb31-1" aria-hidden="true"></a><span class="fu">ls</span> -la /usr/sbin/sendmail</span></code></pre></div>
 <p>it should return:</p>
 <pre><code>lrwxrwxrwx 1 root root 12 nov.  28  2016 /usr/sbin/sendmail -&gt; ../bin/msmtp</code></pre>
 <p>Finally, make a test:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="setup-mail-and-mail-command-line.html#cb31-1" aria-hidden="true"></a><span class="bu">echo</span> -e <span class="st">&quot;Subject:Test\n\nIt Works&quot;</span> <span class="kw">|</span> <span class="ex">msmtp</span> --from test@yourdomain.com <span class="op">&lt;</span>destination_mail_address<span class="op">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="setup-mail-and-mail-command-line.html#cb33-1" aria-hidden="true"></a><span class="bu">echo</span> -e <span class="st">&quot;Subject:Test\n\nIt Works&quot;</span> <span class="kw">|</span> <span class="ex">msmtp</span> --from test@yourdomain.com <span class="op">&lt;</span>destination_mail_address<span class="op">&gt;</span></span></code></pre></div>
 <p>You need the <code>-e</code> to interpret the backslash</p>
 <p>You can also send html pages (this is <code>sample.html</code>):</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb32-1"><a href="setup-mail-and-mail-command-line.html#cb32-1" aria-hidden="true"></a>From: sender@mail.com</span>
-<span id="cb32-2"><a href="setup-mail-and-mail-command-line.html#cb32-2" aria-hidden="true"></a>To: recipient@mail.com</span>
-<span id="cb32-3"><a href="setup-mail-and-mail-command-line.html#cb32-3" aria-hidden="true"></a>Subject: This is the Subject</span>
-<span id="cb32-4"><a href="setup-mail-and-mail-command-line.html#cb32-4" aria-hidden="true"></a>Mime-Version: 1.0</span>
-<span id="cb32-5"><a href="setup-mail-and-mail-command-line.html#cb32-5" aria-hidden="true"></a>Content-Type: text/html</span>
-<span id="cb32-6"><a href="setup-mail-and-mail-command-line.html#cb32-6" aria-hidden="true"></a></span>
-<span id="cb32-7"><a href="setup-mail-and-mail-command-line.html#cb32-7" aria-hidden="true"></a><span class="kw">&lt;html&gt;</span></span>
-<span id="cb32-8"><a href="setup-mail-and-mail-command-line.html#cb32-8" aria-hidden="true"></a>  <span class="kw">&lt;head&gt;</span>This is Email Head<span class="kw">&lt;/head&gt;</span></span>
-<span id="cb32-9"><a href="setup-mail-and-mail-command-line.html#cb32-9" aria-hidden="true"></a>  <span class="kw">&lt;body&gt;</span></span>
-<span id="cb32-10"><a href="setup-mail-and-mail-command-line.html#cb32-10" aria-hidden="true"></a>    <span class="kw">&lt;h2&gt;</span>This is the Main Title<span class="kw">&lt;/h2&gt;</span></span>
-<span id="cb32-11"><a href="setup-mail-and-mail-command-line.html#cb32-11" aria-hidden="true"></a>    <span class="kw">&lt;p&gt;</span>This is the body text<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb32-12"><a href="setup-mail-and-mail-command-line.html#cb32-12" aria-hidden="true"></a>  <span class="kw">&lt;/body&gt;</span></span>
-<span id="cb32-13"><a href="setup-mail-and-mail-command-line.html#cb32-13" aria-hidden="true"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb34-1"><a href="setup-mail-and-mail-command-line.html#cb34-1" aria-hidden="true"></a>From: sender@mail.com</span>
+<span id="cb34-2"><a href="setup-mail-and-mail-command-line.html#cb34-2" aria-hidden="true"></a>To: recipient@mail.com</span>
+<span id="cb34-3"><a href="setup-mail-and-mail-command-line.html#cb34-3" aria-hidden="true"></a>Subject: This is the Subject</span>
+<span id="cb34-4"><a href="setup-mail-and-mail-command-line.html#cb34-4" aria-hidden="true"></a>Mime-Version: 1.0</span>
+<span id="cb34-5"><a href="setup-mail-and-mail-command-line.html#cb34-5" aria-hidden="true"></a>Content-Type: text/html</span>
+<span id="cb34-6"><a href="setup-mail-and-mail-command-line.html#cb34-6" aria-hidden="true"></a></span>
+<span id="cb34-7"><a href="setup-mail-and-mail-command-line.html#cb34-7" aria-hidden="true"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb34-8"><a href="setup-mail-and-mail-command-line.html#cb34-8" aria-hidden="true"></a>  <span class="kw">&lt;head&gt;</span>This is Email Head<span class="kw">&lt;/head&gt;</span></span>
+<span id="cb34-9"><a href="setup-mail-and-mail-command-line.html#cb34-9" aria-hidden="true"></a>  <span class="kw">&lt;body&gt;</span></span>
+<span id="cb34-10"><a href="setup-mail-and-mail-command-line.html#cb34-10" aria-hidden="true"></a>    <span class="kw">&lt;h2&gt;</span>This is the Main Title<span class="kw">&lt;/h2&gt;</span></span>
+<span id="cb34-11"><a href="setup-mail-and-mail-command-line.html#cb34-11" aria-hidden="true"></a>    <span class="kw">&lt;p&gt;</span>This is the body text<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb34-12"><a href="setup-mail-and-mail-command-line.html#cb34-12" aria-hidden="true"></a>  <span class="kw">&lt;/body&gt;</span></span>
+<span id="cb34-13"><a href="setup-mail-and-mail-command-line.html#cb34-13" aria-hidden="true"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
 <p>then do</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="setup-mail-and-mail-command-line.html#cb33-1" aria-hidden="true"></a>$ <span class="fu">cat</span> sample.html <span class="kw">|</span> <span class="ex">msmtp</span> recipient@mail.com</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="setup-mail-and-mail-command-line.html#cb35-1" aria-hidden="true"></a>$ <span class="fu">cat</span> sample.html <span class="kw">|</span> <span class="ex">msmtp</span> recipient@mail.com</span></code></pre></div>
 
 </div>
 </div>
@@ -305,6 +319,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

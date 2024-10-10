@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3.1 Convert CBZ files to PDF | til-bookdown.knit</title>
   <meta name="description" content="Today I Learned" />
-  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3.1 Convert CBZ files to PDF | til-bookdown.knit" />
   <meta property="og:type" content="book" />
@@ -51,6 +51,15 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="libs/d3-3.3.8/d3.min.js"></script>
+<script src="libs/dagre-0.4.0/dagre-d3.min.js"></script>
+<link href="libs/mermaid-0.3.0/dist/mermaid.css" rel="stylesheet" />
+<script src="libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/chromatography-0.1/chromatography.js"></script>
+<script src="libs/DiagrammeR-binding-1.0.11/DiagrammeR.js"></script>
 
 
 <style type="text/css">
@@ -144,7 +153,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2" data-path="machine-learning.html"><a href="machine-learning.html"><i class="fa fa-check"></i><b>2</b> Machine Learning</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="ab-testing.html"><a href="ab-testing.html"><i class="fa fa-check"></i><b>2.1</b> A/B Testing</a></li>
+<li class="chapter" data-level="2.1" data-path="ab-testing.html"><a href="ab-testing.html"><i class="fa fa-check"></i><b>2.1</b> A/B Testing</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="ab-testing.html"><a href="ab-testing.html#how-to-setup-an-ab-test"><i class="fa fa-check"></i><b>2.1.1</b> How to setup an A/B Test</a></li>
+<li class="chapter" data-level="2.1.2" data-path="ab-testing.html"><a href="ab-testing.html#statistical-tests"><i class="fa fa-check"></i><b>2.1.2</b> Statistical Tests</a></li>
+<li class="chapter" data-level="2.1.3" data-path="ab-testing.html"><a href="ab-testing.html#question"><i class="fa fa-check"></i><b>2.1.3</b> Question</a></li>
+</ul></li>
 <li class="chapter" data-level="2.2" data-path="xgboost.html"><a href="xgboost.html"><i class="fa fa-check"></i><b>2.2</b> XGBoost</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="miscellaneous.html"><a href="miscellaneous.html"><i class="fa fa-check"></i><b>3</b> Miscellaneous</a>
@@ -205,44 +219,44 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="convertion" class="section level3 hasAnchor" number="3.1.1">
 <h3><span class="header-section-number">3.1.1</span> Convertion<a href="convert-cbz-files-to-pdf.html#convertion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Install <code>mutool</code> command line:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="convert-cbz-files-to-pdf.html#cb18-1" aria-hidden="true"></a><span class="fu">sudo</span> apt install mupdf-tools</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="convert-cbz-files-to-pdf.html#cb20-1" aria-hidden="true"></a><span class="fu">sudo</span> apt install mupdf-tools</span></code></pre></div>
 <p>Then to convert every <code>cbz</code> file of a folder do:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="convert-cbz-files-to-pdf.html#cb19-1" aria-hidden="true"></a><span class="kw">for</span> <span class="ex">i</span> in *.cbz</span>
-<span id="cb19-2"><a href="convert-cbz-files-to-pdf.html#cb19-2" aria-hidden="true"></a><span class="kw">do</span></span>
-<span id="cb19-3"><a href="convert-cbz-files-to-pdf.html#cb19-3" aria-hidden="true"></a>    <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span></span>
-<span id="cb19-4"><a href="convert-cbz-files-to-pdf.html#cb19-4" aria-hidden="true"></a>    <span class="ex">mutool</span> convert -O compress -o <span class="st">&quot;</span><span class="kw">`</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> .cbz<span class="kw">`</span><span class="st">&quot;</span>.pdf <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span></span>
-<span id="cb19-5"><a href="convert-cbz-files-to-pdf.html#cb19-5" aria-hidden="true"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="convert-cbz-files-to-pdf.html#cb21-1" aria-hidden="true"></a><span class="kw">for</span> <span class="ex">i</span> in *.cbz</span>
+<span id="cb21-2"><a href="convert-cbz-files-to-pdf.html#cb21-2" aria-hidden="true"></a><span class="kw">do</span></span>
+<span id="cb21-3"><a href="convert-cbz-files-to-pdf.html#cb21-3" aria-hidden="true"></a>    <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span></span>
+<span id="cb21-4"><a href="convert-cbz-files-to-pdf.html#cb21-4" aria-hidden="true"></a>    <span class="ex">mutool</span> convert -O compress -o <span class="st">&quot;</span><span class="kw">`</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> .cbz<span class="kw">`</span><span class="st">&quot;</span>.pdf <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span></span>
+<span id="cb21-5"><a href="convert-cbz-files-to-pdf.html#cb21-5" aria-hidden="true"></a><span class="kw">done</span></span></code></pre></div>
 <p>The <code>-0 compress</code> is there to reduce the <code>pdf</code> final size.</p>
 <p>If you want to find every <code>cbz</code> file recursively and convert them do:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="convert-cbz-files-to-pdf.html#cb20-1" aria-hidden="true"></a><span class="fu">find</span> . -name <span class="st">&quot;*.cbz&quot;</span> -exec mutool convert -O compress -o {}<span class="ex">.pdf</span> {} <span class="dt">\;</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="convert-cbz-files-to-pdf.html#cb22-1" aria-hidden="true"></a><span class="fu">find</span> . -name <span class="st">&quot;*.cbz&quot;</span> -exec mutool convert -O compress -o {}<span class="ex">.pdf</span> {} <span class="dt">\;</span></span></code></pre></div>
 <p>or if you want to remove the <code>.cbz</code>:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="convert-cbz-files-to-pdf.html#cb21-1" aria-hidden="true"></a><span class="fu">find</span> . -name <span class="st">&quot;*.cbz&quot;</span> -exec sh -c <span class="st">&#39;mutool convert -O compress -o &quot;$(basename &quot;{}&quot; .cbz)&quot;.pdf &quot;{}&quot;&#39;</span> <span class="kw">\</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="convert-cbz-files-to-pdf.html#cb23-1" aria-hidden="true"></a><span class="fu">find</span> . -name <span class="st">&quot;*.cbz&quot;</span> -exec sh -c <span class="st">&#39;mutool convert -O compress -o &quot;$(basename &quot;{}&quot; .cbz)&quot;.pdf &quot;{}&quot;&#39;</span> <span class="kw">\</span></span></code></pre></div>
 </div>
 <div id="convert-the-pdf-to-grayscale-to-reduce-its-size" class="section level3 hasAnchor" number="3.1.2">
 <h3><span class="header-section-number">3.1.2</span> Convert the <code>pdf</code> to grayscale to reduce its size<a href="convert-cbz-files-to-pdf.html#convert-the-pdf-to-grayscale-to-reduce-its-size" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="convert-cbz-files-to-pdf.html#cb22-1" aria-hidden="true"></a><span class="fu">gs</span> <span class="kw">\</span></span>
-<span id="cb22-2"><a href="convert-cbz-files-to-pdf.html#cb22-2" aria-hidden="true"></a> <span class="ex">-sOutputFile</span>=output.pdf <span class="kw">\</span></span>
-<span id="cb22-3"><a href="convert-cbz-files-to-pdf.html#cb22-3" aria-hidden="true"></a> <span class="ex">-sDEVICE</span>=pdfwrite <span class="kw">\</span></span>
-<span id="cb22-4"><a href="convert-cbz-files-to-pdf.html#cb22-4" aria-hidden="true"></a> <span class="ex">-sColorConversionStrategy</span>=Gray <span class="kw">\</span></span>
-<span id="cb22-5"><a href="convert-cbz-files-to-pdf.html#cb22-5" aria-hidden="true"></a> <span class="ex">-dProcessColorModel</span>=/DeviceGray <span class="kw">\</span></span>
-<span id="cb22-6"><a href="convert-cbz-files-to-pdf.html#cb22-6" aria-hidden="true"></a> <span class="ex">-dCompatibilityLevel</span>=1.4 <span class="kw">\</span></span>
-<span id="cb22-7"><a href="convert-cbz-files-to-pdf.html#cb22-7" aria-hidden="true"></a> <span class="ex">-dAutoRotatePages</span>=/None <span class="kw">\</span></span>
-<span id="cb22-8"><a href="convert-cbz-files-to-pdf.html#cb22-8" aria-hidden="true"></a> <span class="ex">-dNOPAUSE</span> <span class="kw">\</span></span>
-<span id="cb22-9"><a href="convert-cbz-files-to-pdf.html#cb22-9" aria-hidden="true"></a> <span class="ex">-dBATCH</span> <span class="kw">\</span></span>
-<span id="cb22-10"><a href="convert-cbz-files-to-pdf.html#cb22-10" aria-hidden="true"></a> <span class="ex">input.pdf</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="convert-cbz-files-to-pdf.html#cb24-1" aria-hidden="true"></a><span class="fu">gs</span> <span class="kw">\</span></span>
+<span id="cb24-2"><a href="convert-cbz-files-to-pdf.html#cb24-2" aria-hidden="true"></a> <span class="ex">-sOutputFile</span>=output.pdf <span class="kw">\</span></span>
+<span id="cb24-3"><a href="convert-cbz-files-to-pdf.html#cb24-3" aria-hidden="true"></a> <span class="ex">-sDEVICE</span>=pdfwrite <span class="kw">\</span></span>
+<span id="cb24-4"><a href="convert-cbz-files-to-pdf.html#cb24-4" aria-hidden="true"></a> <span class="ex">-sColorConversionStrategy</span>=Gray <span class="kw">\</span></span>
+<span id="cb24-5"><a href="convert-cbz-files-to-pdf.html#cb24-5" aria-hidden="true"></a> <span class="ex">-dProcessColorModel</span>=/DeviceGray <span class="kw">\</span></span>
+<span id="cb24-6"><a href="convert-cbz-files-to-pdf.html#cb24-6" aria-hidden="true"></a> <span class="ex">-dCompatibilityLevel</span>=1.4 <span class="kw">\</span></span>
+<span id="cb24-7"><a href="convert-cbz-files-to-pdf.html#cb24-7" aria-hidden="true"></a> <span class="ex">-dAutoRotatePages</span>=/None <span class="kw">\</span></span>
+<span id="cb24-8"><a href="convert-cbz-files-to-pdf.html#cb24-8" aria-hidden="true"></a> <span class="ex">-dNOPAUSE</span> <span class="kw">\</span></span>
+<span id="cb24-9"><a href="convert-cbz-files-to-pdf.html#cb24-9" aria-hidden="true"></a> <span class="ex">-dBATCH</span> <span class="kw">\</span></span>
+<span id="cb24-10"><a href="convert-cbz-files-to-pdf.html#cb24-10" aria-hidden="true"></a> <span class="ex">input.pdf</span></span></code></pre></div>
 </div>
 <div id="split-the-pdf-in-smaller-size-to-upload-them-on-a-remarkable" class="section level3 hasAnchor" number="3.1.3">
 <h3><span class="header-section-number">3.1.3</span> Split the <code>pdf</code> in smaller size to upload them on a ReMarkable<a href="convert-cbz-files-to-pdf.html#split-the-pdf-in-smaller-size-to-upload-them-on-a-remarkable" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Here we split the file in two:
 - The first one is composed of the first 120 pages
 - The second one will be the rest of the pages</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="convert-cbz-files-to-pdf.html#cb23-1" aria-hidden="true"></a><span class="kw">for</span> <span class="ex">i</span> in *.pdf</span>
-<span id="cb23-2"><a href="convert-cbz-files-to-pdf.html#cb23-2" aria-hidden="true"></a><span class="kw">do</span></span>
-<span id="cb23-3"><a href="convert-cbz-files-to-pdf.html#cb23-3" aria-hidden="true"></a>    <span class="va">OUTPUT_NAME=$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> .pdf<span class="va">)</span></span>
-<span id="cb23-4"><a href="convert-cbz-files-to-pdf.html#cb23-4" aria-hidden="true"></a>    <span class="bu">echo</span> <span class="va">$OUTPUT_NAME</span></span>
-<span id="cb23-5"><a href="convert-cbz-files-to-pdf.html#cb23-5" aria-hidden="true"></a>    <span class="ex">pdftk</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> cat 1-120 output res/<span class="va">${OUTPUT_NAME}</span>_1.pdf</span>
-<span id="cb23-6"><a href="convert-cbz-files-to-pdf.html#cb23-6" aria-hidden="true"></a>    <span class="ex">pdftk</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> cat 121-end output res/<span class="va">${OUTPUT_NAME}</span>_2.pdf</span>
-<span id="cb23-7"><a href="convert-cbz-files-to-pdf.html#cb23-7" aria-hidden="true"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="convert-cbz-files-to-pdf.html#cb25-1" aria-hidden="true"></a><span class="kw">for</span> <span class="ex">i</span> in *.pdf</span>
+<span id="cb25-2"><a href="convert-cbz-files-to-pdf.html#cb25-2" aria-hidden="true"></a><span class="kw">do</span></span>
+<span id="cb25-3"><a href="convert-cbz-files-to-pdf.html#cb25-3" aria-hidden="true"></a>    <span class="va">OUTPUT_NAME=$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> .pdf<span class="va">)</span></span>
+<span id="cb25-4"><a href="convert-cbz-files-to-pdf.html#cb25-4" aria-hidden="true"></a>    <span class="bu">echo</span> <span class="va">$OUTPUT_NAME</span></span>
+<span id="cb25-5"><a href="convert-cbz-files-to-pdf.html#cb25-5" aria-hidden="true"></a>    <span class="ex">pdftk</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> cat 1-120 output res/<span class="va">${OUTPUT_NAME}</span>_1.pdf</span>
+<span id="cb25-6"><a href="convert-cbz-files-to-pdf.html#cb25-6" aria-hidden="true"></a>    <span class="ex">pdftk</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> cat 121-end output res/<span class="va">${OUTPUT_NAME}</span>_2.pdf</span>
+<span id="cb25-7"><a href="convert-cbz-files-to-pdf.html#cb25-7" aria-hidden="true"></a><span class="kw">done</span></span></code></pre></div>
 
 </div>
 </div>
@@ -300,6 +314,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
