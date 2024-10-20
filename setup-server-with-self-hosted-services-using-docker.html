@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3.5 Setup server with self-hosted services using Docker | til-bookdown.knit</title>
   <meta name="description" content="Today I Learned" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3.5 Setup server with self-hosted services using Docker | til-bookdown.knit" />
   <meta property="og:type" content="book" />
@@ -216,7 +216,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="setup-server-with-self-hosted-services-using-docker" class="section level2 hasAnchor" number="3.5">
 <h2><span class="header-section-number">3.5</span> Setup server with self-hosted services using Docker<a href="setup-server-with-self-hosted-services-using-docker.html#setup-server-with-self-hosted-services-using-docker" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This tutorial works for an Ubuntu 22.04 LTS Server version on an OVH Eco server.</p>
+<p>This tutorial works for an Ubuntu 24.04 LTS Server version on an OVH Eco server.</p>
 <div id="setup-ssh" class="section level3 hasAnchor" number="3.5.1">
 <h3><span class="header-section-number">3.5.1</span> Setup SSH<a href="setup-server-with-self-hosted-services-using-docker.html#setup-ssh" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb45"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb45-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb45-1" aria-hidden="true"></a><span class="co"># To adapt</span></span>
@@ -242,9 +242,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 PasswordAuthentication yes
 PermitEmptyPasswords no
 PermitRootLogin no
-AllowUsers $USERNAME</code></pre>
+PubkeyAuthentication no
+AllowUsers $USERNAME
+KbdInteractiveAuthentication yes  # Change from no to yes</code></pre>
 <p>Restart the service <code>ssh</code>:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb47-1" aria-hidden="true"></a><span class="ex">service</span> ssh restart</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb47-1" aria-hidden="true"></a><span class="fu">sudo</span> service ssh restart</span></code></pre></div>
 </div>
 <div id="delete-ubuntu-user" class="section level3 hasAnchor" number="3.5.2">
 <h3><span class="header-section-number">3.5.2</span> Delete <code>ubuntu</code> user<a href="setup-server-with-self-hosted-services-using-docker.html#delete-ubuntu-user" class="anchor-section" aria-label="Anchor link to header"></a></h3>
