@@ -1,6 +1,6 @@
 ## Setup server with self-hosted services using Docker
 
-This tutorial works for an Ubuntu 22.04 LTS Server version on an OVH Eco server.
+This tutorial works for an Ubuntu 24.04 LTS Server version on an OVH Eco server.
 
 ### Setup SSH
 
@@ -32,13 +32,15 @@ Port $SSHPORT
 PasswordAuthentication yes
 PermitEmptyPasswords no
 PermitRootLogin no
+PubkeyAuthentication no
 AllowUsers $USERNAME
+KbdInteractiveAuthentication yes  # Change from no to yes
 ```
 
 Restart the service `ssh`:
 
 ```bash
-service ssh restart
+sudo service ssh restart
 ```
 
 ### Delete `ubuntu` user
