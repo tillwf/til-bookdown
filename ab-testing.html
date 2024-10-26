@@ -299,8 +299,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>Choose statistical test: z-test/t-test/ANOVA etc.</li>
 </ul>
-<div class="DiagrammeR html-widget html-fill-item" id="htmlwidget-77b50c36e6e2a8d2c5cd" style="width:672px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-77b50c36e6e2a8d2c5cd">{"x":{"diagram":"\n    graph TD\n        SS1[\"np > 10, n(1-p) > 10\"]\n        ZT1[z-test]\n        BT[Binomial Test]\n        SS2[Sample Size]\n        ZT2[z-test]\n        PD[Population Distribution]\n        Metric ==> |Bernouilli| SS1\n        SS1 ==> |Yes| ZT1\n        SS1 --> |No| BT\n        Metric ==> |proportion/mean| SS2\n        SS2 ==> |n => 30| Variance\n        SS2 --> |n < 30| PD\n        PD --> |Normal| Variance\n        Variance ==> |Variance available| ZT2\n        Variance --> |Variance not available| t-test\n    "},"evals":[],"jsHooks":[]}</script>
+<div class="DiagrammeR html-widget html-fill-item" id="htmlwidget-2545ddbeb85103928f7f" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-2545ddbeb85103928f7f">{"x":{"diagram":"\n    graph TD\n        SS1[\"np > 10, n(1-p) > 10\"]\n        ZT1[z-test]\n        BT[Binomial Test]\n        SS2[Sample Size]\n        ZT2[z-test]\n        PD[Population Distribution]\n        Metric ==> |Bernouilli| SS1\n        SS1 ==> |Yes| ZT1\n        SS1 --> |No| BT\n        Metric ==> |proportion/mean| SS2\n        SS2 ==> |n => 30| Variance\n        SS2 --> |n < 30| PD\n        PD --> |Normal| Variance\n        Variance ==> |Variance available| ZT2\n        Variance --> |Variance not available| t-test\n    "},"evals":[],"jsHooks":[]}</script>
 <p>Get sources and real justification for this sentence:</p>
 <blockquote>
 <p>In real life, you don’t know the variance, but thanks to the big numbers law the t-test formula becomes z-test</p>

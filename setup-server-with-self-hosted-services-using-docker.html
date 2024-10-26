@@ -245,8 +245,13 @@ PermitRootLogin no
 PubkeyAuthentication no
 AllowUsers $USERNAME
 KbdInteractiveAuthentication yes  # Change from no to yes</code></pre>
-<p>Restart the service <code>ssh</code>:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb47-1" aria-hidden="true"></a><span class="fu">sudo</span> service ssh restart</span></code></pre></div>
+<p>Disable ssh.socket and Enable ssh.service</p>
+<p>Since ssh.socket can override custom port settings, it may be preventing SSH from listening on the correct port. To disable socket activation and rely only on the regular SSH service, do the following:</p>
+<pre><code>sudo systemctl disable ssh.socket
+sudo systemctl stop ssh.socket
+sudo systemctl enable ssh
+sudo systemctl start ssh</code></pre>
+<p>This ensures that SSH will run as a service and listen on your specified port directly.</p>
 </div>
 <div id="delete-ubuntu-user" class="section level3 hasAnchor" number="3.5.2">
 <h3><span class="header-section-number">3.5.2</span> Delete <code>ubuntu</code> user<a href="setup-server-with-self-hosted-services-using-docker.html#delete-ubuntu-user" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -255,7 +260,7 @@ KbdInteractiveAuthentication yes  # Change from no to yes</code></pre>
 <div id="setup-dotfiles" class="section level3 hasAnchor" number="3.5.3">
 <h3><span class="header-section-number">3.5.3</span> Setup dotfiles<a href="setup-server-with-self-hosted-services-using-docker.html#setup-dotfiles" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb49"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb49-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb49-1" aria-hidden="true"></a><span class="fu">git</span> clone https://github.com/tillwf/dotfiles</span>
-<span id="cb49-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb49-2" aria-hidden="true"></a><span class="fu">cp</span> dotfiles/home/* .</span>
+<span id="cb49-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb49-2" aria-hidden="true"></a><span class="fu">cp</span> dotfiles/home/.* .</span>
 <span id="cb49-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb49-3" aria-hidden="true"></a><span class="ex">reset</span></span></code></pre></div>
 </div>
 <div id="install-docker" class="section level3 hasAnchor" number="3.5.4">
@@ -267,14 +272,15 @@ KbdInteractiveAuthentication yes  # Change from no to yes</code></pre>
 <span id="cb50-5"><a href="setup-server-with-self-hosted-services-using-docker.html#cb50-5" aria-hidden="true"></a><span class="fu">sudo</span> apt update</span>
 <span id="cb50-6"><a href="setup-server-with-self-hosted-services-using-docker.html#cb50-6" aria-hidden="true"></a><span class="fu">sudo</span> apt install docker-ce docker-compose</span></code></pre></div>
 <p>Give the user the rights to run docker:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb51-1" aria-hidden="true"></a><span class="fu">sudo</span> usermod -aG docker <span class="va">$USERNAME</span></span>
-<span id="cb51-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb51-2" aria-hidden="true"></a><span class="fu">sudo</span> - <span class="va">$USERNAME</span></span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb51-1" aria-hidden="true"></a><span class="fu">sudo</span> usermod -aG docker <span class="va">${USER}</span></span>
+<span id="cb51-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb51-2" aria-hidden="true"></a><span class="fu">sudo</span> systemctl restart docker</span></code></pre></div>
+<p><strong>Log out then log in or restart the server.</strong></p>
 </div>
 <div id="install-portainer" class="section level3 hasAnchor" number="3.5.5">
 <h3><span class="header-section-number">3.5.5</span> Install Portainer<a href="setup-server-with-self-hosted-services-using-docker.html#install-portainer" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="clone-docker-compose-files" class="section level4 hasAnchor" number="3.5.5.1">
 <h4><span class="header-section-number">3.5.5.1</span> Clone docker compose files<a href="setup-server-with-self-hosted-services-using-docker.html#clone-docker-compose-files" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb52"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb52-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb52-1" aria-hidden="true"></a><span class="fu">git</span> clone https://github.com/tillwf/self-hosted_docker_setups</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb52-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb52-1" aria-hidden="true"></a><span class="fu">git</span> clone https://github.com/tillwf/self_hosted_stack</span></code></pre></div>
 <p>and go to the folder <code>portainer</code>.</p>
 </div>
 <div id="run-the-container" class="section level4 unnumbered hasAnchor" number="">
@@ -355,35 +361,47 @@ location = /.well-known/caldav {
 </div>
 <div id="setup-nextcloud" class="section level3 hasAnchor" number="3.5.7">
 <h3><span class="header-section-number">3.5.7</span> Setup Nextcloud<a href="setup-server-with-self-hosted-services-using-docker.html#setup-nextcloud" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Use the Repository method to deploy your stack:</p>
+<p><img src="misc/misc_self_hosted_services_images/nextcloud_from_git.png" /></p>
 <div id="change-config.php" class="section level4 hasAnchor" number="3.5.7.1">
 <h4><span class="header-section-number">3.5.7.1</span> Change <code>config.php</code><a href="setup-server-with-self-hosted-services-using-docker.html#change-config.php" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb60"><pre class="sourceCode php"><code class="sourceCode php"><span id="cb60-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb60-1" aria-hidden="true"></a><span class="st">&#39;redis&#39;</span> =&gt;</span>
-<span id="cb60-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb60-2" aria-hidden="true"></a>   <span class="kw">array</span> <span class="ot">(</span></span>
-<span id="cb60-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb60-3" aria-hidden="true"></a>     <span class="st">&#39;host&#39;</span> =&gt; <span class="st">&#39;redis&#39;</span><span class="ot">,</span></span>
-<span id="cb60-4"><a href="setup-server-with-self-hosted-services-using-docker.html#cb60-4" aria-hidden="true"></a>     <span class="st">&#39;port&#39;</span> =&gt; <span class="dv">6379</span><span class="ot">,</span></span>
-<span id="cb60-5"><a href="setup-server-with-self-hosted-services-using-docker.html#cb60-5" aria-hidden="true"></a>     <span class="st">&#39;password&#39;</span> =&gt; <span class="st">&#39;{redis_password}&#39;</span><span class="ot">,</span></span>
-<span id="cb60-6"><a href="setup-server-with-self-hosted-services-using-docker.html#cb60-6" aria-hidden="true"></a>  <span class="ot">),</span></span>
-<span id="cb60-7"><a href="setup-server-with-self-hosted-services-using-docker.html#cb60-7" aria-hidden="true"></a>  <span class="st">&#39;filelocking.enabled&#39;</span> =&gt; <span class="kw">true</span><span class="ot">,</span></span>
-<span id="cb60-8"><a href="setup-server-with-self-hosted-services-using-docker.html#cb60-8" aria-hidden="true"></a>  <span class="st">&#39;memcache.locking&#39;</span> =&gt; <span class="st">&#39;\OC\Memcache\Redis&#39;</span><span class="ot">,</span></span>
-<span id="cb60-9"><a href="setup-server-with-self-hosted-services-using-docker.html#cb60-9" aria-hidden="true"></a>  <span class="st">&#39;trashbin_retention_obligation&#39;</span> =&gt; <span class="st">&#39;30, 60&#39;</span><span class="ot">,</span></span>
-<span id="cb60-10"><a href="setup-server-with-self-hosted-services-using-docker.html#cb60-10" aria-hidden="true"></a>  <span class="st">&#39;overwriteprotocol&#39;</span> =&gt; <span class="st">&#39;https&#39;</span><span class="ot">,</span>  <span class="co"># Only when https is enabled</span></span>
-<span id="cb60-11"><a href="setup-server-with-self-hosted-services-using-docker.html#cb60-11" aria-hidden="true"></a>  <span class="st">&#39;log_type&#39;</span> =&gt; <span class="st">&#39;file&#39;</span><span class="ot">,</span></span>
-<span id="cb60-12"><a href="setup-server-with-self-hosted-services-using-docker.html#cb60-12" aria-hidden="true"></a>  <span class="st">&#39;logfile&#39;</span> =&gt; <span class="st">&#39;nextcloud.log&#39;</span><span class="ot">,</span></span></code></pre></div>
-<p>and add you subdomain in the <code>truted_domains</code> list.</p>
+<p>Find the id of the <code>nextcloud-nc</code> image and run bash in it:</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb60-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb60-1" aria-hidden="true"></a><span class="ex">docker</span> ps</span>
+<span id="cb60-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb60-2" aria-hidden="true"></a><span class="ex">docker</span> exec -it <span class="op">&lt;</span>container-name-or-id<span class="op">&gt;</span> bash</span></code></pre></div>
+<p>Edit the file <code>/var/www/html/config/config.php</code>:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb61-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb61-1" aria-hidden="true"></a><span class="ex">apt-get</span> update</span>
+<span id="cb61-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb61-2" aria-hidden="true"></a><span class="ex">apt-get</span> install vim</span>
+<span id="cb61-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb61-3" aria-hidden="true"></a><span class="ex">vim</span> /var/www/html/config/config.php</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode php"><code class="sourceCode php"><span id="cb62-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-1" aria-hidden="true"></a><span class="st">&#39;trusted_domains&#39;</span> =&gt;</span>
+<span id="cb62-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-2" aria-hidden="true"></a>  <span class="kw">array</span> <span class="ot">(</span></span>
+<span id="cb62-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-3" aria-hidden="true"></a>    <span class="dv">0</span> =&gt; <span class="st">&#39;{nextcloud.domain.com}&#39;</span><span class="ot">,</span></span>
+<span id="cb62-4"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-4" aria-hidden="true"></a>  <span class="ot">),</span></span>
+<span id="cb62-5"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-5" aria-hidden="true"></a><span class="st">&#39;redis&#39;</span> =&gt;</span>
+<span id="cb62-6"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-6" aria-hidden="true"></a>   <span class="kw">array</span> <span class="ot">(</span></span>
+<span id="cb62-7"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-7" aria-hidden="true"></a>     <span class="st">&#39;host&#39;</span> =&gt; <span class="st">&#39;redis&#39;</span><span class="ot">,</span></span>
+<span id="cb62-8"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-8" aria-hidden="true"></a>     <span class="st">&#39;port&#39;</span> =&gt; <span class="dv">6379</span><span class="ot">,</span></span>
+<span id="cb62-9"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-9" aria-hidden="true"></a>     <span class="st">&#39;password&#39;</span> =&gt; <span class="st">&#39;{redis_password}&#39;</span><span class="ot">,</span></span>
+<span id="cb62-10"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-10" aria-hidden="true"></a>  <span class="ot">),</span></span>
+<span id="cb62-11"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-11" aria-hidden="true"></a>  <span class="st">&#39;filelocking.enabled&#39;</span> =&gt; <span class="kw">true</span><span class="ot">,</span></span>
+<span id="cb62-12"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-12" aria-hidden="true"></a>  <span class="st">&#39;memcache.locking&#39;</span> =&gt; <span class="st">&#39;\OC\Memcache\Redis&#39;</span><span class="ot">,</span></span>
+<span id="cb62-13"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-13" aria-hidden="true"></a>  <span class="st">&#39;trashbin_retention_obligation&#39;</span> =&gt; <span class="st">&#39;30, 60&#39;</span><span class="ot">,</span></span>
+<span id="cb62-14"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-14" aria-hidden="true"></a>  <span class="st">&#39;overwriteprotocol&#39;</span> =&gt; <span class="st">&#39;https&#39;</span><span class="ot">,</span>  <span class="co"># Only when https is enabled</span></span>
+<span id="cb62-15"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-15" aria-hidden="true"></a>  <span class="st">&#39;log_type&#39;</span> =&gt; <span class="st">&#39;file&#39;</span><span class="ot">,</span></span>
+<span id="cb62-16"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-16" aria-hidden="true"></a>  <span class="st">&#39;logfile&#39;</span> =&gt; <span class="st">&#39;nextcloud.log&#39;</span><span class="ot">,</span></span></code></pre></div>
 </div>
 <div id="setup-the-data-folder" class="section level4 hasAnchor" number="3.5.7.2">
 <h4><span class="header-section-number">3.5.7.2</span> Setup the data folder<a href="setup-server-with-self-hosted-services-using-docker.html#setup-the-data-folder" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>If you want to have access to your data folder in your HOME do:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb61-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb61-1" aria-hidden="true"></a><span class="bu">cd</span> <span class="va">$HOME</span></span>
-<span id="cb61-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb61-2" aria-hidden="true"></a><span class="fu">mkdir</span> nextcloud_data</span>
-<span id="cb61-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb61-3" aria-hidden="true"></a><span class="fu">touch</span> nextcloud_data/.ocdata</span>
-<span id="cb61-4"><a href="setup-server-with-self-hosted-services-using-docker.html#cb61-4" aria-hidden="true"></a><span class="fu">sudo</span> chown -R www-data:www-data nextcloud_data</span>
-<span id="cb61-5"><a href="setup-server-with-self-hosted-services-using-docker.html#cb61-5" aria-hidden="true"></a><span class="fu">sudo</span> chmod -R 0770 nextcloud_data</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb63-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb63-1" aria-hidden="true"></a><span class="bu">cd</span> <span class="va">$HOME</span></span>
+<span id="cb63-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb63-2" aria-hidden="true"></a><span class="fu">mkdir</span> nextcloud_data</span>
+<span id="cb63-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb63-3" aria-hidden="true"></a><span class="fu">touch</span> nextcloud_data/.ocdata</span>
+<span id="cb63-4"><a href="setup-server-with-self-hosted-services-using-docker.html#cb63-4" aria-hidden="true"></a><span class="fu">sudo</span> chown -R www-data:www-data nextcloud_data</span>
+<span id="cb63-5"><a href="setup-server-with-self-hosted-services-using-docker.html#cb63-5" aria-hidden="true"></a><span class="fu">sudo</span> chmod -R 0770 nextcloud_data</span></code></pre></div>
 </div>
 <div id="setup-cron-for-the-news-app" class="section level4 unnumbered hasAnchor" number="">
 <h4>Setup Cron for the news app<a href="setup-server-with-self-hosted-services-using-docker.html#setup-cron-for-the-news-app" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>For the news app, to enable the cron update add this line to your local crontab:</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb62-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb62-1" aria-hidden="true"></a><span class="ex">/usr/bin/docker</span> exec -u www-data nextcloud-nc-1 php -f /var/www/html/cron.php</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb64-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb64-1" aria-hidden="true"></a><span class="ex">/usr/bin/docker</span> exec -u www-data nextcloud-nc-1 php -f /var/www/html/cron.php</span></code></pre></div>
 </div>
 <div id="install-dependencies-for-extensions" class="section level4 unnumbered hasAnchor" number="">
 <h4>Install dependencies for extensions<a href="setup-server-with-self-hosted-services-using-docker.html#install-dependencies-for-extensions" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -391,21 +409,19 @@ location = /.well-known/caldav {
 <code>oauth</code> package of <code>php</code>. To install those requirements during the deployement of
 the container you need to add a Dockerfile in the folder of your docker compose
 which will be like this:</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb63-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb63-1" aria-hidden="true"></a><span class="ex">FROM</span> nextcloud:apache</span>
-<span id="cb63-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb63-2" aria-hidden="true"></a></span>
-<span id="cb63-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb63-3" aria-hidden="true"></a><span class="ex">RUN</span> apt-get update<span class="kw">;</span> <span class="kw">\</span></span>
-<span id="cb63-4"><a href="setup-server-with-self-hosted-services-using-docker.html#cb63-4" aria-hidden="true"></a>    <span class="ex">apt-get</span> install -y procps smbclient libsmbclient-dev<span class="kw">;</span> <span class="kw">\</span></span>
-<span id="cb63-5"><a href="setup-server-with-self-hosted-services-using-docker.html#cb63-5" aria-hidden="true"></a>    <span class="ex">pecl</span> install smbclient<span class="kw">;</span> <span class="kw">\</span></span>
-<span id="cb63-6"><a href="setup-server-with-self-hosted-services-using-docker.html#cb63-6" aria-hidden="true"></a>    <span class="ex">docker-php-ext-enable</span> smbclient<span class="kw">;</span> <span class="kw">\</span></span>
-<span id="cb63-7"><a href="setup-server-with-self-hosted-services-using-docker.html#cb63-7" aria-hidden="true"></a>    <span class="ex">apt</span> install -y libpcre3-dev<span class="kw">;</span> <span class="kw">\</span></span>
-<span id="cb63-8"><a href="setup-server-with-self-hosted-services-using-docker.html#cb63-8" aria-hidden="true"></a>    <span class="ex">pecl</span> install oauth<span class="kw">;</span> <span class="kw">\</span></span>
-<span id="cb63-9"><a href="setup-server-with-self-hosted-services-using-docker.html#cb63-9" aria-hidden="true"></a>    <span class="ex">docker-php-ext-enable</span> oauth<span class="kw">;</span> <span class="kw">\</span></span>
-<span id="cb63-10"><a href="setup-server-with-self-hosted-services-using-docker.html#cb63-10" aria-hidden="true"></a>    <span class="fu">rm</span> -rf /var/lib/apt/lists/*</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb65-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb65-1" aria-hidden="true"></a><span class="ex">FROM</span> nextcloud:apache</span>
+<span id="cb65-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb65-2" aria-hidden="true"></a></span>
+<span id="cb65-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb65-3" aria-hidden="true"></a><span class="ex">RUN</span> apt-get update<span class="kw">;</span> <span class="kw">\</span></span>
+<span id="cb65-4"><a href="setup-server-with-self-hosted-services-using-docker.html#cb65-4" aria-hidden="true"></a>    <span class="ex">apt-get</span> install -y procps smbclient libsmbclient-dev<span class="kw">;</span> <span class="kw">\</span></span>
+<span id="cb65-5"><a href="setup-server-with-self-hosted-services-using-docker.html#cb65-5" aria-hidden="true"></a>    <span class="ex">pecl</span> install smbclient<span class="kw">;</span> <span class="kw">\</span></span>
+<span id="cb65-6"><a href="setup-server-with-self-hosted-services-using-docker.html#cb65-6" aria-hidden="true"></a>    <span class="ex">docker-php-ext-enable</span> smbclient<span class="kw">;</span> <span class="kw">\</span></span>
+<span id="cb65-7"><a href="setup-server-with-self-hosted-services-using-docker.html#cb65-7" aria-hidden="true"></a>    <span class="ex">apt</span> install -y libpcre3-dev<span class="kw">;</span> <span class="kw">\</span></span>
+<span id="cb65-8"><a href="setup-server-with-self-hosted-services-using-docker.html#cb65-8" aria-hidden="true"></a>    <span class="ex">pecl</span> install oauth<span class="kw">;</span> <span class="kw">\</span></span>
+<span id="cb65-9"><a href="setup-server-with-self-hosted-services-using-docker.html#cb65-9" aria-hidden="true"></a>    <span class="ex">docker-php-ext-enable</span> oauth<span class="kw">;</span> <span class="kw">\</span></span>
+<span id="cb65-10"><a href="setup-server-with-self-hosted-services-using-docker.html#cb65-10" aria-hidden="true"></a>    <span class="fu">rm</span> -rf /var/lib/apt/lists/*</span></code></pre></div>
 <p>As this file specify the image used (<code>nexcloud:apache</code>) you have to remove the
 image line in your <code>docker-compose.yml</code> otherwise it will use the version of
 the docker compose and will not apply the Dockerfile.</p>
-<p>Use the Repository method to deploy your stack:</p>
-<p><img src="misc/misc_self_hosted_services_images/nextcloud_from_git.png" /></p>
 </div>
 </div>
 <div id="faq" class="section level3 hasAnchor" number="3.5.8">
@@ -413,26 +429,26 @@ the docker compose and will not apply the Dockerfile.</p>
 <div id="how-to-completetely-clear-one-of-your-container" class="section level4 unnumbered hasAnchor" number="">
 <h4>How to completetely clear one of your container<a href="setup-server-with-self-hosted-services-using-docker.html#how-to-completetely-clear-one-of-your-container" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Print current docker images:</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb64-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb64-1" aria-hidden="true"></a><span class="ex">docker</span> images</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb66-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb66-1" aria-hidden="true"></a><span class="ex">docker</span> images</span></code></pre></div>
 <p>Remove the wanted images</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb65-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb65-1" aria-hidden="true"></a><span class="ex">docker</span> rmi <span class="op">&lt;</span>image_name<span class="op">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb67-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb67-1" aria-hidden="true"></a><span class="ex">docker</span> rmi <span class="op">&lt;</span>image_name<span class="op">&gt;</span></span></code></pre></div>
 <p>List the docker volumes</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb66-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb66-1" aria-hidden="true"></a><span class="ex">docker</span> volume ls</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb68-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb68-1" aria-hidden="true"></a><span class="ex">docker</span> volume ls</span></code></pre></div>
 <p>Remove the wanted volume</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb67-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb67-1" aria-hidden="true"></a><span class="ex">docker</span> volume rm <span class="op">&lt;</span>volume_name<span class="op">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb69-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb69-1" aria-hidden="true"></a><span class="ex">docker</span> volume rm <span class="op">&lt;</span>volume_name<span class="op">&gt;</span></span></code></pre></div>
 <p>Kill everything:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb68-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb68-1" aria-hidden="true"></a><span class="fu">removecontainers()</span> <span class="kw">{</span></span>
-<span id="cb68-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb68-2" aria-hidden="true"></a>    <span class="ex">docker</span> stop <span class="va">$(</span><span class="ex">docker</span> ps -aq<span class="va">)</span></span>
-<span id="cb68-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb68-3" aria-hidden="true"></a>    <span class="ex">docker</span> rm <span class="va">$(</span><span class="ex">docker</span> ps -aq<span class="va">)</span></span>
-<span id="cb68-4"><a href="setup-server-with-self-hosted-services-using-docker.html#cb68-4" aria-hidden="true"></a><span class="kw">}</span></span>
-<span id="cb68-5"><a href="setup-server-with-self-hosted-services-using-docker.html#cb68-5" aria-hidden="true"></a></span>
-<span id="cb68-6"><a href="setup-server-with-self-hosted-services-using-docker.html#cb68-6" aria-hidden="true"></a><span class="fu">armageddon()</span> <span class="kw">{</span></span>
-<span id="cb68-7"><a href="setup-server-with-self-hosted-services-using-docker.html#cb68-7" aria-hidden="true"></a>    <span class="ex">removecontainers</span></span>
-<span id="cb68-8"><a href="setup-server-with-self-hosted-services-using-docker.html#cb68-8" aria-hidden="true"></a>    <span class="ex">docker</span> network prune -f</span>
-<span id="cb68-9"><a href="setup-server-with-self-hosted-services-using-docker.html#cb68-9" aria-hidden="true"></a>    <span class="ex">docker</span> rmi -f <span class="va">$(</span><span class="ex">docker</span> images --filter dangling=true -qa<span class="va">)</span></span>
-<span id="cb68-10"><a href="setup-server-with-self-hosted-services-using-docker.html#cb68-10" aria-hidden="true"></a>    <span class="ex">docker</span> volume rm <span class="va">$(</span><span class="ex">docker</span> volume ls --filter dangling=true -q<span class="va">)</span></span>
-<span id="cb68-11"><a href="setup-server-with-self-hosted-services-using-docker.html#cb68-11" aria-hidden="true"></a>    <span class="ex">docker</span> rmi -f <span class="va">$(</span><span class="ex">docker</span> images -qa<span class="va">)</span></span>
-<span id="cb68-12"><a href="setup-server-with-self-hosted-services-using-docker.html#cb68-12" aria-hidden="true"></a><span class="kw">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb70-1"><a href="setup-server-with-self-hosted-services-using-docker.html#cb70-1" aria-hidden="true"></a><span class="fu">removecontainers()</span> <span class="kw">{</span></span>
+<span id="cb70-2"><a href="setup-server-with-self-hosted-services-using-docker.html#cb70-2" aria-hidden="true"></a>    <span class="ex">docker</span> stop <span class="va">$(</span><span class="ex">docker</span> ps -aq<span class="va">)</span></span>
+<span id="cb70-3"><a href="setup-server-with-self-hosted-services-using-docker.html#cb70-3" aria-hidden="true"></a>    <span class="ex">docker</span> rm <span class="va">$(</span><span class="ex">docker</span> ps -aq<span class="va">)</span></span>
+<span id="cb70-4"><a href="setup-server-with-self-hosted-services-using-docker.html#cb70-4" aria-hidden="true"></a><span class="kw">}</span></span>
+<span id="cb70-5"><a href="setup-server-with-self-hosted-services-using-docker.html#cb70-5" aria-hidden="true"></a></span>
+<span id="cb70-6"><a href="setup-server-with-self-hosted-services-using-docker.html#cb70-6" aria-hidden="true"></a><span class="fu">armageddon()</span> <span class="kw">{</span></span>
+<span id="cb70-7"><a href="setup-server-with-self-hosted-services-using-docker.html#cb70-7" aria-hidden="true"></a>    <span class="ex">removecontainers</span></span>
+<span id="cb70-8"><a href="setup-server-with-self-hosted-services-using-docker.html#cb70-8" aria-hidden="true"></a>    <span class="ex">docker</span> network prune -f</span>
+<span id="cb70-9"><a href="setup-server-with-self-hosted-services-using-docker.html#cb70-9" aria-hidden="true"></a>    <span class="ex">docker</span> rmi -f <span class="va">$(</span><span class="ex">docker</span> images --filter dangling=true -qa<span class="va">)</span></span>
+<span id="cb70-10"><a href="setup-server-with-self-hosted-services-using-docker.html#cb70-10" aria-hidden="true"></a>    <span class="ex">docker</span> volume rm <span class="va">$(</span><span class="ex">docker</span> volume ls --filter dangling=true -q<span class="va">)</span></span>
+<span id="cb70-11"><a href="setup-server-with-self-hosted-services-using-docker.html#cb70-11" aria-hidden="true"></a>    <span class="ex">docker</span> rmi -f <span class="va">$(</span><span class="ex">docker</span> images -qa<span class="va">)</span></span>
+<span id="cb70-12"><a href="setup-server-with-self-hosted-services-using-docker.html#cb70-12" aria-hidden="true"></a><span class="kw">}</span></span></code></pre></div>
 </div>
 </div>
 <div id="ressources" class="section level3 hasAnchor" number="3.5.9">
