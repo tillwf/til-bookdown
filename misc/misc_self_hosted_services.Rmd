@@ -37,11 +37,18 @@ AllowUsers $USERNAME
 KbdInteractiveAuthentication yes  # Change from no to yes
 ```
 
-Restart the service `ssh`:
+Disable ssh.socket and Enable ssh.service
 
-```bash
-sudo service ssh restart
+Since ssh.socket can override custom port settings, it may be preventing SSH from listening on the correct port. To disable socket activation and rely only on the regular SSH service, do the following:
+
 ```
+sudo systemctl disable ssh.socket
+sudo systemctl stop ssh.socket
+sudo systemctl enable ssh
+sudo systemctl start ssh
+```
+
+This ensures that SSH will run as a service and listen on your specified port directly.
 
 ### Delete `ubuntu` user
 
@@ -53,7 +60,7 @@ sudo userdel -f ubuntu
 
 ```bash
 git clone https://github.com/tillwf/dotfiles
-cp dotfiles/home/* .
+cp dotfiles/home/.* .
 reset
 ```
 
@@ -73,16 +80,18 @@ sudo apt install docker-ce docker-compose
 Give the user the rights to run docker:
 
 ```bash
-sudo usermod -aG docker $USERNAME
-sudo - $USERNAME
+sudo usermod -aG docker ${USER}
+sudo systemctl restart docker
 ```
+
+**Log out then log in or restart the server.**
 
 ### Install Portainer
 
 #### Clone docker compose files
 
 ```bash
-git clone https://github.com/tillwf/self-hosted_docker_setups
+git clone https://github.com/tillwf/self_hosted_stack
 ```
 
 and go to the folder `portainer`.
@@ -191,9 +200,33 @@ location = /.well-known/caldav {
 
 ### Setup Nextcloud
 
+Use the Repository method to deploy your stack:
+
+![](./misc/misc_self_hosted_services_images/nextcloud_from_git.png)
+
+
 #### Change `config.php`
 
+Find the id of the `nextcloud-nc` image and run bash in it:
+
+```bash
+docker ps
+docker exec -it <container-name-or-id> bash
+```
+
+Edit the file `/var/www/html/config/config.php`:
+
+```bash
+apt-get update
+apt-get install vim
+vim /var/www/html/config/config.php
+```
+
 ```php
+'trusted_domains' =>
+  array (
+    0 => '{nextcloud.domain.com}',
+  ),
 'redis' =>
    array (
      'host' => 'redis',
@@ -207,8 +240,6 @@ location = /.well-known/caldav {
   'log_type' => 'file',
   'logfile' => 'nextcloud.log',
 ```
-
-and add you subdomain in the `truted_domains` list.
 
 #### Setup the data folder
 
@@ -254,9 +285,6 @@ As this file specify the image used (`nexcloud:apache`) you have to remove the
 image line in your `docker-compose.yml` otherwise it will use the version of
 the docker compose and will not apply the Dockerfile.
 
-Use the Repository method to deploy your stack:
-
-![](./misc/misc_self_hosted_services_images/nextcloud_from_git.png)
 
 ### FAQ
 
