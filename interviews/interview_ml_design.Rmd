@@ -1,10 +1,10 @@
 ## ML Design
 
-### 2024
+### 2024 {-}
 
-#### Click Probability Prediction
+#### Click Probability Prediction {-}
 
-#### Voice-powered Medical Assistant
+#### Voice-powered Medical Assistant {-}
 
 As a large step in our AI transformation, we aim to build a voice-powered Medical Assistant for care teams to help them:
 

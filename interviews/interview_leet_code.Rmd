@@ -1,17 +1,17 @@
 ## Leet Code
 
-### 2024
+### 2024 {-}
 
- - [349. Intersection of Two Arrays][https://leetcode.com/problems/intersection-of-two-arrays/description/] (Easy)
+ - [349. Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/description/) (Easy)
  -
 
-### 2022
+### 2022 {-}
 
  - [200. Number of Islands](https://leetcode.com/problems/number-of-islands/description/) (Medium)
  - [528. Random Pick with Weight](https://leetcode.com/problems/random-pick-with-weight/description/) (Medium)
  - [408. Valid Word Abbreviation](https://leetcode.com/problems/valid-word-abbreviation/description/) (Easy)
 
-### 2019
+### 2019 {-}
 
  - [322. Coin Change](https://leetcode.com/problems/coin-change/description/) (Medium)
 

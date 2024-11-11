@@ -7,5 +7,5 @@
 - [LeBonCoin - Fake User Detection](https://github.com/tillwf/fake-user-detection)
 - [Vestiaire Collective - User Price/Size Prediction](https://github.com/tillwf/user-price-size-prediction)
 - [Mirakl - Product Classification](https://github.com/tillwf/mirakl-homework)
-- [Voodoo - ](https://github.com/tillwf/voodoo-homework)
-- [WeMoms - ](https://github.com/tillwf/wemoms-homework)
+- [Voodoo - LTV Prediction](https://github.com/tillwf/voodoo-homework)
+- [WeMoms - Article Ranking](https://github.com/tillwf/wemoms-homework)
