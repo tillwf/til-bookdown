@@ -4,6 +4,8 @@
 
 #### Click Probability Prediction {-}
 
+Design a system which predicts the probability of click on an ad.
+
 #### Voice-powered Medical Assistant {-}
 
 As a large step in our AI transformation, we aim to build a voice-powered Medical Assistant for care teams to help them:
