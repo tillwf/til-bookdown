@@ -15,8 +15,15 @@ interviews
 homework
 leet-code
 ml-design
+anomaly-detection
+context-1
+key-considerations-1
+approach-1
 questions
-section-4
+questions-for-2024
+m.
+t.
+dd.
 machine-learning
 ab-testing
 how-to-setup-an-ab-test
