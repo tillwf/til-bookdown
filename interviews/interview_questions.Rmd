@@ -1,0 +1,16 @@
+## Questions
+
+
+### 2024
+
+ -M.
+     - What is the difference between `pd.concat`, `pd.merge` and `pd.join` ?
+     - What does the function `zip` makes ?
+     - How to make unit test of functions which are using data from databases ?
+     - Describe the Word2Vec algorithm
+
+ - T.
+    - How to draw a coin toss using a dice ?
+    - How do generalize with any a dice with N sides and another with M sides (M > N)
+    - What is the probability of having a valid throw: P(X=4) is the probability of having a valid throw only a the 4th throw.
+

@@ -1,1 +1,23 @@
 ## ML Design
+
+### 2024
+
+#### Click Probability Prediction
+
+#### Voice-powered Medical Assistant
+
+As a large step in our AI transformation, we aim to build a voice-powered Medical Assistant for care teams to help them:
+
+- Summarize the consultation
+- Extract and label key information about the patient
+- Support them during the consultation by suggesting next questions
+
+The user magnitude is in the order of 100k with healthcare practitioners spread across various medical specialties.
+
+The goal is to release this product in 1 year.
+
+The platform is still open-ended and you can make the decisions that seem relevant to you.
+
+For all use cases, you can assume that some Data can be collected to support the training of a model.
+
+You are part of the Data science team responsible to build the AI blocks of this system.

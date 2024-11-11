@@ -1,1 +1,11 @@
 ## Homework
+
+- [United Credit - Adult Census Income](https://github.com/tillwf/kaggle-adult-census-income)
+- [Adomik - Human or Robot](https://github.com/tillwf/kaggle-human-or-robot)
+- [Zenly - Spatial Group Detection](https://github.com/tillwf/spatial-group-detection)
+- [Zenly - Point of Interest Detection](https://github.com/tillwf/point-of-interest-detection)
+- [LeBonCoin - Fake User Detection](https://github.com/tillwf/fake-user-detection)
+- [Vestiaire Collective - User Price/Size Prediction](https://github.com/tillwf/user-price-size-prediction)
+- [Mirakl - Product Classification](https://github.com/tillwf/mirakl-homework)
+- [Voodoo - ](https://github.com/tillwf/voodoo-homework)
+- [WeMoms - ](https://github.com/tillwf/wemoms-homework)
