@@ -23,3 +23,33 @@ The platform is still open-ended and you can make the decisions that seem releva
 For all use cases, you can assume that some Data can be collected to support the training of a model.
 
 You are part of the Data science team responsible to build the AI blocks of this system.
+
+### Regression with Large Datasets {-}
+
+#### Context {-}
+ - **Data Characteristics**: 1 million rows, 3000 float-type features, dataset too large for memory.
+ - **Objective**: Implement linear regression.
+
+#### Key Considerations {-}
+ - **Data Quality**: No missing values, outliers need further examination.
+ - **Multicollinearity**: High feature count may introduce multicollinearity, inflating coefficient variance.
+
+#### Approach {-}
+ - **Dimension Reduction**: Use techniques like PCA to reduce feature space and manage multicollinearity.
+ - **Mini-Batch Optimization**: Apply an optimizer like Adam with a mini-batch gradient descent strategy to handle large-scale data efficiently.
+
+### Anomaly Detection
+
+#### Context
+
+A monitoring system alerts users whenever an anomaly is detected. However, users are reporting excessive alerts.
+
+#### Key Considerations
+- **Data Scope**: How many time series are monitored?
+- **Detection Method**: What criteria or methods are used to define an anomaly?
+- **Alert Optimization**: Can similar alerts be grouped to reduce notifications?
+- **Alert Resolution**: Should resolved issues prevent future alerts for similar events?
+
+#### Approach
+- **Sliding Window Comparison**: Use two sliding windows to analyze the difference in mean values.
+- **Point vs. Historical Data**: Compare the latest point to the mean of the last \( N \) points to detect deviations exceeding a threshold, such as \(\sigma/2\), where \(\sigma\) is the standard deviation.

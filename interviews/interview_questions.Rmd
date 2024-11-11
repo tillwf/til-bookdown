@@ -1,16 +1,23 @@
 ## Questions
 
 
-### 2024
+### 2024 {-}
 
-- M.
-     - What is the difference between `pd.concat`, `pd.merge` and `pd.join` ?
-     - What does the function `zip` makes ?
-     - How to make unit test of functions which are using data from databases ?
-     - Describe the Word2Vec algorithm
+## Questions for 2024
 
-- T.
-    - How to draw a coin toss using a dice ?
-    - How do generalize with any a dice with N sides and another with M sides (M > N)
-    - What is the probability of having a valid throw: P(X=4) is the probability of having a valid throw only a the 4th throw.
+### M.
+- **Data Manipulation in Pandas**:
+     - Differences between `pd.concat`, `pd.merge`, and `pd.join`
+     - Functionality of `zip` and how it works
+     - Best practices for unit testing functions that rely on database data
+     - Explanation of the Word2Vec algorithm
 
+### T.
+- **Probability & Simulation**:
+    - Using a dice to simulate a coin toss
+    - Extending to a dice with \(N\) sides and another with \(M\) sides (where \(M > N\))
+    - Calculating the probability of achieving a specified outcome only on the 4th throw: \(P(X=4)\)
+
+### DD.
+- **Statistics**:
+    - Methods to demonstrate linear correlation between two variables
