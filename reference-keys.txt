@@ -14,13 +14,7 @@ filter-in-join-vs-filter-in-where
 interviews
 homework
 leet-code
-section
-section-1
-section-2
 ml-design
-section-3
-click-probability-prediction
-voice-powered-medical-assistant
 questions
 section-4
 machine-learning
