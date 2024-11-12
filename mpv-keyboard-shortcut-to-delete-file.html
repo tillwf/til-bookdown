@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.4 Movie Clips Blind Test | til-bookdown.knit</title>
+  <title>4.4 MPV Keyboard shortcut to delete file | til-bookdown.knit</title>
   <meta name="description" content="Today I Learned" />
   <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.4 Movie Clips Blind Test | til-bookdown.knit" />
+  <meta property="og:title" content="4.4 MPV Keyboard shortcut to delete file | til-bookdown.knit" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Today I Learned" />
   <meta name="github-repo" content="tillwf/til-bookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.4 Movie Clips Blind Test | til-bookdown.knit" />
+  <meta name="twitter:title" content="4.4 MPV Keyboard shortcut to delete file | til-bookdown.knit" />
   
   <meta name="twitter:description" content="Today I Learned" />
   
@@ -169,9 +169,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.4" data-path="questions.html"><a href="questions.html"><i class="fa fa-check"></i><b>2.4</b> Questions</a>
 <ul>
 <li class="chapter" data-level="" data-path="questions.html"><a href="questions.html#section-4"><i class="fa fa-check"></i>2024</a></li>
-<li class="chapter" data-level="2.4.1" data-path="questions.html"><a href="questions.html#m."><i class="fa fa-check"></i><b>2.4.1</b> M.</a></li>
-<li class="chapter" data-level="2.4.2" data-path="questions.html"><a href="questions.html#t."><i class="fa fa-check"></i><b>2.4.2</b> T.</a></li>
-<li class="chapter" data-level="2.4.3" data-path="questions.html"><a href="questions.html#dd."><i class="fa fa-check"></i><b>2.4.3</b> DD.</a></li>
+<li class="chapter" data-level="" data-path="questions.html"><a href="questions.html#m."><i class="fa fa-check"></i>M.</a></li>
+<li class="chapter" data-level="" data-path="questions.html"><a href="questions.html#t."><i class="fa fa-check"></i>T.</a></li>
+<li class="chapter" data-level="" data-path="questions.html"><a href="questions.html#dd."><i class="fa fa-check"></i>DD.</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="machine-learning.html"><a href="machine-learning.html"><i class="fa fa-check"></i><b>3</b> Machine Learning</a>
@@ -198,7 +198,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.3.1" data-path="movie-clips-blind-test.html"><a href="movie-clips-blind-test.html#solution-1"><i class="fa fa-check"></i><b>4.3.1</b> Solution 1</a></li>
 <li class="chapter" data-level="4.3.2" data-path="movie-clips-blind-test.html"><a href="movie-clips-blind-test.html#solution-2-to-be-enhanced"><i class="fa fa-check"></i><b>4.3.2</b> Solution 2 (to be enhanced)</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="movie-clips-blind-test-1.html"><a href="movie-clips-blind-test-1.html"><i class="fa fa-check"></i><b>4.4</b> Movie Clips Blind Test</a></li>
+<li class="chapter" data-level="4.4" data-path="mpv-keyboard-shortcut-to-delete-file.html"><a href="mpv-keyboard-shortcut-to-delete-file.html"><i class="fa fa-check"></i><b>4.4</b> MPV Keyboard shortcut to delete file</a></li>
 <li class="chapter" data-level="4.5" data-path="setup-server-with-self-hosted-services-using-docker.html"><a href="setup-server-with-self-hosted-services-using-docker.html"><i class="fa fa-check"></i><b>4.5</b> Setup server with self-hosted services using Docker</a>
 <ul>
 <li class="chapter" data-level="4.5.1" data-path="setup-server-with-self-hosted-services-using-docker.html"><a href="setup-server-with-self-hosted-services-using-docker.html#setup-ssh"><i class="fa fa-check"></i><b>4.5.1</b> Setup SSH</a></li>
@@ -237,33 +237,33 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="movie-clips-blind-test-1" class="section level2 hasAnchor" number="4.4">
-<h2><span class="header-section-number">4.4</span> Movie Clips Blind Test<a href="movie-clips-blind-test-1.html#movie-clips-blind-test-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="mpv-keyboard-shortcut-to-delete-file" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> MPV Keyboard shortcut to delete file<a href="mpv-keyboard-shortcut-to-delete-file.html#mpv-keyboard-shortcut-to-delete-file" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The goal is to add a shortcut to <code>mpv</code> in order to soft delete the file you are watching.</p>
 <p>Create and edit the file <code>~/.config/mpv/scripts/delete-file.lua</code> like this:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode lua"><code class="sourceCode lua"><span id="cb44-1"><a href="movie-clips-blind-test-1.html#cb44-1" aria-hidden="true"></a><span class="kw">local</span> msg <span class="op">=</span> <span class="fu">require</span> <span class="st">&#39;mp.msg&#39;</span></span>
-<span id="cb44-2"><a href="movie-clips-blind-test-1.html#cb44-2" aria-hidden="true"></a><span class="kw">local</span> utils <span class="op">=</span> <span class="fu">require</span> <span class="st">&#39;mp.utils&#39;</span></span>
-<span id="cb44-3"><a href="movie-clips-blind-test-1.html#cb44-3" aria-hidden="true"></a></span>
-<span id="cb44-4"><a href="movie-clips-blind-test-1.html#cb44-4" aria-hidden="true"></a><span class="kw">function</span> delete_current_file<span class="op">()</span></span>
-<span id="cb44-5"><a href="movie-clips-blind-test-1.html#cb44-5" aria-hidden="true"></a>    <span class="kw">local</span> path <span class="op">=</span> mp<span class="op">.</span>get_property<span class="op">(</span><span class="st">&quot;path&quot;</span><span class="op">)</span></span>
-<span id="cb44-6"><a href="movie-clips-blind-test-1.html#cb44-6" aria-hidden="true"></a>    <span class="cf">if</span> <span class="kw">not</span> path <span class="cf">then</span></span>
-<span id="cb44-7"><a href="movie-clips-blind-test-1.html#cb44-7" aria-hidden="true"></a>        mp<span class="op">.</span>osd_message<span class="op">(</span><span class="st">&quot;No file currently playing.&quot;</span><span class="op">)</span></span>
-<span id="cb44-8"><a href="movie-clips-blind-test-1.html#cb44-8" aria-hidden="true"></a>        <span class="cf">return</span></span>
-<span id="cb44-9"><a href="movie-clips-blind-test-1.html#cb44-9" aria-hidden="true"></a>    <span class="cf">end</span></span>
-<span id="cb44-10"><a href="movie-clips-blind-test-1.html#cb44-10" aria-hidden="true"></a></span>
-<span id="cb44-11"><a href="movie-clips-blind-test-1.html#cb44-11" aria-hidden="true"></a>    <span class="co">-- Move the file to the trash using gio trash</span></span>
-<span id="cb44-12"><a href="movie-clips-blind-test-1.html#cb44-12" aria-hidden="true"></a>    <span class="kw">local</span> res <span class="op">=</span> utils<span class="op">.</span>subprocess<span class="op">({</span>args<span class="op">={</span><span class="st">&quot;gio&quot;</span><span class="op">,</span> <span class="st">&quot;trash&quot;</span><span class="op">,</span> path<span class="op">}})</span></span>
-<span id="cb44-13"><a href="movie-clips-blind-test-1.html#cb44-13" aria-hidden="true"></a>    <span class="cf">if</span> res<span class="op">.</span>error <span class="kw">or</span> res<span class="op">.</span>status <span class="op">~=</span> <span class="dv">0</span> <span class="cf">then</span></span>
-<span id="cb44-14"><a href="movie-clips-blind-test-1.html#cb44-14" aria-hidden="true"></a>        mp<span class="op">.</span>osd_message<span class="op">(</span><span class="st">&quot;Failed to delete file: &quot;</span> <span class="op">..</span> <span class="op">(</span>res<span class="op">.</span>error <span class="kw">or</span> <span class="st">&quot;unknown error&quot;</span><span class="op">))</span></span>
-<span id="cb44-15"><a href="movie-clips-blind-test-1.html#cb44-15" aria-hidden="true"></a>        msg<span class="op">.</span>error<span class="op">(</span><span class="st">&quot;Failed to delete file: &quot;</span> <span class="op">..</span> <span class="op">(</span>res<span class="op">.</span>error <span class="kw">or</span> <span class="st">&quot;unknown error&quot;</span><span class="op">))</span></span>
-<span id="cb44-16"><a href="movie-clips-blind-test-1.html#cb44-16" aria-hidden="true"></a>    <span class="cf">else</span></span>
-<span id="cb44-17"><a href="movie-clips-blind-test-1.html#cb44-17" aria-hidden="true"></a>        mp<span class="op">.</span>osd_message<span class="op">(</span><span class="st">&quot;File moved to trash: &quot;</span> <span class="op">..</span> path<span class="op">)</span></span>
-<span id="cb44-18"><a href="movie-clips-blind-test-1.html#cb44-18" aria-hidden="true"></a>        msg<span class="op">.</span>info<span class="op">(</span><span class="st">&quot;File moved to trash: &quot;</span> <span class="op">..</span> path<span class="op">)</span></span>
-<span id="cb44-19"><a href="movie-clips-blind-test-1.html#cb44-19" aria-hidden="true"></a>        mp<span class="op">.</span>commandv<span class="op">(</span><span class="st">&quot;playlist-next&quot;</span><span class="op">,</span> <span class="st">&quot;weak&quot;</span><span class="op">)</span></span>
-<span id="cb44-20"><a href="movie-clips-blind-test-1.html#cb44-20" aria-hidden="true"></a>    <span class="cf">end</span></span>
-<span id="cb44-21"><a href="movie-clips-blind-test-1.html#cb44-21" aria-hidden="true"></a><span class="kw">end</span></span>
-<span id="cb44-22"><a href="movie-clips-blind-test-1.html#cb44-22" aria-hidden="true"></a></span>
-<span id="cb44-23"><a href="movie-clips-blind-test-1.html#cb44-23" aria-hidden="true"></a>mp<span class="op">.</span>add_key_binding<span class="op">(</span><span class="st">&quot;D&quot;</span><span class="op">,</span> <span class="st">&quot;delete-file&quot;</span><span class="op">,</span> delete_current_file<span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode lua"><code class="sourceCode lua"><span id="cb44-1"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-1" aria-hidden="true"></a><span class="kw">local</span> msg <span class="op">=</span> <span class="fu">require</span> <span class="st">&#39;mp.msg&#39;</span></span>
+<span id="cb44-2"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-2" aria-hidden="true"></a><span class="kw">local</span> utils <span class="op">=</span> <span class="fu">require</span> <span class="st">&#39;mp.utils&#39;</span></span>
+<span id="cb44-3"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-3" aria-hidden="true"></a></span>
+<span id="cb44-4"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-4" aria-hidden="true"></a><span class="kw">function</span> delete_current_file<span class="op">()</span></span>
+<span id="cb44-5"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-5" aria-hidden="true"></a>    <span class="kw">local</span> path <span class="op">=</span> mp<span class="op">.</span>get_property<span class="op">(</span><span class="st">&quot;path&quot;</span><span class="op">)</span></span>
+<span id="cb44-6"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-6" aria-hidden="true"></a>    <span class="cf">if</span> <span class="kw">not</span> path <span class="cf">then</span></span>
+<span id="cb44-7"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-7" aria-hidden="true"></a>        mp<span class="op">.</span>osd_message<span class="op">(</span><span class="st">&quot;No file currently playing.&quot;</span><span class="op">)</span></span>
+<span id="cb44-8"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-8" aria-hidden="true"></a>        <span class="cf">return</span></span>
+<span id="cb44-9"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-9" aria-hidden="true"></a>    <span class="cf">end</span></span>
+<span id="cb44-10"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-10" aria-hidden="true"></a></span>
+<span id="cb44-11"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-11" aria-hidden="true"></a>    <span class="co">-- Move the file to the trash using gio trash</span></span>
+<span id="cb44-12"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-12" aria-hidden="true"></a>    <span class="kw">local</span> res <span class="op">=</span> utils<span class="op">.</span>subprocess<span class="op">({</span>args<span class="op">={</span><span class="st">&quot;gio&quot;</span><span class="op">,</span> <span class="st">&quot;trash&quot;</span><span class="op">,</span> path<span class="op">}})</span></span>
+<span id="cb44-13"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-13" aria-hidden="true"></a>    <span class="cf">if</span> res<span class="op">.</span>error <span class="kw">or</span> res<span class="op">.</span>status <span class="op">~=</span> <span class="dv">0</span> <span class="cf">then</span></span>
+<span id="cb44-14"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-14" aria-hidden="true"></a>        mp<span class="op">.</span>osd_message<span class="op">(</span><span class="st">&quot;Failed to delete file: &quot;</span> <span class="op">..</span> <span class="op">(</span>res<span class="op">.</span>error <span class="kw">or</span> <span class="st">&quot;unknown error&quot;</span><span class="op">))</span></span>
+<span id="cb44-15"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-15" aria-hidden="true"></a>        msg<span class="op">.</span>error<span class="op">(</span><span class="st">&quot;Failed to delete file: &quot;</span> <span class="op">..</span> <span class="op">(</span>res<span class="op">.</span>error <span class="kw">or</span> <span class="st">&quot;unknown error&quot;</span><span class="op">))</span></span>
+<span id="cb44-16"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-16" aria-hidden="true"></a>    <span class="cf">else</span></span>
+<span id="cb44-17"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-17" aria-hidden="true"></a>        mp<span class="op">.</span>osd_message<span class="op">(</span><span class="st">&quot;File moved to trash: &quot;</span> <span class="op">..</span> path<span class="op">)</span></span>
+<span id="cb44-18"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-18" aria-hidden="true"></a>        msg<span class="op">.</span>info<span class="op">(</span><span class="st">&quot;File moved to trash: &quot;</span> <span class="op">..</span> path<span class="op">)</span></span>
+<span id="cb44-19"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-19" aria-hidden="true"></a>        mp<span class="op">.</span>commandv<span class="op">(</span><span class="st">&quot;playlist-next&quot;</span><span class="op">,</span> <span class="st">&quot;weak&quot;</span><span class="op">)</span></span>
+<span id="cb44-20"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-20" aria-hidden="true"></a>    <span class="cf">end</span></span>
+<span id="cb44-21"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-21" aria-hidden="true"></a><span class="kw">end</span></span>
+<span id="cb44-22"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-22" aria-hidden="true"></a></span>
+<span id="cb44-23"><a href="mpv-keyboard-shortcut-to-delete-file.html#cb44-23" aria-hidden="true"></a>mp<span class="op">.</span>add_key_binding<span class="op">(</span><span class="st">&quot;D&quot;</span><span class="op">,</span> <span class="st">&quot;delete-file&quot;</span><span class="op">,</span> delete_current_file<span class="op">)</span></span></code></pre></div>
 
 </div>
             </section>

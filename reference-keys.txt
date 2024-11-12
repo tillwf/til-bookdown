@@ -20,9 +20,6 @@ context-1
 key-considerations-1
 approach-1
 questions
-m.
-t.
-dd.
 machine-learning
 ab-testing
 how-to-setup-an-ab-test
@@ -55,7 +52,7 @@ setup-example-with-fastmail
 movie-clips-blind-test
 solution-1
 solution-2-to-be-enhanced
-movie-clips-blind-test-1
+mpv-keyboard-shortcut-to-delete-file
 setup-server-with-self-hosted-services-using-docker
 setup-ssh
 delete-ubuntu-user
