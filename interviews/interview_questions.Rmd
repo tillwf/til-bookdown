@@ -2,19 +2,19 @@
 
 ### 2024 {-}
 
-### M.
+### M. {-}
 - **Data Manipulation in Pandas**:
      - Differences between `pd.concat`, `pd.merge`, and `pd.join`
      - Functionality of `zip` and how it works
      - Best practices for unit testing functions that rely on database data
      - Explanation of the Word2Vec algorithm
 
-### T.
+### T. {-}
 - **Probability & Simulation**:
     - Using a dice to simulate a coin toss
     - Extending to a dice with \(N\) sides and another with \(M\) sides (where \(M > N\))
     - Calculating the probability of achieving a specified outcome only on the 4th throw: \(P(X=4)\)
 
-### DD.
+### DD. {-}
 - **Statistics**:
     - Methods to demonstrate linear correlation between two variables

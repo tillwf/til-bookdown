@@ -1,4 +1,4 @@
-## Movie Clips Blind Test
+## MPV Keyboard shortcut to delete file
 
 The goal is to add a shortcut to `mpv` in order to soft delete the file you are watching.
 
