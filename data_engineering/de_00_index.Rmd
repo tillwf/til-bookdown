@@ -1,1 +1,4 @@
 # Data Engineering
+
+- [How to deploy an HuggingFace model API on Google Cloud Function](./how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html)
+- [Filter in JOIN vs filter in WHERE](./filter-in-join-vs-filter-in-where.html)

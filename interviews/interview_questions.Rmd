@@ -1,9 +1,6 @@
 ## Questions
 
-
 ### 2024 {-}
-
-## Questions for 2024
 
 ### M.
 - **Data Manipulation in Pandas**:
