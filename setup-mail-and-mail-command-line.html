@@ -200,10 +200,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="setup-example-with-fastmail" class="section level4 hasAnchor" number="4.2.0.2">
 <h4><span class="header-section-number">4.2.0.2</span> Setup (example with Fastmail)<a href="setup-mail-and-mail-command-line.html#setup-example-with-fastmail" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Run</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="setup-mail-and-mail-command-line.html#cb27-1" aria-hidden="true"></a><span class="ex">msmtp</span> --configure</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="setup-mail-and-mail-command-line.html#cb27-1" aria-hidden="true"></a><span class="ex">msmtp</span> --configure <span class="op">&lt;</span>mail address<span class="op">&gt;</span></span></code></pre></div>
 <p>and add the line</p>
 <pre><code>password       XXXXXXXXXX</code></pre>
 <p>to the file <code>~/.msmtprc</code>.</p>
+<p>The password should be created in the section “Connected apps &amp; API tokens” of Fastmail.</p>
 <p>Example for a self-hosted domain used with fastmail:</p>
 <pre><code>account default
 host smtp.fastmail.com
