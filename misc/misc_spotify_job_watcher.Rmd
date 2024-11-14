@@ -16,18 +16,24 @@ Copy the search URL and put it in the script below.
 
 You can now fill the `<search_url>` and the `<destination_mail>` in the script below and put the script in a cron for example.
 
+Example of search url:
+
+> https://api-dot-new-spotifyjobs-com.nw.r.appspot.com/wp-json/animal/v1/job/search?l=london%2Cstockholm%2Cremote-emea&c=machine-learning%2Cdata-science%2Cdata
+
 ```bash
 #!/bin/bash
 
-# Define file paths
-jobs_file="$USER/jobs.txt"
-new_jobs_file="$USER/new_jobs.txt"
-diff_file="$USER/diff_job.txt"
-header_file="$USER/header.html"
-footer_file="$USER/footer.html"
+# TO FILL
+API_URL=<search_url>
+DESTINATION_MAIL=<destination_mail>
 
-# API URL
-URL=<search_url>
+# Define file paths
+jobs_file="$HOME/jobs.txt"
+new_jobs_file="$HOME/new_jobs.txt"
+diff_file="$HOME/diff_job.txt"
+header_file="$HOME/header.html"
+footer_file="$HOME/footer.html"
+
 
 # Function to fetch and process API data
 get_and_process_data() {
@@ -39,7 +45,7 @@ get_and_process_data() {
     -H 'Referer: https://lifeatspotify.com/' \
     -H 'Sec-Fetch-Dest: empty' \
     -H 'Sec-Fetch-Mode: cors' \
-    -H 'Sec-Fetch-Site: cross-site' "$URL" \
+    -H 'Sec-Fetch-Site: cross-site' "$API_URL" \
     | jq -r '.result[].text' \
     | sort > "$new_jobs_file"
 }
@@ -54,7 +60,7 @@ send_email() {
   if [ -s "$diff_file" ]; then
     ( echo "<ul>"; sed 's/^/<li> /; s/$/ <\/li>/' "$diff_file"; echo "</ul>" ) > "$diff_file.tmp"
     mv "$diff_file.tmp" "$diff_file"
-    cat "$header_file" "$diff_file" "$footer_file" | msmtp <destination_mail>
+    cat "$header_file" "$diff_file" "$footer_file" | msmtp $DESTINATION_MAIL
   fi
 }
 
@@ -68,4 +74,41 @@ if ! diff -q "$jobs_file" "$new_jobs_file" >/dev/null; then
   send_email
   cp "$new_jobs_file" "$jobs_file"
 fi
+```
+
+then
+
+```bash
+chmod +x spotify.sh
+```
+
+Here are examples of `header.html` and `footer.html`:
+
+```html
+From: <from mail address>
+To: <to mail address>
+Subject: New Spotify Jobs
+Mime-Version: 1.0
+Content-Type: text/html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Job Watcher Alert</title>
+    <style>
+        body { font-family: Arial, sans-serif; color: #333; margin: 20px; }
+        h1 { color: #1DB954; }
+    </style>
+</head>
+<body>
+    <h1>Spotify Job Watcher Alert</h1>
+    <p>The following new job listings have been posted:</p>
+```
+
+```html
+    <p>Best regards,<br>Your Job Watcher Script</p>
+</body>
+</html>
 ```

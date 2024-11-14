@@ -11,7 +11,7 @@ sudo apt install msmtp msmtp-mta
 Run
 
 ```bash
-msmtp --configure
+msmtp --configure <mail address>
 ```
 
 and add the line
@@ -21,6 +21,8 @@ password       XXXXXXXXXX
 ```
 
 to the file `~/.msmtprc`.
+
+The password should be created in the section "Connected apps & API tokens" of Fastmail.
 
 Example for a self-hosted domain used with fastmail:
 
