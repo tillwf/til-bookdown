@@ -72,9 +72,3 @@ spotify-job-watcher
 find-the-job-url
 setup-mail-in-command-line
 script-to-check-job-changes
-to-fill
-define-file-paths
-function-to-fetch-and-process-api-data
-function-to-create-diff-file
-function-to-send-email-if-diff-file-is-not-empty
-main-script-execution
