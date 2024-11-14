@@ -20,7 +20,7 @@ Example of search url:
 
 > https://api-dot-new-spotifyjobs-com.nw.r.appspot.com/wp-json/animal/v1/job/search?l=london%2Cstockholm%2Cremote-emea&c=machine-learning%2Cdata-science%2Cdata
 
-```bash
+```bash {#spotify.sh}
 #!/bin/bash
 
 # TO FILL
@@ -84,7 +84,7 @@ chmod +x spotify.sh
 
 Here are examples of `header.html` and `footer.html`:
 
-```html
+```html {#header.html}
 From: <from mail address>
 To: <to mail address>
 Subject: New Spotify Jobs
@@ -107,7 +107,7 @@ Content-Type: text/html
     <p>The following new job listings have been posted:</p>
 ```
 
-```html
+```html {#footer.html}
     <p>Best regards,<br>Your Job Watcher Script</p>
 </body>
 </html>
