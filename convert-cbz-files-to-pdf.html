@@ -227,13 +227,27 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>Here we split the file in two:
 - The first one is composed of the first 120 pages
 - The second one will be the rest of the pages</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="convert-cbz-files-to-pdf.html#cb25-1" aria-hidden="true"></a><span class="kw">for</span> <span class="ex">i</span> in *.pdf</span>
-<span id="cb25-2"><a href="convert-cbz-files-to-pdf.html#cb25-2" aria-hidden="true"></a><span class="kw">do</span></span>
-<span id="cb25-3"><a href="convert-cbz-files-to-pdf.html#cb25-3" aria-hidden="true"></a>    <span class="va">OUTPUT_NAME=$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> .pdf<span class="va">)</span></span>
-<span id="cb25-4"><a href="convert-cbz-files-to-pdf.html#cb25-4" aria-hidden="true"></a>    <span class="bu">echo</span> <span class="va">$OUTPUT_NAME</span></span>
-<span id="cb25-5"><a href="convert-cbz-files-to-pdf.html#cb25-5" aria-hidden="true"></a>    <span class="ex">pdftk</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> cat 1-120 output res/<span class="va">${OUTPUT_NAME}</span>_1.pdf</span>
-<span id="cb25-6"><a href="convert-cbz-files-to-pdf.html#cb25-6" aria-hidden="true"></a>    <span class="ex">pdftk</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> cat 121-end output res/<span class="va">${OUTPUT_NAME}</span>_2.pdf</span>
-<span id="cb25-7"><a href="convert-cbz-files-to-pdf.html#cb25-7" aria-hidden="true"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="convert-cbz-files-to-pdf.html#cb25-1" aria-hidden="true"></a><span class="va">OUTPUT_DIR=</span>res</span>
+<span id="cb25-2"><a href="convert-cbz-files-to-pdf.html#cb25-2" aria-hidden="true"></a><span class="va">N_FILES=</span>12</span>
+<span id="cb25-3"><a href="convert-cbz-files-to-pdf.html#cb25-3" aria-hidden="true"></a></span>
+<span id="cb25-4"><a href="convert-cbz-files-to-pdf.html#cb25-4" aria-hidden="true"></a><span class="fu">mkdir</span> -p <span class="va">${OUTPUT_DIR}</span></span>
+<span id="cb25-5"><a href="convert-cbz-files-to-pdf.html#cb25-5" aria-hidden="true"></a></span>
+<span id="cb25-6"><a href="convert-cbz-files-to-pdf.html#cb25-6" aria-hidden="true"></a><span class="kw">for</span> <span class="ex">input</span> in *.pdf</span>
+<span id="cb25-7"><a href="convert-cbz-files-to-pdf.html#cb25-7" aria-hidden="true"></a><span class="kw">do</span></span>
+<span id="cb25-8"><a href="convert-cbz-files-to-pdf.html#cb25-8" aria-hidden="true"></a>    <span class="bu">echo</span> <span class="st">&quot;Treating </span><span class="va">${input}</span><span class="st">&quot;</span></span>
+<span id="cb25-9"><a href="convert-cbz-files-to-pdf.html#cb25-9" aria-hidden="true"></a>    <span class="va">total_pages=$(</span><span class="ex">pdftk</span> <span class="va">$input</span> dump_data <span class="kw">|</span> <span class="fu">grep</span> NumberOfPages <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $2}&#39;</span><span class="va">)</span></span>
+<span id="cb25-10"><a href="convert-cbz-files-to-pdf.html#cb25-10" aria-hidden="true"></a>    <span class="va">chunk_size=$((</span>total_pages / <span class="va">${N_FILES}))</span></span>
+<span id="cb25-11"><a href="convert-cbz-files-to-pdf.html#cb25-11" aria-hidden="true"></a></span>
+<span id="cb25-12"><a href="convert-cbz-files-to-pdf.html#cb25-12" aria-hidden="true"></a>    <span class="va">start=</span>1</span>
+<span id="cb25-13"><a href="convert-cbz-files-to-pdf.html#cb25-13" aria-hidden="true"></a>    <span class="kw">for</span> <span class="ex">i</span> in <span class="va">$(</span><span class="fu">seq</span> 1 <span class="va">${N_FILES})</span><span class="kw">;</span> <span class="kw">do</span></span>
+<span id="cb25-14"><a href="convert-cbz-files-to-pdf.html#cb25-14" aria-hidden="true"></a>        <span class="va">end=$((</span>start + chunk_size - 1<span class="va">))</span></span>
+<span id="cb25-15"><a href="convert-cbz-files-to-pdf.html#cb25-15" aria-hidden="true"></a>        <span class="kw">if</span><span class="bu"> [</span> <span class="va">$i</span> <span class="ot">-eq</span> <span class="va">${N_FILES}</span><span class="bu"> ]</span>; <span class="kw">then</span></span>
+<span id="cb25-16"><a href="convert-cbz-files-to-pdf.html#cb25-16" aria-hidden="true"></a>            <span class="va">end=$total_pages</span>  # <span class="ex">Ensure</span> the last chunk includes any remaining pages</span>
+<span id="cb25-17"><a href="convert-cbz-files-to-pdf.html#cb25-17" aria-hidden="true"></a>        <span class="kw">fi</span></span>
+<span id="cb25-18"><a href="convert-cbz-files-to-pdf.html#cb25-18" aria-hidden="true"></a>        <span class="ex">pdftk</span> <span class="va">$input</span> cat <span class="va">$start</span>-<span class="va">$end</span> output <span class="va">$(</span><span class="bu">printf</span> <span class="st">&quot;</span><span class="va">${OUTPUT_DIR}</span><span class="st">/</span><span class="va">${input}</span><span class="st">_part%02d.pdf&quot;</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb25-19"><a href="convert-cbz-files-to-pdf.html#cb25-19" aria-hidden="true"></a>        <span class="va">start=$((</span>end + 1<span class="va">))</span></span>
+<span id="cb25-20"><a href="convert-cbz-files-to-pdf.html#cb25-20" aria-hidden="true"></a>    <span class="kw">done</span></span>
+<span id="cb25-21"><a href="convert-cbz-files-to-pdf.html#cb25-21" aria-hidden="true"></a><span class="kw">done</span></span></code></pre></div>
 
 </div>
 </div>

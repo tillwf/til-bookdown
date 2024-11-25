@@ -63,6 +63,7 @@ clone-docker-compose-files
 where-to-add-a-stack
 install-ngnix-proxy-manager
 setup-you-subdomain
+setup-ssl-certificate-ovh
 setup-nextcloud
 change-config.php
 setup-the-data-folder
