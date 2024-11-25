@@ -1,9 +1,10 @@
 ## Leet Code
 
+[Solution Repository](https://github.com/doocs/leetcode/tree/main/solution)
+
 ### 2024 {-}
 
  - [349. Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/description/) (Easy)
- -
 
 ### 2022 {-}
 

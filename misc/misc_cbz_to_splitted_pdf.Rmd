@@ -54,11 +54,26 @@ Here we split the file in two:
 - The second one will be the rest of the pages
 
 ```bash
-for i in *.pdf
+OUTPUT_DIR=res
+N_FILES=12
+
+mkdir -p ${OUTPUT_DIR}
+
+for input in *.pdf
 do
-    OUTPUT_NAME=$(basename "$i" .pdf)
-    echo $OUTPUT_NAME
-    pdftk "$i" cat 1-120 output res/${OUTPUT_NAME}_1.pdf
-    pdftk "$i" cat 121-end output res/${OUTPUT_NAME}_2.pdf
+    echo "Treating ${input}"
+    total_pages=$(pdftk $input dump_data | grep NumberOfPages | awk '{print $2}')
+    chunk_size=$((total_pages / ${N_FILES}))
+
+    start=1
+    for i in $(seq 1 ${N_FILES}); do
+        end=$((start + chunk_size - 1))
+        if [ $i -eq ${N_FILES} ]; then
+            end=$total_pages  # Ensure the last chunk includes any remaining pages
+        fi
+        pdftk $input cat $start-$end output $(printf "${OUTPUT_DIR}/${input}_part%02d.pdf" "$i")
+        start=$((end + 1))
+    done
 done
+
 ```
