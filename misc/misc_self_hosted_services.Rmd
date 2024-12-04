@@ -216,7 +216,7 @@ dns_ovh_application_secret = <application_secret>
 dns_ovh_consumer_key = <consumer_key>
 ```
 
-![2024-11-25_18-12](https://github.com/user-attachments/assets/f06e15cd-f76b-4ce6-bb7d-233ba23c0ed6)
+![](https://github.com/user-attachments/assets/f06e15cd-f76b-4ce6-bb7d-233ba23c0ed6)
 
 
 ### Setup Nextcloud
