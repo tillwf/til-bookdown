@@ -47,7 +47,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -64,8 +63,9 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -97,11 +97,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #c4a000; } /* Attribute */
+code span.at { color: #204a87; } /* Attribute */
 code span.bn { color: #0000cf; } /* BaseN */
 code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4e9a06; } /* Char */
-code span.cn { color: #000000; } /* Constant */
+code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #8f5902; font-style: italic; } /* Comment */
 code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
 code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
@@ -110,14 +110,14 @@ code span.dv { color: #0000cf; } /* DecVal */
 code span.er { color: #a40000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #0000cf; } /* Float */
-code span.fu { color: #000000; } /* Function */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
 code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
 code span.ot { color: #8f5902; } /* Other */
 code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code span.sc { color: #000000; } /* SpecialChar */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
 code span.ss { color: #4e9a06; } /* SpecialString */
 code span.st { color: #4e9a06; } /* String */
 code span.va { color: #000000; } /* Variable */
@@ -196,58 +196,58 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="convertion" class="section level3 hasAnchor" number="4.1.1">
 <h3><span class="header-section-number">4.1.1</span> Convertion<a href="convert-cbz-files-to-pdf.html#convertion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Install <code>mutool</code> command line:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="convert-cbz-files-to-pdf.html#cb20-1" aria-hidden="true"></a><span class="fu">sudo</span> apt install mupdf-tools</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="convert-cbz-files-to-pdf.html#cb20-1" tabindex="-1"></a><span class="fu">sudo</span> apt install mupdf-tools</span></code></pre></div>
 <p>Then to convert every <code>cbz</code> file of a folder do:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="convert-cbz-files-to-pdf.html#cb21-1" aria-hidden="true"></a><span class="kw">for</span> <span class="ex">i</span> in *.cbz</span>
-<span id="cb21-2"><a href="convert-cbz-files-to-pdf.html#cb21-2" aria-hidden="true"></a><span class="kw">do</span></span>
-<span id="cb21-3"><a href="convert-cbz-files-to-pdf.html#cb21-3" aria-hidden="true"></a>    <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span></span>
-<span id="cb21-4"><a href="convert-cbz-files-to-pdf.html#cb21-4" aria-hidden="true"></a>    <span class="ex">mutool</span> convert -O compress -o <span class="st">&quot;</span><span class="kw">`</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> .cbz<span class="kw">`</span><span class="st">&quot;</span>.pdf <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span></span>
-<span id="cb21-5"><a href="convert-cbz-files-to-pdf.html#cb21-5" aria-hidden="true"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="convert-cbz-files-to-pdf.html#cb21-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.cbz</span>
+<span id="cb21-2"><a href="convert-cbz-files-to-pdf.html#cb21-2" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb21-3"><a href="convert-cbz-files-to-pdf.html#cb21-3" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span></span>
+<span id="cb21-4"><a href="convert-cbz-files-to-pdf.html#cb21-4" tabindex="-1"></a>    <span class="ex">mutool</span> convert <span class="at">-O</span> compress <span class="at">-o</span> <span class="st">&quot;</span><span class="kw">`</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> .cbz<span class="kw">`</span><span class="st">&quot;</span>.pdf <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span></span>
+<span id="cb21-5"><a href="convert-cbz-files-to-pdf.html#cb21-5" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <p>The <code>-0 compress</code> is there to reduce the <code>pdf</code> final size.</p>
 <p>If you want to find every <code>cbz</code> file recursively and convert them do:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="convert-cbz-files-to-pdf.html#cb22-1" aria-hidden="true"></a><span class="fu">find</span> . -name <span class="st">&quot;*.cbz&quot;</span> -exec mutool convert -O compress -o {}<span class="ex">.pdf</span> {} <span class="dt">\;</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="convert-cbz-files-to-pdf.html#cb22-1" tabindex="-1"></a><span class="fu">find</span> . <span class="at">-name</span> <span class="st">&quot;*.cbz&quot;</span> <span class="at">-exec</span> mutool convert <span class="at">-O</span> compress <span class="at">-o</span> {}.pdf {} <span class="dt">\;</span></span></code></pre></div>
 <p>or if you want to remove the <code>.cbz</code>:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="convert-cbz-files-to-pdf.html#cb23-1" aria-hidden="true"></a><span class="fu">find</span> . -name <span class="st">&quot;*.cbz&quot;</span> -exec sh -c <span class="st">&#39;mutool convert -O compress -o &quot;$(basename &quot;{}&quot; .cbz)&quot;.pdf &quot;{}&quot;&#39;</span> <span class="kw">\</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="convert-cbz-files-to-pdf.html#cb23-1" tabindex="-1"></a><span class="fu">find</span> . <span class="at">-name</span> <span class="st">&quot;*.cbz&quot;</span> <span class="at">-exec</span> sh <span class="at">-c</span> <span class="st">&#39;mutool convert -O compress -o &quot;$(basename &quot;{}&quot; .cbz)&quot;.pdf &quot;{}&quot;&#39;</span> <span class="dt">\</span></span></code></pre></div>
 </div>
 <div id="convert-the-pdf-to-grayscale-to-reduce-its-size" class="section level3 hasAnchor" number="4.1.2">
 <h3><span class="header-section-number">4.1.2</span> Convert the <code>pdf</code> to grayscale to reduce its size<a href="convert-cbz-files-to-pdf.html#convert-the-pdf-to-grayscale-to-reduce-its-size" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="convert-cbz-files-to-pdf.html#cb24-1" aria-hidden="true"></a><span class="fu">gs</span> <span class="kw">\</span></span>
-<span id="cb24-2"><a href="convert-cbz-files-to-pdf.html#cb24-2" aria-hidden="true"></a> <span class="ex">-sOutputFile</span>=output.pdf <span class="kw">\</span></span>
-<span id="cb24-3"><a href="convert-cbz-files-to-pdf.html#cb24-3" aria-hidden="true"></a> <span class="ex">-sDEVICE</span>=pdfwrite <span class="kw">\</span></span>
-<span id="cb24-4"><a href="convert-cbz-files-to-pdf.html#cb24-4" aria-hidden="true"></a> <span class="ex">-sColorConversionStrategy</span>=Gray <span class="kw">\</span></span>
-<span id="cb24-5"><a href="convert-cbz-files-to-pdf.html#cb24-5" aria-hidden="true"></a> <span class="ex">-dProcessColorModel</span>=/DeviceGray <span class="kw">\</span></span>
-<span id="cb24-6"><a href="convert-cbz-files-to-pdf.html#cb24-6" aria-hidden="true"></a> <span class="ex">-dCompatibilityLevel</span>=1.4 <span class="kw">\</span></span>
-<span id="cb24-7"><a href="convert-cbz-files-to-pdf.html#cb24-7" aria-hidden="true"></a> <span class="ex">-dAutoRotatePages</span>=/None <span class="kw">\</span></span>
-<span id="cb24-8"><a href="convert-cbz-files-to-pdf.html#cb24-8" aria-hidden="true"></a> <span class="ex">-dNOPAUSE</span> <span class="kw">\</span></span>
-<span id="cb24-9"><a href="convert-cbz-files-to-pdf.html#cb24-9" aria-hidden="true"></a> <span class="ex">-dBATCH</span> <span class="kw">\</span></span>
-<span id="cb24-10"><a href="convert-cbz-files-to-pdf.html#cb24-10" aria-hidden="true"></a> <span class="ex">input.pdf</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="convert-cbz-files-to-pdf.html#cb24-1" tabindex="-1"></a><span class="fu">gs</span> <span class="dt">\</span></span>
+<span id="cb24-2"><a href="convert-cbz-files-to-pdf.html#cb24-2" tabindex="-1"></a> <span class="at">-sOutputFile</span><span class="op">=</span>output.pdf <span class="dt">\</span></span>
+<span id="cb24-3"><a href="convert-cbz-files-to-pdf.html#cb24-3" tabindex="-1"></a> <span class="at">-sDEVICE</span><span class="op">=</span>pdfwrite <span class="dt">\</span></span>
+<span id="cb24-4"><a href="convert-cbz-files-to-pdf.html#cb24-4" tabindex="-1"></a> <span class="at">-sColorConversionStrategy</span><span class="op">=</span>Gray <span class="dt">\</span></span>
+<span id="cb24-5"><a href="convert-cbz-files-to-pdf.html#cb24-5" tabindex="-1"></a> <span class="at">-dProcessColorModel</span><span class="op">=</span>/DeviceGray <span class="dt">\</span></span>
+<span id="cb24-6"><a href="convert-cbz-files-to-pdf.html#cb24-6" tabindex="-1"></a> <span class="at">-dCompatibilityLevel</span><span class="op">=</span>1.4 <span class="dt">\</span></span>
+<span id="cb24-7"><a href="convert-cbz-files-to-pdf.html#cb24-7" tabindex="-1"></a> <span class="at">-dAutoRotatePages</span><span class="op">=</span>/None <span class="dt">\</span></span>
+<span id="cb24-8"><a href="convert-cbz-files-to-pdf.html#cb24-8" tabindex="-1"></a> <span class="at">-dNOPAUSE</span> <span class="dt">\</span></span>
+<span id="cb24-9"><a href="convert-cbz-files-to-pdf.html#cb24-9" tabindex="-1"></a> <span class="at">-dBATCH</span> <span class="dt">\</span></span>
+<span id="cb24-10"><a href="convert-cbz-files-to-pdf.html#cb24-10" tabindex="-1"></a> input.pdf</span></code></pre></div>
 </div>
 <div id="split-the-pdf-in-smaller-size-to-upload-them-on-a-remarkable" class="section level3 hasAnchor" number="4.1.3">
 <h3><span class="header-section-number">4.1.3</span> Split the <code>pdf</code> in smaller size to upload them on a ReMarkable<a href="convert-cbz-files-to-pdf.html#split-the-pdf-in-smaller-size-to-upload-them-on-a-remarkable" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Here we split the file in two:
 - The first one is composed of the first 120 pages
 - The second one will be the rest of the pages</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="convert-cbz-files-to-pdf.html#cb25-1" aria-hidden="true"></a><span class="va">OUTPUT_DIR=</span>res</span>
-<span id="cb25-2"><a href="convert-cbz-files-to-pdf.html#cb25-2" aria-hidden="true"></a><span class="va">N_FILES=</span>12</span>
-<span id="cb25-3"><a href="convert-cbz-files-to-pdf.html#cb25-3" aria-hidden="true"></a></span>
-<span id="cb25-4"><a href="convert-cbz-files-to-pdf.html#cb25-4" aria-hidden="true"></a><span class="fu">mkdir</span> -p <span class="va">${OUTPUT_DIR}</span></span>
-<span id="cb25-5"><a href="convert-cbz-files-to-pdf.html#cb25-5" aria-hidden="true"></a></span>
-<span id="cb25-6"><a href="convert-cbz-files-to-pdf.html#cb25-6" aria-hidden="true"></a><span class="kw">for</span> <span class="ex">input</span> in *.pdf</span>
-<span id="cb25-7"><a href="convert-cbz-files-to-pdf.html#cb25-7" aria-hidden="true"></a><span class="kw">do</span></span>
-<span id="cb25-8"><a href="convert-cbz-files-to-pdf.html#cb25-8" aria-hidden="true"></a>    <span class="bu">echo</span> <span class="st">&quot;Treating </span><span class="va">${input}</span><span class="st">&quot;</span></span>
-<span id="cb25-9"><a href="convert-cbz-files-to-pdf.html#cb25-9" aria-hidden="true"></a>    <span class="va">total_pages=$(</span><span class="ex">pdftk</span> <span class="va">$input</span> dump_data <span class="kw">|</span> <span class="fu">grep</span> NumberOfPages <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $2}&#39;</span><span class="va">)</span></span>
-<span id="cb25-10"><a href="convert-cbz-files-to-pdf.html#cb25-10" aria-hidden="true"></a>    <span class="va">chunk_size=$((</span>total_pages / <span class="va">${N_FILES}))</span></span>
-<span id="cb25-11"><a href="convert-cbz-files-to-pdf.html#cb25-11" aria-hidden="true"></a></span>
-<span id="cb25-12"><a href="convert-cbz-files-to-pdf.html#cb25-12" aria-hidden="true"></a>    <span class="va">start=</span>1</span>
-<span id="cb25-13"><a href="convert-cbz-files-to-pdf.html#cb25-13" aria-hidden="true"></a>    <span class="kw">for</span> <span class="ex">i</span> in <span class="va">$(</span><span class="fu">seq</span> 1 <span class="va">${N_FILES})</span><span class="kw">;</span> <span class="kw">do</span></span>
-<span id="cb25-14"><a href="convert-cbz-files-to-pdf.html#cb25-14" aria-hidden="true"></a>        <span class="va">end=$((</span>start + chunk_size - 1<span class="va">))</span></span>
-<span id="cb25-15"><a href="convert-cbz-files-to-pdf.html#cb25-15" aria-hidden="true"></a>        <span class="kw">if</span><span class="bu"> [</span> <span class="va">$i</span> <span class="ot">-eq</span> <span class="va">${N_FILES}</span><span class="bu"> ]</span>; <span class="kw">then</span></span>
-<span id="cb25-16"><a href="convert-cbz-files-to-pdf.html#cb25-16" aria-hidden="true"></a>            <span class="va">end=$total_pages</span>  # <span class="ex">Ensure</span> the last chunk includes any remaining pages</span>
-<span id="cb25-17"><a href="convert-cbz-files-to-pdf.html#cb25-17" aria-hidden="true"></a>        <span class="kw">fi</span></span>
-<span id="cb25-18"><a href="convert-cbz-files-to-pdf.html#cb25-18" aria-hidden="true"></a>        <span class="ex">pdftk</span> <span class="va">$input</span> cat <span class="va">$start</span>-<span class="va">$end</span> output <span class="va">$(</span><span class="bu">printf</span> <span class="st">&quot;</span><span class="va">${OUTPUT_DIR}</span><span class="st">/</span><span class="va">${input}</span><span class="st">_part%02d.pdf&quot;</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span><span class="va">)</span></span>
-<span id="cb25-19"><a href="convert-cbz-files-to-pdf.html#cb25-19" aria-hidden="true"></a>        <span class="va">start=$((</span>end + 1<span class="va">))</span></span>
-<span id="cb25-20"><a href="convert-cbz-files-to-pdf.html#cb25-20" aria-hidden="true"></a>    <span class="kw">done</span></span>
-<span id="cb25-21"><a href="convert-cbz-files-to-pdf.html#cb25-21" aria-hidden="true"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="convert-cbz-files-to-pdf.html#cb25-1" tabindex="-1"></a><span class="va">OUTPUT_DIR</span><span class="op">=</span>res</span>
+<span id="cb25-2"><a href="convert-cbz-files-to-pdf.html#cb25-2" tabindex="-1"></a><span class="va">N_FILES</span><span class="op">=</span>12</span>
+<span id="cb25-3"><a href="convert-cbz-files-to-pdf.html#cb25-3" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="convert-cbz-files-to-pdf.html#cb25-4" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="va">${OUTPUT_DIR}</span></span>
+<span id="cb25-5"><a href="convert-cbz-files-to-pdf.html#cb25-5" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="convert-cbz-files-to-pdf.html#cb25-6" tabindex="-1"></a><span class="cf">for</span> input <span class="kw">in</span> <span class="pp">*</span>.pdf</span>
+<span id="cb25-7"><a href="convert-cbz-files-to-pdf.html#cb25-7" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb25-8"><a href="convert-cbz-files-to-pdf.html#cb25-8" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;Treating </span><span class="va">${input}</span><span class="st">&quot;</span></span>
+<span id="cb25-9"><a href="convert-cbz-files-to-pdf.html#cb25-9" tabindex="-1"></a>    <span class="va">total_pages</span><span class="op">=</span><span class="va">$(</span><span class="ex">pdftk</span> <span class="va">$input</span> dump_data <span class="kw">|</span> <span class="fu">grep</span> NumberOfPages <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $2}&#39;</span><span class="va">)</span></span>
+<span id="cb25-10"><a href="convert-cbz-files-to-pdf.html#cb25-10" tabindex="-1"></a>    <span class="va">chunk_size</span><span class="op">=</span><span class="va">$((total_pages</span> <span class="op">/</span> <span class="va">${N_FILES}))</span></span>
+<span id="cb25-11"><a href="convert-cbz-files-to-pdf.html#cb25-11" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="convert-cbz-files-to-pdf.html#cb25-12" tabindex="-1"></a>    <span class="va">start</span><span class="op">=</span>1</span>
+<span id="cb25-13"><a href="convert-cbz-files-to-pdf.html#cb25-13" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="va">$(</span><span class="fu">seq</span> 1 <span class="va">${N_FILES})</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb25-14"><a href="convert-cbz-files-to-pdf.html#cb25-14" tabindex="-1"></a>        <span class="va">end</span><span class="op">=</span><span class="va">$((start</span> <span class="op">+</span> <span class="va">chunk_size</span> <span class="op">-</span> <span class="dv">1</span><span class="va">))</span></span>
+<span id="cb25-15"><a href="convert-cbz-files-to-pdf.html#cb25-15" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">[</span> <span class="va">$i</span> <span class="ot">-eq</span> <span class="va">${N_FILES}</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb25-16"><a href="convert-cbz-files-to-pdf.html#cb25-16" tabindex="-1"></a>            <span class="va">end</span><span class="op">=</span><span class="va">$total_pages</span>  <span class="co"># Ensure the last chunk includes any remaining pages</span></span>
+<span id="cb25-17"><a href="convert-cbz-files-to-pdf.html#cb25-17" tabindex="-1"></a>        <span class="cf">fi</span></span>
+<span id="cb25-18"><a href="convert-cbz-files-to-pdf.html#cb25-18" tabindex="-1"></a>        <span class="ex">pdftk</span> <span class="va">$input</span> cat <span class="va">$start</span>-<span class="va">$end</span> output <span class="va">$(</span><span class="bu">printf</span> <span class="st">&quot;</span><span class="va">${OUTPUT_DIR}</span><span class="st">/</span><span class="va">${input}</span><span class="st">_part%02d.pdf&quot;</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb25-19"><a href="convert-cbz-files-to-pdf.html#cb25-19" tabindex="-1"></a>        <span class="va">start</span><span class="op">=</span><span class="va">$((end</span> <span class="op">+</span> <span class="dv">1</span><span class="va">))</span></span>
+<span id="cb25-20"><a href="convert-cbz-files-to-pdf.html#cb25-20" tabindex="-1"></a>    <span class="cf">done</span></span>
+<span id="cb25-21"><a href="convert-cbz-files-to-pdf.html#cb25-21" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 
 </div>
 </div>

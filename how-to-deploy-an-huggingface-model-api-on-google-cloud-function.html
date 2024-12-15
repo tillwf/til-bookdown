@@ -47,7 +47,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -64,8 +63,9 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -97,11 +97,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #c4a000; } /* Attribute */
+code span.at { color: #204a87; } /* Attribute */
 code span.bn { color: #0000cf; } /* BaseN */
 code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4e9a06; } /* Char */
-code span.cn { color: #000000; } /* Constant */
+code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #8f5902; font-style: italic; } /* Comment */
 code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
 code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
@@ -110,14 +110,14 @@ code span.dv { color: #0000cf; } /* DecVal */
 code span.er { color: #a40000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #0000cf; } /* Float */
-code span.fu { color: #000000; } /* Function */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
 code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
 code span.ot { color: #8f5902; } /* Other */
 code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code span.sc { color: #000000; } /* SpecialChar */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
 code span.ss { color: #4e9a06; } /* SpecialString */
 code span.st { color: #4e9a06; } /* String */
 code span.va { color: #000000; } /* Variable */
@@ -194,31 +194,31 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="how-to-deploy-an-huggingface-model-api-on-google-cloud-function" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> How to deploy an HuggingFace model API on Google Cloud Function<a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#how-to-deploy-an-huggingface-model-api-on-google-cloud-function" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Create a file <code>main.py</code> like that:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-1" aria-hidden="true"></a><span class="im">from</span> transformers <span class="im">import</span> TFBertForSequenceClassification</span>
-<span id="cb1-2"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-2" aria-hidden="true"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
-<span id="cb1-3"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-3" aria-hidden="true"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
-<span id="cb1-4"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-4" aria-hidden="true"></a></span>
-<span id="cb1-5"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-5" aria-hidden="true"></a>model <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb1-6"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-6" aria-hidden="true"></a>tokenizer <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb1-7"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-7" aria-hidden="true"></a></span>
-<span id="cb1-8"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-8" aria-hidden="true"></a><span class="kw">def</span> predict(request):</span>
-<span id="cb1-9"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-9" aria-hidden="true"></a>  <span class="kw">global</span> model</span>
-<span id="cb1-10"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-10" aria-hidden="true"></a>  <span class="kw">global</span> tokenizer</span>
-<span id="cb1-11"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-11" aria-hidden="true"></a>  <span class="cf">if</span> model <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb1-12"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-12" aria-hidden="true"></a>    model <span class="op">=</span> TFBertForSequenceClassification.from_pretrained(<span class="st">&quot;jonaskoenig/xtremedistil-l6-h256-uncased-question-vs-statement-classifier&quot;</span>, cache_dir<span class="op">=</span><span class="st">&quot;/tmp&quot;</span>)</span>
-<span id="cb1-13"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-13" aria-hidden="true"></a>    tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(<span class="st">&quot;jonaskoenig/xtremedistil-l6-h256-uncased-question-vs-statement-classifier&quot;</span>, cache_dir<span class="op">=</span><span class="st">&quot;/tmp&quot;</span>)</span>
-<span id="cb1-14"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-14" aria-hidden="true"></a></span>
-<span id="cb1-15"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-15" aria-hidden="true"></a>  params <span class="op">=</span> request.get_json()</span>
-<span id="cb1-16"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-16" aria-hidden="true"></a>  sentence <span class="op">=</span> params[<span class="st">&quot;description&quot;</span>]</span>
-<span id="cb1-17"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-17" aria-hidden="true"></a>  predictions <span class="op">=</span> model(<span class="op">**</span>tokenizer(sentence, return_tensors<span class="op">=</span><span class="st">&quot;tf&quot;</span>))</span>
-<span id="cb1-18"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-18" aria-hidden="true"></a>  probabilities <span class="op">=</span> tf.nn.softmax(predictions.logits[<span class="dv">0</span>], axis<span class="op">=</span><span class="dv">0</span>).numpy()</span>
-<span id="cb1-19"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-19" aria-hidden="true"></a>  <span class="cf">return</span> {</span>
-<span id="cb1-20"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-20" aria-hidden="true"></a>    <span class="st">&quot;no_question&quot;</span>: <span class="bu">float</span>(probabilities[<span class="dv">0</span>]),</span>
-<span id="cb1-21"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-21" aria-hidden="true"></a>    <span class="st">&quot;question&quot;</span>: <span class="bu">float</span>(probabilities[<span class="dv">1</span>])</span>
-<span id="cb1-22"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-22" aria-hidden="true"></a>  }</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-1" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> TFBertForSequenceClassification</span>
+<span id="cb1-2"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-2" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
+<span id="cb1-3"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-3" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
+<span id="cb1-4"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-5" tabindex="-1"></a>model <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-6"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-6" tabindex="-1"></a>tokenizer <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-7"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-7" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-8" tabindex="-1"></a><span class="kw">def</span> predict(request):</span>
+<span id="cb1-9"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-9" tabindex="-1"></a>  <span class="kw">global</span> model</span>
+<span id="cb1-10"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-10" tabindex="-1"></a>  <span class="kw">global</span> tokenizer</span>
+<span id="cb1-11"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-11" tabindex="-1"></a>  <span class="cf">if</span> model <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb1-12"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-12" tabindex="-1"></a>    model <span class="op">=</span> TFBertForSequenceClassification.from_pretrained(<span class="st">&quot;jonaskoenig/xtremedistil-l6-h256-uncased-question-vs-statement-classifier&quot;</span>, cache_dir<span class="op">=</span><span class="st">&quot;/tmp&quot;</span>)</span>
+<span id="cb1-13"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-13" tabindex="-1"></a>    tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(<span class="st">&quot;jonaskoenig/xtremedistil-l6-h256-uncased-question-vs-statement-classifier&quot;</span>, cache_dir<span class="op">=</span><span class="st">&quot;/tmp&quot;</span>)</span>
+<span id="cb1-14"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-14" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-15" tabindex="-1"></a>  params <span class="op">=</span> request.get_json()</span>
+<span id="cb1-16"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-16" tabindex="-1"></a>  sentence <span class="op">=</span> params[<span class="st">&quot;description&quot;</span>]</span>
+<span id="cb1-17"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-17" tabindex="-1"></a>  predictions <span class="op">=</span> model(<span class="op">**</span>tokenizer(sentence, return_tensors<span class="op">=</span><span class="st">&quot;tf&quot;</span>))</span>
+<span id="cb1-18"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-18" tabindex="-1"></a>  probabilities <span class="op">=</span> tf.nn.softmax(predictions.logits[<span class="dv">0</span>], axis<span class="op">=</span><span class="dv">0</span>).numpy()</span>
+<span id="cb1-19"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-19" tabindex="-1"></a>  <span class="cf">return</span> {</span>
+<span id="cb1-20"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-20" tabindex="-1"></a>    <span class="st">&quot;no_question&quot;</span>: <span class="bu">float</span>(probabilities[<span class="dv">0</span>]),</span>
+<span id="cb1-21"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-21" tabindex="-1"></a>    <span class="st">&quot;question&quot;</span>: <span class="bu">float</span>(probabilities[<span class="dv">1</span>])</span>
+<span id="cb1-22"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb1-22" tabindex="-1"></a>  }</span></code></pre></div>
 <p>a file <code>requirements.txt</code> like that:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb2-1" aria-hidden="true"></a>tensorflow<span class="op">==</span><span class="fl">2.12.0</span></span>
-<span id="cb2-2"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb2-2" aria-hidden="true"></a>transformers<span class="op">==</span><span class="fl">4.27.4</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb2-1" tabindex="-1"></a>tensorflow<span class="op">==</span><span class="fl">2.12.0</span></span>
+<span id="cb2-2"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb2-2" tabindex="-1"></a>transformers<span class="op">==</span><span class="fl">4.27.4</span></span></code></pre></div>
 <p>a <code>Dockerfile</code> like that:</p>
 <pre><code>FROM python:3.10.6
 
@@ -237,13 +237,13 @@ ENV PYTHONPATH huggingfastapi
 
 CMD [&quot;uvicorn&quot;, &quot;main:app&quot;, &quot;--host&quot;, &quot;0.0.0.0&quot;, &quot;--port&quot;, &quot;8000&quot;]</code></pre>
 <p>You can now build your image and push it to your registry:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb4-1" aria-hidden="true"></a><span class="ex">docker</span> build  -t <span class="op">&lt;</span>image_url<span class="op">&gt;</span> -f Dockerfile .</span>
-<span id="cb4-2"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb4-2" aria-hidden="true"></a><span class="ex">docker</span> push <span class="op">&lt;</span>image_url<span class="op">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb4-1" tabindex="-1"></a><span class="ex">docker</span> build  <span class="at">-t</span> <span class="op">&lt;</span>image_url<span class="op">&gt;</span> -f Dockerfile .</span>
+<span id="cb4-2"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb4-2" tabindex="-1"></a><span class="ex">docker</span> push <span class="op">&lt;</span>image_url<span class="op">&gt;</span></span></code></pre></div>
 <p>and deploy it on Google Cloud Run:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb5-1" aria-hidden="true"></a><span class="ex">gcloud</span> run deploy <span class="op">&lt;</span>image_name<span class="op">&gt;</span> --image <span class="op">&lt;</span>image_url<span class="op">&gt;</span>:latest</span>
-<span id="cb5-2"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb5-2" aria-hidden="true"></a>                           <span class="ex">--region</span> europe-west1</span>
-<span id="cb5-3"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb5-3" aria-hidden="true"></a>                           <span class="ex">--port</span> 8000</span>
-<span id="cb5-4"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb5-4" aria-hidden="true"></a>                           <span class="ex">--memory</span> 4Gi</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb5-1" tabindex="-1"></a><span class="ex">gcloud</span> run deploy <span class="op">&lt;</span>image_name<span class="op">&gt;</span> --image <span class="op">&lt;</span>image_url<span class="op">&gt;</span>:latest</span>
+<span id="cb5-2"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb5-2" tabindex="-1"></a>                           <span class="ex">--region</span> europe-west1</span>
+<span id="cb5-3"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb5-3" tabindex="-1"></a>                           <span class="ex">--port</span> 8000</span>
+<span id="cb5-4"><a href="how-to-deploy-an-huggingface-model-api-on-google-cloud-function.html#cb5-4" tabindex="-1"></a>                           <span class="ex">--memory</span> 4Gi</span></code></pre></div>
 
 </div>
             </section>
