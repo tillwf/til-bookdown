@@ -2,7 +2,7 @@
 
 This tutorial works for an Ubuntu 24.04 LTS Server version on an OVH Eco server.
 
-### Setup SSH
+### Setup SSH {-}
 
 ```bash
 # To adapt
@@ -24,6 +24,9 @@ sudo ufw allow https
 
 sudo ufw enable
 ```
+
+Don't forget to add any other port you will need when installing another stack
+
 
 Edit the file `/etc/ssh/sshd_config` (replace the variable manually):
 
@@ -50,13 +53,13 @@ sudo systemctl start ssh
 
 This ensures that SSH will run as a service and listen on your specified port directly.
 
-### Delete `ubuntu` user
+### Delete `ubuntu` user {-}
 
 ```bash
 sudo userdel -f ubuntu
 ```
 
-### Setup dotfiles
+### Setup dotfiles {-}
 
 ```bash
 git clone https://github.com/tillwf/dotfiles
@@ -64,9 +67,7 @@ cp dotfiles/home/.* .
 reset
 ```
 
-
-
-### Install Docker
+### Install Docker {-}
 
 ```bash
 sudo apt update
@@ -86,9 +87,9 @@ sudo systemctl restart docker
 
 **Log out then log in or restart the server.**
 
-### Install Portainer
+### Install Portainer {-}
 
-#### Clone docker compose files
+#### Clone docker compose files {-}
 
 ```bash
 git clone https://github.com/tillwf/self_hosted_stack
@@ -147,12 +148,20 @@ sudo systemctl enable portainer.service
 sudo systemctl start portainer.service
 ```
 
+### Adding new stack
 
-#### Where to add a Stack
+Here is the page to add a stack:
 
 ![](./misc/misc_self_hosted_services_images/portainer_new_stack.png)
 
-### Install Ngnix Proxy Manager
+Don't forget to:
+
+- Open the port on the server using ufw
+- Add the subdomain A entry on OVH
+- Open the port '<http port>':'80' and '<https port>':'443' (optional) in the docker compose
+
+
+### Install Nginx Proxy Manager
 
 Create a new stack with the proper docker-compose.yml and the environment variables.
 
@@ -308,6 +317,12 @@ the docker compose and will not apply the Dockerfile.
 
 
 ### FAQ
+
+#### How to update an image
+
+- Go to the related stack and stop it.
+- Go to the `Images` section and remove the image you want to update
+- Re-enable the stack
 
 #### How to completetely clear one of your container {-}
 
