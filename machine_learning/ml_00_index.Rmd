@@ -2,3 +2,4 @@
 
 - [A/B Testing](./ab-testing.html)
 - [XGBoost](./xgboost.html)
+- [Time Series Anomaly Detection](./time_series_anomaly_detection.html)

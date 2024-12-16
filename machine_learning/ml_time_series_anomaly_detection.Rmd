@@ -1,0 +1,50 @@
+## Time Series Anomaly Detection
+
+[New Trends in Time Series Anomaly Detection](https://www.youtube.com/watch?v=96869qimXAA)
+
+> Presented in EDBT 2023 by Paul Boniol, John Paparizzos,  and Themis Palpanas
+
+### Introduction {-}
+
+- **Defining Anomalies**:
+  An anomaly is a rare point or sequence (of a given length) in time series data, often undesired, that deviates significantly from expected behavior.
+  - The lack of a precise anomaly definition makes it challenging to create an objective function.
+  - This challenge often results in neural networks (NN) underperforming compared to traditional methods in anomaly detection.
+
+- **Key Metrics**:
+  - **Anomaly Score**: A value between 0 and 1 assigned to each point in the time series, quantifying its likelihood of being an anomaly.
+  - **Detection**: The process of identifying anomalies based on a threshold value above which data points are classified as anomalies.
+
+---
+
+### Foundations {-}
+
+#### Types of Time Series {-}
+
+1. **Univariate Time Series**:
+   - A single series of data.
+
+2. **Multivariate Time Series**:
+   - Data with multiple dimensions, such as from multiple sensors or sources.
+
+3. **Normality Patterns**:
+   - **Single Normality**: The time series exhibits stationary behavior with a single normal pattern.
+   - **Multiple Normality**: The time series alternates between multiple normal patterns over time.
+     - This is particularly important in long time series.
+     - **Example**: IoT sensor data (e.g., smartwatch readings): a user may switch between walking, running, and then walking again, with each activity having its own "normal" behavior.
+
+---
+
+#### Types of Anomalies {-}
+
+1. **Point-Based Anomalies**:
+   - **Point Anomaly**: A single data point significantly deviates from expected behavior.
+   - **Contextual Anomaly**: A data point that appears normal in one context but anomalous in another, depending on surrounding data or external factors.
+
+2. **Subsequence-Based Anomalies**:
+   - An entire sequence of points may appear normal when analyzed individually, but the collective evolution or pattern of the sequence is anomalous.
+   - **Detection Method**: Use distance measures or shape-based similarity techniques to identify abnormal sequence behavior.
+
+#### Handling Mixed Anomalies {-}
+- In real-world time series, it is common for both **point anomalies** and **sequence anomalies** to coexist.
+- To effectively detect and classify both types of anomalies, it is critical to use a method that is capable of addressing both categories simultaneously. This often involves combining point-based anomaly scoring with sequence-based pattern recognition techniques.
