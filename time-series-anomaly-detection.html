@@ -261,6 +261,131 @@ An anomaly is a rare point or sequence (of a given length) in time series data, 
 <li>In real-world time series, it is common for both <strong>point anomalies</strong> and <strong>sequence anomalies</strong> to coexist.</li>
 <li>To effectively detect and classify both types of anomalies, it is critical to use a method that is capable of addressing both categories simultaneously. This often involves combining point-based anomaly scoring with sequence-based pattern recognition techniques.</li>
 </ul>
+<hr />
+</div>
+</div>
+<div id="anomaly-detection-methods" class="section level3 unnumbered hasAnchor">
+<h3>Anomaly Detection Methods<a href="time-series-anomaly-detection.html#anomaly-detection-methods" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="by-class-of-algorithm" class="section level4 unnumbered hasAnchor">
+<h4>By Class of Algorithm<a href="time-series-anomaly-detection.html#by-class-of-algorithm" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ol style="list-style-type: decimal">
+<li><strong>Supervised</strong>:
+<ul>
+<li>Requires labeled anomalies in the time series data.</li>
+<li>Approaches are similar to traditional classification algorithms.</li>
+<li><strong>Challenge</strong>: Collecting labeled data, especially anomalies, can be difficult and expensive.</li>
+</ul></li>
+<li><strong>Semi-Supervised</strong> <em>(Most Common)</em>:
+<ul>
+<li>Uses “normal” examples to learn patterns of typical behavior and detect deviations as anomalies.</li>
+<li><strong>Challenge</strong>: Defining and collecting reliable “normal” examples can be tricky, especially in dynamic environments.</li>
+</ul></li>
+<li><strong>Unsupervised</strong>:
+<ul>
+<li>Does not require labeled anomalies or predefined normal examples.</li>
+<li>Anomalies are detected based on inherent data patterns without explicit supervision.</li>
+</ul></li>
+</ol>
+<hr />
+</div>
+<div id="by-type-of-approach" class="section level4 unnumbered hasAnchor">
+<h4>By Type of Approach<a href="time-series-anomaly-detection.html#by-type-of-approach" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ol style="list-style-type: decimal">
+<li><strong>Distance-Based Methods</strong>:
+<ul>
+<li>Relies on measuring the “distance” between subsequences or data points to identify outliers.
+<ul>
+<li><strong>Discord-Based</strong>: Identifies anomalous subsequences using metrics like the Matrix Profile (e.g., DAMP).</li>
+<li><strong>Cluster-Based</strong>: Groups similar subsequences into clusters (e.g., NormA, SAND) and flags anomalies that fall outside clusters.</li>
+</ul></li>
+</ul></li>
+<li><strong>Density-Based Methods</strong>:
+<ul>
+<li>Detects anomalies by identifying regions of low-density subsequences in the time series.
+<ul>
+<li><strong>Tree-Based</strong>: Isolation Forest (detects anomalies based on the number of splits needed to isolate a point).</li>
+<li><strong>Graph-Based</strong>: Series2Graph (converts time series into graph of sequence transsitions to identify anomalies).</li>
+<li><strong>Distribution-Based</strong>: Techniques like HBOS (Histogram-Based Outlier Score) or OCSVM (One-Class SVM) estimate the data’s underlying distribution.</li>
+</ul></li>
+</ul></li>
+<li><strong>Prediction-Based Methods</strong> <em>(Mostly Semi-Supervised)</em>:
+<ul>
+<li>Detect anomalies by predicting future behavior and using the <strong>prediction error</strong> as the anomaly score.
+<ul>
+<li><strong>Forecasting-Based</strong>: Use models like LSTM, CNN, or polynomial regressors (POLY).</li>
+<li><strong>Reconstruction-Based</strong>: Train models (e.g., PCA, Autoencoders) to reconstruct input sequences and identify anomalies based on reconstruction errors.</li>
+</ul></li>
+</ul></li>
+</ol>
+<hr />
+</div>
+<div id="distance-based-methods" class="section level4 unnumbered hasAnchor">
+<h4>Distance-Based Methods<a href="time-series-anomaly-detection.html#distance-based-methods" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ol style="list-style-type: decimal">
+<li><strong>Nearest Neighbors</strong>:
+<ul>
+<li>Computes the distance of each subsequence to its nearest neighbors and identifies anomalies as subsequences with maximum distances.</li>
+</ul></li>
+<li><strong>Nearest Clusters</strong>:
+<ul>
+<li>Similar to nearest neighbors but compares subsequences to their nearest cluster center.</li>
+</ul></li>
+<li><strong>Choice of Distance Metrics</strong>:
+<ul>
+<li><strong>Euclidean Distance</strong>: Measures point-by-point distance between sequences.</li>
+<li><strong>Dynamic Time Warping (DTW) Distance</strong>: Aligns sequences to minimize distance between corresponding points, handling temporal shifts effectively.</li>
+</ul></li>
+<li><strong>Popular Methods</strong>:
+<ul>
+<li><strong>Matrix Profile</strong>: Represents each subsequence as a vector and computes distances to the nearest neighbors.
+<ul>
+<li>For streaming data: <strong>STAMPi</strong>.</li>
+</ul></li>
+<li><strong>NormA</strong>: Distance-based method tailored for streaming time series data.
+<ul>
+<li><strong>SAND</strong>: Optimized for scalability in streaming environments.</li>
+</ul></li>
+</ul></li>
+</ol>
+<hr />
+</div>
+<div id="density-based-methods" class="section level4 unnumbered hasAnchor">
+<h4>Density-Based Methods<a href="time-series-anomaly-detection.html#density-based-methods" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ol style="list-style-type: decimal">
+<li><strong>Isolation Forest</strong>:
+<ul>
+<li>Detects anomalies based on the number of splits required to isolate a point in a random tree structure.</li>
+<li>Anomalies are data points that require fewer splits (indicating isolation in sparse regions).</li>
+</ul></li>
+<li><strong>Series2Graph</strong>:
+<ul>
+<li>Converts the time series into a graph structure, representing transitions between subsequences, and identifies anomalies as outliers in the graph.</li>
+</ul></li>
+</ol>
+<hr />
+</div>
+<div id="forecasting-based-methods" class="section level4 unnumbered hasAnchor">
+<h4>Forecasting-Based Methods<a href="time-series-anomaly-detection.html#forecasting-based-methods" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Leverages models to forecast the next point or subsequence in the time series and evaluates the <strong>error</strong> between predictions and actual values.</li>
+<li>Particularly effective for multivariate time series, where input features can represent different dimensions.</li>
+<li><strong>Common Models</strong>:
+<ul>
+<li><strong>LSTM-AD</strong>: Uses Long Short-Term Memory networks for sequence modeling and anomaly detection.</li>
+<li><strong>DeepAnT</strong>: Employs Convolutional Neural Networks (CNNs) for anomaly detection.</li>
+</ul></li>
+</ul>
+<hr />
+</div>
+<div id="reconstruction-based-methods" class="section level4 unnumbered hasAnchor">
+<h4>Reconstruction-Based Methods<a href="time-series-anomaly-detection.html#reconstruction-based-methods" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Trains models to reconstruct the input sequence and calculates the <strong>distance</strong> (reconstruction error) between the actual data and the reconstructed output.</li>
+<li><strong>Common Models</strong>:
+<ul>
+<li><strong>Autoencoders</strong>: Neural networks trained to encode and decode time series, identifying anomalies with high reconstruction errors.</li>
+</ul></li>
+</ul>
 
 </div>
 </div>
