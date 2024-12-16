@@ -48,3 +48,91 @@
 #### Handling Mixed Anomalies {-}
 - In real-world time series, it is common for both **point anomalies** and **sequence anomalies** to coexist.
 - To effectively detect and classify both types of anomalies, it is critical to use a method that is capable of addressing both categories simultaneously. This often involves combining point-based anomaly scoring with sequence-based pattern recognition techniques.
+
+---
+
+### Anomaly Detection Methods {-}
+
+#### By Class of Algorithm {-}
+
+1. **Supervised**:
+   - Requires labeled anomalies in the time series data.
+   - Approaches are similar to traditional classification algorithms.
+   - **Challenge**: Collecting labeled data, especially anomalies, can be difficult and expensive.
+
+2. **Semi-Supervised** *(Most Common)*:
+   - Uses "normal" examples to learn patterns of typical behavior and detect deviations as anomalies.
+   - **Challenge**: Defining and collecting reliable "normal" examples can be tricky, especially in dynamic environments.
+
+3. **Unsupervised**:
+   - Does not require labeled anomalies or predefined normal examples.
+   - Anomalies are detected based on inherent data patterns without explicit supervision.
+
+---
+
+#### By Type of Approach {-}
+
+1. **Distance-Based Methods**:
+   - Relies on measuring the "distance" between subsequences or data points to identify outliers.
+     - **Discord-Based**: Identifies anomalous subsequences using metrics like the Matrix Profile (e.g., DAMP).
+     - **Cluster-Based**: Groups similar subsequences into clusters (e.g., NormA, SAND) and flags anomalies that fall outside clusters.
+
+2. **Density-Based Methods**:
+   - Detects anomalies by identifying regions of low-density subsequences in the time series.
+     - **Tree-Based**: Isolation Forest (detects anomalies based on the number of splits needed to isolate a point).
+     - **Graph-Based**: Series2Graph (converts time series into graph of sequence transsitions to identify anomalies).
+     - **Distribution-Based**: Techniques like HBOS (Histogram-Based Outlier Score) or OCSVM (One-Class SVM) estimate the data's underlying distribution.
+
+3. **Prediction-Based Methods** *(Mostly Semi-Supervised)*:
+   - Detect anomalies by predicting future behavior and using the **prediction error** as the anomaly score.
+     - **Forecasting-Based**: Use models like LSTM, CNN, or polynomial regressors (POLY).
+     - **Reconstruction-Based**: Train models (e.g., PCA, Autoencoders) to reconstruct input sequences and identify anomalies based on reconstruction errors.
+
+---
+
+#### Distance-Based Methods {-}
+
+1. **Nearest Neighbors**:
+   - Computes the distance of each subsequence to its nearest neighbors and identifies anomalies as subsequences with maximum distances.
+
+2. **Nearest Clusters**:
+   - Similar to nearest neighbors but compares subsequences to their nearest cluster center.
+
+3. **Choice of Distance Metrics**:
+   - **Euclidean Distance**: Measures point-by-point distance between sequences.
+   - **Dynamic Time Warping (DTW) Distance**: Aligns sequences to minimize distance between corresponding points, handling temporal shifts effectively.
+
+4. **Popular Methods**:
+   - **Matrix Profile**: Represents each subsequence as a vector and computes distances to the nearest neighbors.
+     - For streaming data: **STAMPi**.
+   - **NormA**: Distance-based method tailored for streaming time series data.
+     - **SAND**: Optimized for scalability in streaming environments.
+
+---
+
+#### Density-Based Methods {-}
+
+1. **Isolation Forest**:
+   - Detects anomalies based on the number of splits required to isolate a point in a random tree structure.
+   - Anomalies are data points that require fewer splits (indicating isolation in sparse regions).
+
+2. **Series2Graph**:
+   - Converts the time series into a graph structure, representing transitions between subsequences, and identifies anomalies as outliers in the graph.
+
+---
+
+#### Forecasting-Based Methods {-}
+
+- Leverages models to forecast the next point or subsequence in the time series and evaluates the **error** between predictions and actual values.
+- Particularly effective for multivariate time series, where input features can represent different dimensions.
+- **Common Models**:
+  - **LSTM-AD**: Uses Long Short-Term Memory networks for sequence modeling and anomaly detection.
+  - **DeepAnT**: Employs Convolutional Neural Networks (CNNs) for anomaly detection.
+
+---
+
+#### Reconstruction-Based Methods {-}
+
+- Trains models to reconstruct the input sequence and calculates the **distance** (reconstruction error) between the actual data and the reconstructed output.
+- **Common Models**:
+  - **Autoencoders**: Neural networks trained to encode and decode time series, identifying anomalies with high reconstruction errors.
