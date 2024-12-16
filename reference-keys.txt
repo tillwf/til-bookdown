@@ -40,6 +40,7 @@ can-we-be-statistically-not-significant
 how-to-handle-ab-test-sample-size-with-ramp-up-or-imbalanced-variations
 how-to-handle-ab-test-parameters-with-more-than-2-variations
 how-to-compute-variance-on-historical-data
+time-series-anomaly-detection
 xgboost
 miscellaneous
 convert-cbz-files-to-pdf
