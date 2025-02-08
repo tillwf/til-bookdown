@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2.3 ML Design | til-bookdown.knit</title>
   <meta name="description" content="Today I Learned" />
-  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2.3 ML Design | til-bookdown.knit" />
   <meta property="og:type" content="book" />
@@ -213,53 +213,38 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>The platform is still open-ended and you can make the decisions that seem relevant to you.</p>
 <p>For all use cases, you can assume that some Data can be collected to support the training of a model.</p>
 <p>You are part of the Data science team responsible to build the AI blocks of this system.</p>
-</div>
-</div>
-<div id="regression-with-large-datasets" class="section level3 unnumbered hasAnchor">
-<h3>Regression with Large Datasets<a href="ml-design.html#regression-with-large-datasets" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="context" class="section level4 unnumbered hasAnchor">
-<h4>Context<a href="ml-design.html#context" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<ul>
-<li><strong>Data Characteristics</strong>: 1 million rows, 3000 float-type features, dataset too large for memory.</li>
-<li><strong>Objective</strong>: Implement linear regression.</li>
-</ul>
-</div>
-<div id="key-considerations" class="section level4 unnumbered hasAnchor">
-<h4>Key Considerations<a href="ml-design.html#key-considerations" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<ul>
-<li><strong>Data Quality</strong>: No missing values, outliers need further examination.</li>
-<li><strong>Multicollinearity</strong>: High feature count may introduce multicollinearity, inflating coefficient variance.</li>
-</ul>
-</div>
-<div id="approach" class="section level4 unnumbered hasAnchor">
-<h4>Approach<a href="ml-design.html#approach" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<ul>
-<li><strong>Dimension Reduction</strong>: Use techniques like PCA to reduce feature space and manage multicollinearity.</li>
-<li><strong>Mini-Batch Optimization</strong>: Apply an optimizer like Adam with a mini-batch gradient descent strategy to handle large-scale data efficiently.</li>
-</ul>
-</div>
-</div>
-<div id="anomaly-detection" class="section level3 hasAnchor" number="2.3.1">
-<h3><span class="header-section-number">2.3.1</span> Anomaly Detection<a href="ml-design.html#anomaly-detection" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="context-1" class="section level4 hasAnchor" number="2.3.1.1">
-<h4><span class="header-section-number">2.3.1.1</span> Context<a href="ml-design.html#context-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>A monitoring system alerts users whenever an anomaly is detected. However, users are reporting excessive alerts.</p>
-</div>
-<div id="key-considerations-1" class="section level4 hasAnchor" number="2.3.1.2">
-<h4><span class="header-section-number">2.3.1.2</span> Key Considerations<a href="ml-design.html#key-considerations-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<ul>
-<li><strong>Data Scope</strong>: How many time series are monitored?</li>
-<li><strong>Detection Method</strong>: What criteria or methods are used to define an anomaly?</li>
-<li><strong>Alert Optimization</strong>: Can similar alerts be grouped to reduce notifications?</li>
-<li><strong>Alert Resolution</strong>: Should resolved issues prevent future alerts for similar events?</li>
-</ul>
-</div>
-<div id="approach-1" class="section level4 hasAnchor" number="2.3.1.3">
-<h4><span class="header-section-number">2.3.1.3</span> Approach<a href="ml-design.html#approach-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<ul>
-<li><strong>Sliding Window Comparison</strong>: Use two sliding windows to analyze the difference in mean values.</li>
-<li><strong>Point vs. Historical Data</strong>: Compare the latest point to the mean of the last <span class="math inline">\(N\)</span> points to detect deviations exceeding a threshold, such as <span class="math inline">\(\sigma/2\)</span>, where <span class="math inline">\(\sigma\)</span> is the standard deviation.</li>
-</ul>
+<!--
+### Regression with Large Datasets {-}
+
+#### Context {-}
+ - **Data Characteristics**: 1 million rows, 3000 float-type features, dataset too large for memory.
+ - **Objective**: Implement linear regression.
+
+#### Key Considerations {-}
+ - **Data Quality**: No missing values, outliers need further examination.
+ - **Multicollinearity**: High feature count may introduce multicollinearity, inflating coefficient variance.
+
+#### Approach {-}
+ - **Dimension Reduction**: Use techniques like PCA to reduce feature space and manage multicollinearity.
+ - **Mini-Batch Optimization**: Apply an optimizer like Adam with a mini-batch gradient descent strategy to handle large-scale data efficiently.
+
+### Anomaly Detection
+
+#### Context
+
+A monitoring system alerts users whenever an anomaly is detected. However, users are reporting excessive alerts.
+
+#### Key Considerations
+- **Data Scope**: How many time series are monitored?
+- **Detection Method**: What criteria or methods are used to define an anomaly?
+- **Alert Optimization**: Can similar alerts be grouped to reduce notifications?
+- **Alert Resolution**: Should resolved issues prevent future alerts for similar events?
+
+#### Approach
+- **Sliding Window Comparison**: Use two sliding windows to analyze the difference in mean values.
+- **Point vs. Historical Data**: Compare the latest point to the mean of the last \( N \) points to detect deviations exceeding a threshold, such as \(\sigma/2\), where \(\sigma\) is the standard deviation.
+
+ -->
 
 </div>
 </div>

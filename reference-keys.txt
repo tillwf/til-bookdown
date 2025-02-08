@@ -15,10 +15,6 @@ interviews
 homework
 leet-code
 ml-design
-anomaly-detection
-context-1
-key-considerations-1
-approach-1
 questions
 machine-learning
 ab-testing
