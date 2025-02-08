@@ -24,6 +24,7 @@ For all use cases, you can assume that some Data can be collected to support the
 
 You are part of the Data science team responsible to build the AI blocks of this system.
 
+<!--
 ### Regression with Large Datasets {-}
 
 #### Context {-}
@@ -53,3 +54,5 @@ A monitoring system alerts users whenever an anomaly is detected. However, users
 #### Approach
 - **Sliding Window Comparison**: Use two sliding windows to analyze the difference in mean values.
 - **Point vs. Historical Data**: Compare the latest point to the mean of the last \( N \) points to detect deviations exceeding a threshold, such as \(\sigma/2\), where \(\sigma\) is the standard deviation.
+
+ -->
