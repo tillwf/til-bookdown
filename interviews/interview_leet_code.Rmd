@@ -5,6 +5,7 @@
 ### 2024 {-}
 
  - [349. Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/description/) (Easy)
+ - [239. Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/) (Sum instead of Maximum)
 
 ### 2022 {-}
 
